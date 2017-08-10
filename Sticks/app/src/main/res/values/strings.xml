@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Sticks</string>
+    <string name="facebook_app_id">1463581123709447</string>
+    <string name="fb_login_protocol_scheme">fb1463581123709447</string>
 </resources>

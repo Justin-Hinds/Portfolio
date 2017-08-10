@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "644556307609",
+    "firebase_url": "https://sticks-a2f52.firebaseio.com",
+    "project_id": "sticks-a2f52",
+    "storage_bucket": "sticks-a2f52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644556307609:android:1ca2df3b75ba0a85",
+        "android_client_info": {
+          "package_name": "com.arcane.sticks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "644556307609-ruv0895o07vaca9vas8gap4ofhkr9e15.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arcane.sticks",
+            "certificate_hash": "4bbb203cdb2373abdeac6dc8f6857e3324b4635f"
+          }
+        },
+        {
+          "client_id": "644556307609-q7jvf512jrqqs7cepsiri5pauf30q25q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCflqYmQUsyYyJgyBN90ph4qvjdebPEspg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "644556307609-q7jvf512jrqqs7cepsiri5pauf30q25q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
