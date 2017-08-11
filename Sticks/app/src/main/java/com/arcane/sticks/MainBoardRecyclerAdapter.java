@@ -11,28 +11,32 @@ import java.util.ArrayList;
 
 
 public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecyclerAdapter.ViewHolder> {
-    ArrayList mDataset;
-    TextView mTextView;
+    ArrayList<Post> mDataset;
     public static class ViewHolder extends RecyclerView.ViewHolder{
+    TextView mTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            mTextView = (TextView) itemView.findViewById(R.id.post_textview);
         }
     }
     public MainBoardRecyclerAdapter(ArrayList myData){mDataset = myData;}
     @Override
     public MainBoardRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.post_cards, parent, false);
         // set the view's size, margins, paddings and layout parameters
-
         MainBoardRecyclerAdapter.ViewHolder vh = new ViewHolder(v);
         return vh;
     }
-
+    public void update(ArrayList<Post> posts){
+        mDataset = posts;
+        notifyDataSetChanged();
+    }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.mTextView.setText(mDataset.get(position).toString());
 
     }
 

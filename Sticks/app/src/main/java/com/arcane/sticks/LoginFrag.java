@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -68,6 +69,28 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
             }
         });
         fbLoginButton.setFragment(this);
+        Button emailSign = (Button) root.findViewById(R.id.login);
+        Button emailCreate = (Button) root.findViewById(R.id.create_account);
+        final EditText emailText = (EditText) root.findViewById(R.id.editText_email);
+        final EditText passwordText = (EditText) root.findViewById(R.id.editText_password);
+        //final String email = emailText.getText().toString();
+       // final String password = passwordText.getText().toString();
+         emailSign.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 final String email = emailText.getText().toString();
+                 final String password = passwordText.getText().toString();
+                 handlEmailSignIn(email,password);
+             }
+         });
+        emailCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String email = emailText.getText().toString();
+                final String password = passwordText.getText().toString();
+                handleEmailCreateAccount(email,password);
+            }
+        });
         callbackManager = CallbackManager.Factory.create();
         mAuth = FirebaseAuth.getInstance();
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -111,6 +134,44 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
         }else{
         callbackManager.onActivityResult(requestCode,resultCode,data);
         }
+    }
+    private void handleEmailCreateAccount(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
+    private void handlEmailSignIn(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(getContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
     }
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);

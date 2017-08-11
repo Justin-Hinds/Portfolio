@@ -2,4 +2,10 @@
     <string name="app_name">Sticks</string>
     <string name="facebook_app_id">1463581123709447</string>
     <string name="fb_login_protocol_scheme">fb1463581123709447</string>
+    <string name="add_post">Add Post</string>
+    <string name="create_account">Create Account</string>
+    <string name="login">Login</string>
+    <string name="or_sign_in_with">Or sign in with</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
 </resources>
