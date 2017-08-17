@@ -1,7 +1,7 @@
 //Justin Hinds
 //MDF3 - 1707
 //DataManager.java
-package com.arcane.sticks;
+package com.arcane.sticks.Models;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import static android.content.Context.MODE_PRIVATE;
 
 
-class DataManager {
+public class DataManager {
     private  Context mContext = null;
-    DataManager(Context context){
+    public DataManager(Context context){
         mContext = context;
     }
     private final String FILE_LOCATION = "com.arcane.sticks." + "FILE_LOCATION";

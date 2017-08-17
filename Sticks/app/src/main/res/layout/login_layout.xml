@@ -26,7 +26,7 @@
         android:layout_gravity="center"
         android:text="@string/create_account"
         android:backgroundTint="@color/colorPrimary"
-        android:elevation="@dimen/cardview_default_elevation"/>
+        android:elevation="6dp"/>
     <Button
         android:id="@+id/login"
         android:layout_width="wrap_content"

@@ -1,8 +1,11 @@
-package com.arcane.sticks;
+package com.arcane.sticks.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.arcane.sticks.Frags.LoginFrag;
+import com.arcane.sticks.R;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.arcane.sticks;
+package com.arcane.sticks.Frags;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.arcane.sticks.Activities.MainActivity;
+import com.arcane.sticks.Models.Player;
+import com.arcane.sticks.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -33,11 +36,10 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import java.util.concurrent.Executor;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
@@ -48,8 +50,8 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
     public static final int RC_SIGN_IN = 9101;
-
-
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("Users");
     @Override
     public void onStart() {
         super.onStart();
@@ -144,8 +146,10 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            startActivity(new Intent(getContext(),MainActivity.class));
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // If sign in fails, display a postText to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -163,8 +167,10 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            addPlayer(user);
+                            startActivity(new Intent(getContext(),MainActivity.class));
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // If sign in fails, display a postText to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -185,9 +191,12 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            addPlayer(user);
+                            startActivity(new Intent(getContext(),MainActivity.class));
+
                             //updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // If sign in fails, display a postText to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -225,9 +234,11 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            addPlayer(user);
+                            startActivity(new Intent(getContext(),MainActivity.class));
                             //updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // If sign in fails, display a postText to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -237,6 +248,14 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                         // ...
                     }
                 });
+    }
+    public void addPlayer(FirebaseUser user){
+        String id = user.getUid();
+
+        Player player = new Player();
+        player.setName(user.getDisplayName());
+        player.setId(id);
+        ref.child(id).setValue(player);
     }
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

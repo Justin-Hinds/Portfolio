@@ -1,5 +1,7 @@
-package com.arcane.sticks;
+package com.arcane.sticks.Frags;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,18 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arcane.sticks.Activities.CommentsActivity;
+import com.arcane.sticks.Models.MainBoardRecyclerAdapter;
+import com.arcane.sticks.Models.DataManager;
+import com.arcane.sticks.Models.Post;
+import com.arcane.sticks.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class MainBoardFrag extends Fragment {
@@ -31,10 +35,22 @@ public class MainBoardFrag extends Fragment {
     private MainBoardRecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList myDataset = new ArrayList();
+    MainBoardRecyclerAdapter.OnItemSelected mListener;
+    public static final String POST_EXTRA = "com.arcane.sticks.POST_EXTRA";
+    Context mContext;
     public static MainBoardFrag newInstance(){return new MainBoardFrag();}
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("messages");
+    DatabaseReference myRef = database.getReference("Posts");
     DataManager mDataManager;
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+        getListenerFromContext(context);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,27 +74,26 @@ public class MainBoardFrag extends Fragment {
         // specify an adapter (see also next example)
         mAdapter = new MainBoardRecyclerAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
-
+        mAdapter.setOnInteraction(mListener);
+        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Log.d("USER: ", user);
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                HashMap<String, HashMap> hashMap = (HashMap<String,HashMap>) dataSnapshot.getValue();
-                Log.d(TAG, "Value is: " + dataSnapshot.getValue());
-                Post post = new Post();
-                if(hashMap != null){
-                    for (HashMap p : hashMap.values()){
-                        post.setMessage(p.get("message").toString());
-                        post.setUser(p.get("user").toString());
-                        Log.d("POST: ", p.get("message").toString());
+                myDataset.clear();
+                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                //Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
+                Post post = childSnapshot.getValue(Post.class);
+                   // Log.d(TAG, "Time is: "  + post.time);
                     myDataset.add(post);
-                    }
-                    Log.d("DATASET", myDataset.toString());
-                    mAdapter.update(myDataset);
 
                 }
+                  //  Log.d("DATASET", myDataset.toString());
+                    mAdapter.update(myDataset);
+
             }
 
             @Override
@@ -89,5 +104,18 @@ public class MainBoardFrag extends Fragment {
         });
 
         return root;
+    }
+    public void openComments(Post post, Context context){
+        Intent intent = new Intent(context, CommentsActivity.class);
+        intent.putExtra(POST_EXTRA,post);
+        startActivity(intent);
+    }
+    private void getListenerFromContext(Context context) {
+        if (context instanceof MainBoardRecyclerAdapter.OnItemSelected) {
+            mListener = (MainBoardRecyclerAdapter.OnItemSelected) context;
+        } else {
+            throw new ClassCastException("Containing activity must " +
+                    "implement OnPersonInteractionListener");
+        }
     }
 }

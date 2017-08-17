@@ -1,0 +1,62 @@
+package com.arcane.sticks.Models;
+
+
+import java.util.HashMap;
+
+public class Player {
+    String name;
+    String id;
+    String gamerTag;
+    String psnID;
+    String profilePicURL;
+    String preferredConsole;
+    HashMap<String,Object> fellowPlayers = new HashMap<>();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getGamerTag() {
+        return gamerTag;
+    }
+
+    public void setGamerTag(String gamerTag) {
+        this.gamerTag = gamerTag;
+    }
+
+    public String getPsnID() {
+        return psnID;
+    }
+
+    public void setPsnID(String psnID) {
+        this.psnID = psnID;
+    }
+
+    public String getProfilePicURL() {
+        return profilePicURL;
+    }
+
+    public void setProfilePicURL(String profilePicURL) {
+        this.profilePicURL = profilePicURL;
+    }
+
+    public String getPreferredConsole() {
+        return preferredConsole;
+    }
+
+    public void setPreferredConsole(String preferredConsole) {
+        this.preferredConsole = preferredConsole;
+    }
+}
