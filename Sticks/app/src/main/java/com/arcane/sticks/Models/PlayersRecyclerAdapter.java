@@ -1,6 +1,8 @@
 package com.arcane.sticks.Models;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,12 +27,17 @@ public class PlayersRecyclerAdapter extends  RecyclerView.Adapter<PlayersRecycle
     }
     @Override
     public PlayersRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
-    }
+// create a new view
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.player_list_item, parent, false);
+        // set the view's size, margins, paddings and layout parameters
+        //Log.i(TAG, " CreatViewHolder Dataset: " + mDataset);
+        PlayersRecyclerAdapter.ViewHolder vh = new PlayersRecyclerAdapter.ViewHolder(v,mListener,mDataset);
+        return vh;    }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.mTextView.setText(mDataset.get(position).getName());
     }
 
     @Override
@@ -44,13 +51,18 @@ public class PlayersRecyclerAdapter extends  RecyclerView.Adapter<PlayersRecycle
         ArrayList<Player> mDataset = new ArrayList<>();
         public ViewHolder(View itemView, OnPlayerSelectedListener listener, ArrayList<Player> players) {
             super(itemView);
-            mTextView = (TextView) itemView.findViewById(R.id.post_textview);
+            itemView.setOnClickListener(this);
+            mTextView = (TextView) itemView.findViewById(R.id.player_name);
             mListener = listener;
+            mDataset = players;
 
         }
 
         @Override
         public void onClick(View v) {
+            Log.i("POSITION", getAdapterPosition() + "");
+            Log.i("DATA", mDataset.toString() + "");
+
             mListener.onPlayerSelected(mDataset.get(getAdapterPosition()));
         }
     }

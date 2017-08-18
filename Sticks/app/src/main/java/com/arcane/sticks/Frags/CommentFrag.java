@@ -182,6 +182,6 @@ public class CommentFrag extends Fragment {
     }
     public void setPost(Post post){
         mPost = post;
-        Log.i("SET POST: " , post.toString());
+        //Log.i("SET POST: " , post.toString());
     }
 }

@@ -1,9 +1,10 @@
 package com.arcane.sticks.Models;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Player {
+public class Player implements Serializable {
     String name;
     String id;
     String gamerTag;

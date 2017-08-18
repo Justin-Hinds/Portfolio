@@ -41,7 +41,8 @@
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.PostActivity" />
         <activity android:name=".Activities.ProfilePageActivity" />
-        <activity android:name=".Activities.CommentsActivity"></activity>
+        <activity android:name=".Activities.CommentsActivity" />
+        <activity android:name=".Activities.PlayersActivity"></activity>
     </application>
 
 </manifest>

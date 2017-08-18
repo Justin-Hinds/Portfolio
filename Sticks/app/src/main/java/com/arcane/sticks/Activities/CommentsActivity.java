@@ -30,7 +30,7 @@ public class CommentsActivity extends AppCompatActivity {
             post = (Post) intent.getSerializableExtra(MainBoardFrag.POST_EXTRA);
             frag.setPost(post);
         }else {
-            Log.i("INTENT FAIL", "Post extra not found");
+            Log.i("INTENT FAIL COMMENTS", "Post extra not found");
         }
         slide.setInterpolator(new FastOutLinearInInterpolator());
         slide.excludeTarget(android.R.id.statusBarBackground,true);

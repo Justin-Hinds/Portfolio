@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.arcane.sticks.Frags.MainBoardFrag;
+import com.arcane.sticks.Frags.ProfilePageFrag;
 import com.arcane.sticks.Models.CustomPagerAdapter;
 import com.arcane.sticks.Models.MainBoardRecyclerAdapter;
 import com.arcane.sticks.Models.Player;
@@ -114,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
 
     @Override
     public void onPlayerSelected(Player player) {
-
+        Intent intent = new Intent(this,ProfilePageActivity.class);
+        intent.putExtra(ProfilePageFrag.PLAYER_EXTRA,player);
+        startActivity(intent);
     }
 }
