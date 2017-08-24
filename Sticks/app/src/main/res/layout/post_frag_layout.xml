@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.PostActivity">
+    <ImageView
+        android:id="@+id/preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
-    <EditText
-        android:id="@+id/editText"
+
+    <LinearLayout
+        android:id="@+id/message_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine" />
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <ImageButton
+            android:id="@+id/camera_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera_icon"
+            android:backgroundTint="@android:color/transparent"/>
 
-    <Button
-        android:id="@+id/send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_post" />
-</LinearLayout>
+        <EditText
+            android:id="@+id/post_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:minHeight="48dp"
+            android:hint="@string/comment"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_weight=".5"
+            />
+        <ImageButton
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/send_icon"
+            android:backgroundTint="@android:color/transparent"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -26,7 +26,7 @@ public class CommentsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Post post;
         if(intent.hasExtra(MainBoardFrag.POST_EXTRA)){
-            Log.i("INTENT", intent.getSerializableExtra(MainBoardFrag.POST_EXTRA).toString());
+            //Log.i("INTENT", intent.getSerializableExtra(MainBoardFrag.POST_EXTRA).toString());
             post = (Post) intent.getSerializableExtra(MainBoardFrag.POST_EXTRA);
             frag.setPost(post);
         }else {
@@ -37,5 +37,10 @@ public class CommentsActivity extends AppCompatActivity {
         slide.excludeTarget(android.R.id.navigationBarBackground,true);
         getWindow().setEnterTransition(slide);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, frag).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

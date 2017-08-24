@@ -1,14 +1,24 @@
-package com.arcane.sticks.Models;
+package com.arcane.sticks.Adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.arcane.sticks.Models.Player;
+import com.arcane.sticks.Models.Post;
 import com.arcane.sticks.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -17,6 +27,9 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
     ArrayList<Post> mDataset;
     static final String TAG = "MaindBoardRecycler:";
     OnItemSelected mListener;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    Context mContext;
+
     public interface OnItemSelected {
         void onCommentsClicked(Post post);
         void onDownClicked();
@@ -34,12 +47,14 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
         ImageButton upButton;
         ImageButton downButton;
         OnItemSelected mListener;
+        ImageView imageView;
         ArrayList<Post> mDataset = new ArrayList<>();
 
         public ViewHolder(View itemView, OnItemSelected listener, ArrayList<Post> posts) {
             super(itemView);
             itemView.setOnClickListener(this);
             mDataset = posts;
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
             mTextView = (TextView) itemView.findViewById(R.id.post_textview);
             mPlayerName = (TextView) itemView.findViewById(R.id.player_name);
             commentsButton = (ImageButton) itemView.findViewById(R.id.comments_button);
@@ -75,7 +90,10 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
         public void onClick(View v) {
         }
     }
-    public MainBoardRecyclerAdapter(ArrayList myData){mDataset = myData;}
+    public MainBoardRecyclerAdapter(ArrayList myData, Context context){
+        mDataset = myData;
+        mContext = context;
+    }
     @Override
     public MainBoardRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
@@ -91,9 +109,31 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
         notifyDataSetChanged();
     }
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        DatabaseReference userRef = database.getReference("Users").child(mDataset.get(position).getUser());
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("SNAPSHOT: ", dataSnapshot.toString());
+                Player player = dataSnapshot.getValue(Player.class);
+                holder.mPlayerName.setText(player.getName());
+                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                    //Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
+
+                    // Log.d(TAG, "Time is: "  + post.time);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         holder.mTextView.setText(mDataset.get(position).toString());
-        holder.mPlayerName.setText(mDataset.get(position).getUser());
+        if(mDataset.get(position).getImgURL() != null){
+            Picasso.with(mContext).load(mDataset.get(position).imgURL).into(holder.imageView);
+        }
     }
 
     @Override

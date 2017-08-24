@@ -1,5 +1,6 @@
 package com.arcane.sticks.Frags;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,11 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arcane.sticks.Models.Player;
-import com.arcane.sticks.Models.PlayersRecyclerAdapter;
 import com.arcane.sticks.Models.Post;
-import com.arcane.sticks.Models.ProfileRecyclerAdapter;
+import com.arcane.sticks.Adapters.ProfileRecyclerAdapter;
 import com.arcane.sticks.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,8 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
 
 
 public class ProfilePageFrag extends Fragment {
@@ -38,6 +35,15 @@ public class ProfilePageFrag extends Fragment {
     DatabaseReference myUserRef = database.getReference("Users");
     DatabaseReference myRef = database.getReference("User Posts");
     Player mPlayer;
+    ProfileRecyclerAdapter.AddFellowPlayerInterface mListener;
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        getListenerFromContext(context);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,7 +60,8 @@ public class ProfilePageFrag extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new ProfileRecyclerAdapter(myDataset);
+        mAdapter = new ProfileRecyclerAdapter(myDataset,mPlayer);
+        mAdapter.setAddFellowPlayerInterface(mListener);
         mRecyclerView.setAdapter(mAdapter);
         String user = mPlayer.getId();
         myRef.child(user).addValueEventListener(new ValueEventListener() {
@@ -84,6 +91,14 @@ public class ProfilePageFrag extends Fragment {
 
     public void setPlayer(Player player){
         mPlayer = player;
-        Log.i("SET PLAYER: " , player.toString());
+       // Log.i("SET PLAYER: " , player.toString());
+    }
+    private void getListenerFromContext(Context context) {
+        if (context instanceof ProfileRecyclerAdapter.AddFellowPlayerInterface) {
+            mListener = (ProfileRecyclerAdapter.AddFellowPlayerInterface) context;
+        } else {
+            throw new ClassCastException("Containing activity must " +
+                    "implement OnPersonInteractionListener");
+        }
     }
 }

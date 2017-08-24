@@ -42,7 +42,10 @@
         <activity android:name=".Activities.PostActivity" />
         <activity android:name=".Activities.ProfilePageActivity" />
         <activity android:name=".Activities.CommentsActivity" />
-        <activity android:name=".Activities.PlayersActivity"></activity>
+        <activity android:name=".Activities.PlayersActivity" />
+        <activity android:name=".Activities.ProfileEditActivity" />
+        <activity android:name=".Activities.MessageViewActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
     </application>
 
 </manifest>

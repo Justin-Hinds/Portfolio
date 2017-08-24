@@ -1,4 +1,4 @@
-package com.arcane.sticks.Models;
+package com.arcane.sticks.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.arcane.sticks.Models.PostComment;
 import com.arcane.sticks.R;
 
 import java.util.ArrayList;

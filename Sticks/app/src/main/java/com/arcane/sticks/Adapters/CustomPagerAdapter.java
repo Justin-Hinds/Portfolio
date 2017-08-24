@@ -1,4 +1,4 @@
-package com.arcane.sticks.Models;
+package com.arcane.sticks.Adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

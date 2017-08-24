@@ -11,10 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arcane.sticks.Models.MainBoardRecyclerAdapter;
 import com.arcane.sticks.Models.Player;
-import com.arcane.sticks.Models.PlayersRecyclerAdapter;
-import com.arcane.sticks.Models.Post;
+import com.arcane.sticks.Adapters.PlayersRecyclerAdapter;
 import com.arcane.sticks.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,25 +53,7 @@ public class PlayersFrag extends Fragment {
         mAdapter.setOnPlayerInteraction(mListener);
 
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Log.i("USERS: ", dataSnapshot.getValue().toString());
-                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                    Log.d("USERS ", "Name is: "  + childSnapshot.getValue(Player.class).getName());
-                    Player player = childSnapshot.getValue(Player.class);
-                    // Log.d(TAG, "Time is: "  + post.time);
-                    myDataset.add(player);
-
-                }
-                mAdapter.update(myDataset);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        myRef.addValueEventListener(valueEventListener);
         return root;
     }
 
@@ -90,5 +70,29 @@ public class PlayersFrag extends Fragment {
             throw new ClassCastException("Containing activity must " +
                     "implement OnPersonInteractionListener");
         }
+    }
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            //Log.i("USERS: ", dataSnapshot.getValue().toString());
+            for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                //Log.d("USERS ", "Name is: "  + childSnapshot.getValue(Player.class).getName());
+                Player player = childSnapshot.getValue(Player.class);
+                // Log.d(TAG, "Time is: "  + post.time);
+                myDataset.add(player);
+
+            }
+            mAdapter.update(myDataset);
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+    @Override
+    public void onPause() {
+        myRef.removeEventListener(valueEventListener);
+        super.onPause();
     }
 }

@@ -1,5 +1,11 @@
 package com.arcane.sticks.Models;
 
+import android.util.Log;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.HashMap;
+
 /**
  * Created by ChefZatoichi on 8/14/17.
  */
@@ -39,7 +45,7 @@ public class Message {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = time;
     }
 
@@ -49,5 +55,22 @@ public class Message {
 
     public void setImgURL(String imgURL) {
         this.imgURL = imgURL;
+    }
+
+    public HashMap<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("time", time);
+        result.put("imgURL", imgURL);
+        result.put("sender", sender);
+        result.put("receiver", receiver);
+        result.put("message", message);
+
+        return result;
+    }
+
+
+    public String chatPlayerID(){
+
+        return sender.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? receiver : sender ;
     }
 }

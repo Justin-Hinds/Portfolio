@@ -11,11 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.arcane.sticks.Models.CommentsRecyclerAdapter;
-import com.arcane.sticks.Models.DataManager;
-import com.arcane.sticks.Models.MainBoardRecyclerAdapter;
+import com.arcane.sticks.Adapters.CommentsRecyclerAdapter;
 import com.arcane.sticks.Models.Post;
 import com.arcane.sticks.Models.PostComment;
 import com.arcane.sticks.R;
@@ -27,12 +24,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Comment;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class CommentFrag extends Fragment {
@@ -157,7 +151,7 @@ public class CommentFrag extends Fragment {
             public void onClick(View v) {
                 String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 String postID = mPost.getId();
-                Log.i("OnClick: " , mPost.getId());
+               // Log.i("OnClick: " , mPost.getId());
                 String commentString = commentText.getText().toString();
                 PostComment postComment = new PostComment();
                 postComment.setPostID(postID);
@@ -184,4 +178,5 @@ public class CommentFrag extends Fragment {
         mPost = post;
         //Log.i("SET POST: " , post.toString());
     }
+
 }

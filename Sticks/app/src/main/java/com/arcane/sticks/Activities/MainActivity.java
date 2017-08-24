@@ -8,20 +8,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
 import com.arcane.sticks.Frags.MainBoardFrag;
 import com.arcane.sticks.Frags.ProfilePageFrag;
-import com.arcane.sticks.Models.CustomPagerAdapter;
-import com.arcane.sticks.Models.MainBoardRecyclerAdapter;
+import com.arcane.sticks.Adapters.ChatLogRecAdapter;
+import com.arcane.sticks.Adapters.CustomPagerAdapter;
+import com.arcane.sticks.Adapters.MainBoardRecyclerAdapter;
 import com.arcane.sticks.Models.Player;
-import com.arcane.sticks.Models.PlayersRecyclerAdapter;
+import com.arcane.sticks.Adapters.PlayersRecyclerAdapter;
 import com.arcane.sticks.Models.Post;
 import com.arcane.sticks.R;
 import com.facebook.FacebookSdk;
@@ -30,7 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class MainActivity extends AppCompatActivity implements MainBoardRecyclerAdapter.OnItemSelected, PlayersRecyclerAdapter.OnPlayerSelectedListener{
+public class MainActivity extends AppCompatActivity implements MainBoardRecyclerAdapter.OnItemSelected, PlayersRecyclerAdapter.OnPlayerSelectedListener, ChatLogRecAdapter.OnPlayerSelectedListener{
     FirebaseAuth mAuth;
     FirebaseUser mFireUser;
     CustomPagerAdapter mPagerAdapter;
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
         mFireUser = mAuth.getCurrentUser();
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-        Log.i("auth", mAuth.toString());
+      //  Log.i("auth", mAuth.toString());
          frag = MainBoardFrag.newInstance();
         //getSupportFragmentManager().beginTransaction().replace(R.id.container,frag,frag.MaindBoard_TAG).commit();
         if(mFireUser == null){
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
         }
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainboard_menu,menu);
@@ -111,6 +109,13 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
     @Override
     public void onHyperlinkClicked() {
 
+    }
+
+    @Override
+    public void onChatPlayerSelected(Player player) {
+        Intent intent = new Intent(this,MessageViewActivity.class);
+        intent.putExtra(ProfilePageFrag.PLAYER_EXTRA,player);
+        startActivity(intent);
     }
 
     @Override

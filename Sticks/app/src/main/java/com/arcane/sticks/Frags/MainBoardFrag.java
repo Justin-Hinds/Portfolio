@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arcane.sticks.Activities.CommentsActivity;
-import com.arcane.sticks.Models.MainBoardRecyclerAdapter;
+import com.arcane.sticks.Adapters.MainBoardRecyclerAdapter;
 import com.arcane.sticks.Models.DataManager;
 import com.arcane.sticks.Models.Post;
 import com.arcane.sticks.R;
@@ -25,7 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class MainBoardFrag extends Fragment {
@@ -72,7 +71,7 @@ public class MainBoardFrag extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new MainBoardRecyclerAdapter(myDataset);
+        mAdapter = new MainBoardRecyclerAdapter(myDataset,getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnInteraction(mListener);
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();

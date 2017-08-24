@@ -4,18 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.arcane.sticks.Activities.ProfilePageActivity"
+    tools:context="com.arcane.sticks.Activities.ProfileEditActivity"
     android:orientation="vertical">
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"/>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/container"
-    tools:layout_editor_absoluteY="8dp"
-    tools:layout_editor_absoluteX="8dp" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container" />
 </LinearLayout>

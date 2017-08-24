@@ -60,4 +60,12 @@ public class Player implements Serializable {
     public void setPreferredConsole(String preferredConsole) {
         this.preferredConsole = preferredConsole;
     }
+
+    public HashMap<String, Object> getFellowPlayers() {
+        return fellowPlayers;
+    }
+
+    public void setFellowPlayers(HashMap<String, Object> fellowPlayers) {
+        this.fellowPlayers = fellowPlayers;
+    }
 }

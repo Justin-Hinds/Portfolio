@@ -13,7 +13,12 @@
     <string name="posts">Posts</string>
     <string name="comment">Comment...</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gamer_tag">Gamer Tag: </string>
+    <string name="psn_id">PSN ID: </string>
+    <string name="console">Console: </string>
+    <string name="name">Name: </string>
+    <string name="logout">Logout</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="save_changes">Save Changes</string>
 
 </resources>
