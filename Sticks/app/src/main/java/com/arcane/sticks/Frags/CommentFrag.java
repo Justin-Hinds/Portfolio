@@ -1,20 +1,21 @@
-package com.arcane.sticks.Frags;
+package com.arcane.sticks.frags;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.arcane.sticks.Adapters.CommentsRecyclerAdapter;
-import com.arcane.sticks.Models.Post;
-import com.arcane.sticks.Models.PostComment;
+import com.arcane.sticks.adapters.CommentsRecyclerAdapter;
+import com.arcane.sticks.models.DataManager;
+import com.arcane.sticks.models.Post;
+import com.arcane.sticks.models.PostComment;
 import com.arcane.sticks.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -35,26 +36,24 @@ public class CommentFrag extends Fragment {
     public static CommentFrag newInstance(){
         return new CommentFrag();
     }
-    ImageButton sendButton, pickPhoto;
-    EditText commentText;
-    Post mPost;
+
+    private EditText commentText;
+    private Post mPost;
 
     public static final String TAG = ".CommentsFrag: ";
 
-    private RecyclerView mRecyclerView;
     private CommentsRecyclerAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList myDataset = new ArrayList();
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Comments");
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference myRef = database.getReference("Comments");
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.comments_frag,container,false);
-        sendButton = (ImageButton) root.findViewById(R.id.send_button);
-        pickPhoto = (ImageButton) root.findViewById(R.id.camera_button);
+        ImageButton sendButton = (ImageButton) root.findViewById(R.id.send_button);
+        ImageButton pickPhoto = (ImageButton) root.findViewById(R.id.camera_button);
         commentText = (EditText) root.findViewById(R.id.comment_text);
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_view);
+        RecyclerView mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_view);
         myDataset = new ArrayList();
 
 
@@ -71,13 +70,13 @@ public class CommentFrag extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new CommentsRecyclerAdapter(myDataset);
+        mAdapter = new CommentsRecyclerAdapter(myDataset,getContext());
         mRecyclerView.setAdapter(mAdapter);
-        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+       // String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
         DatabaseReference postComRef = database.getReference("Post Comments").child(mPost.getId());
@@ -92,7 +91,9 @@ public class CommentFrag extends Fragment {
 
                // Log.d("STRING: ", dataSnapshot.getValue(PostComment.class).getText());
                         PostComment postComment = dataSnapshot.getValue(PostComment.class);
+                        //noinspection unchecked
                         myDataset.add(postComment);
+                        //noinspection unchecked
                         mAdapter.update(myDataset);
                     }
 
@@ -131,7 +132,7 @@ public class CommentFrag extends Fragment {
                 myDataset.clear();
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                   //  Log.d(TAG, "Value is: "  + childSnapshot.getValue(PostComment.class));
-                    PostComment postComment = childSnapshot.getValue(PostComment.class);
+                    //PostComment postComment = childSnapshot.getValue(PostComment.class);
                     //Log.d(TAG, "Time is: "  + postComment.getTime());
                     //myDataset.add(postComment);
 
@@ -153,21 +154,28 @@ public class CommentFrag extends Fragment {
                 String postID = mPost.getId();
                // Log.i("OnClick: " , mPost.getId());
                 String commentString = commentText.getText().toString();
-                PostComment postComment = new PostComment();
-                postComment.setPostID(postID);
-                postComment.setTime(System.currentTimeMillis());
-                postComment.setText(commentString);
-                postComment.setSender(user);
-                String commentId = myRef.push().getKey();
-                Map<String,Object> commentValues = postComment.toMap();
-                Map<String, Object> commentKeys = new HashMap<>();
-                commentKeys.put(commentId,true);
-                Map<String,Object> childUpdates = new HashMap<>();
-                childUpdates.put("/Comments/" + commentId, commentValues);
-                DatabaseReference postCommentsRef = database.getReference().child("Post Comments").child(postID);
-                postCommentsRef.updateChildren(commentKeys);
-                database.getReference().updateChildren(childUpdates);
-                getActivity().finishAfterTransition();
+
+                if(DataManager.stringValidate(commentString) != null ){
+                    PostComment postComment = new PostComment();
+                    postComment.setPostID(postID);
+                    postComment.setTime(System.currentTimeMillis());
+                    postComment.setText(commentString);
+                    postComment.setSender(user);
+                    String commentId = myRef.push().getKey();
+                    Map<String,Object> commentValues = postComment.toMap();
+                    Map<String, Object> commentKeys = new HashMap<>();
+                    commentKeys.put(commentId,true);
+                    Map<String,Object> childUpdates = new HashMap<>();
+                    childUpdates.put("/Comments/" + commentId, commentValues);
+
+                    DatabaseReference postCommentsRef = database.getReference().child("Post Comments").child(postID);
+                    postCommentsRef.updateChildren(commentKeys);
+                    database.getReference().updateChildren(childUpdates);
+                    getActivity().finishAfterTransition();
+                }else {
+                    Toast.makeText(getContext(),"Please enter a comment",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

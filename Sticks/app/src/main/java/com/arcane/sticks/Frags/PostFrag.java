@@ -1,4 +1,4 @@
-package com.arcane.sticks.Frags;
+package com.arcane.sticks.frags;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,13 +10,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.arcane.sticks.Activities.PostActivity;
-import com.arcane.sticks.Models.Post;
+import com.arcane.sticks.models.DataManager;
+import com.arcane.sticks.models.Post;
 import com.arcane.sticks.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +29,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -39,21 +38,18 @@ import static android.app.Activity.RESULT_OK;
 public class PostFrag extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    public static final PostFrag newInstance(){return new PostFrag();}
+    public static PostFrag newInstance(){return new PostFrag();}
     public static final String POST_TAG = "POST_TAG";
     public static final String TAG = "PostFrag.Tag";
-    ImageButton cameraButton;
-    ImageButton sendButton;
-    DatabaseReference childRef;
-    String user;
-    EditText postMessage;
-    ImageView imageView;
-    Bitmap bitmap;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Posts");
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference postImageRef;
-    Uri postImageUri;
+    private DatabaseReference childRef;
+    private String user;
+    private EditText postMessage;
+    private ImageView imageView;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference myRef = database.getReference("Posts");
+    private final FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference postImageRef;
+    private Uri postImageUri;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -102,8 +98,8 @@ public class PostFrag extends Fragment {
          childRef = myRef.push();
         imageView = (ImageView) root.findViewById(R.id.preview);
         imageView.setDrawingCacheEnabled(true);
-         sendButton = (ImageButton) root.findViewById(R.id.send_button);
-         cameraButton = (ImageButton) root.findViewById(R.id.camera_button);
+        ImageButton sendButton = (ImageButton) root.findViewById(R.id.send_button);
+        ImageButton cameraButton = (ImageButton) root.findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +123,7 @@ public class PostFrag extends Fragment {
             Uri uri = data.getData();
 
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
 
                 imageView.setImageBitmap(bitmap);
@@ -149,7 +145,6 @@ public class PostFrag extends Fragment {
     private void sendPost(){
        // DatabaseReference userPostRef = database.getReference("User Posts").child(user);
         final Post post = new Post();
-        post.setPostText(postMessage.getText().toString());
         post.setUser(user);
         post.setTime(System.currentTimeMillis());
         //post.setComments(new HashMap<String, Boolean>());
@@ -161,34 +156,52 @@ public class PostFrag extends Fragment {
         final String postID = childRef.getKey();
         post.setId(postID);
 
-        imageView.buildDrawingCache();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Bitmap uploadBitmap = imageView.getDrawingCache();
-        //compresses bitmap to png
-        uploadBitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
-        //writes to a byte array
-        byte[] imgData = baos.toByteArray();
-        //path for image in firebase
-        String path = "Post_Images/" + UUID.randomUUID() + ".png";
-        postImageRef = storage.getReference(path);
-        UploadTask uploadTask = postImageRef.putBytes(imgData);
-        uploadTask.addOnSuccessListener(getActivity(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                postImageUri = taskSnapshot.getDownloadUrl();
-                post.setImgURL(postImageUri.toString());
-                //mapping values from post object
-                Map<String,Object> postValues = post.toMap();
-                //setting map for updateValues
-                Map<String,Object> childUpdates = new HashMap<>();
-                childUpdates.put("/Posts/" + postID, postValues);
-                childUpdates.put("/User Posts/" + user + "/" + postID, postValues);
-                database.getReference().updateChildren(childUpdates);
-                getActivity().finish();
-            }
-        });
 
-        return;
+        if(imageView.getDrawable() != null){
+            post.setPostText(postMessage.getText().toString());
+            imageView.buildDrawingCache();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Bitmap uploadBitmap = imageView.getDrawingCache();
+            //compresses bitmap to png
+            uploadBitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+            //writes to a byte array
+            byte[] imgData = baos.toByteArray();
+            //path for image in firebase
+            String path = "Post_Images/" + UUID.randomUUID() + ".png";
+            postImageRef = storage.getReference(path);
+            UploadTask uploadTask = postImageRef.putBytes(imgData);
+            uploadTask.addOnSuccessListener(getActivity(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    postImageUri = taskSnapshot.getDownloadUrl();
+                    assert postImageUri != null;
+                    post.setImgURL(postImageUri.toString());
+                    //mapping values from post object
+                    Map<String,Object> postValues = post.toMap();
+                    //setting map for updateValues
+                    Map<String,Object> childUpdates = new HashMap<>();
+                    childUpdates.put("/Posts/" + postID, postValues);
+                    childUpdates.put("/User Posts/" + user + "/" + postID, postValues);
+                    database.getReference().updateChildren(childUpdates);
+                    getActivity().finish();
+                }
+            });
+        }else if (DataManager.stringValidate(postMessage.getText().toString())!= null) {
+            post.setPostText(postMessage.getText().toString());
+            //mapping values from post object
+            Map<String,Object> postValues = post.toMap();
+            //setting map for updateValues
+            Map<String,Object> childUpdates = new HashMap<>();
+            childUpdates.put("/Posts/" + postID, postValues);
+            childUpdates.put("/User Posts/" + user + "/" + postID, postValues);
+            database.getReference().updateChildren(childUpdates);
+            getActivity().finish();
+        }else {
+            Toast.makeText(getContext(),  "Enter some text or a dank meme",Toast.LENGTH_LONG).show();
+
+        }
+
+
     }
 
 

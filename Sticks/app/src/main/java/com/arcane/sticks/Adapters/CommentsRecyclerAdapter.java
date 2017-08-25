@@ -1,24 +1,39 @@
-package com.arcane.sticks.Adapters;
+package com.arcane.sticks.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.arcane.sticks.Models.PostComment;
+import com.arcane.sticks.models.Player;
+import com.arcane.sticks.models.PostComment;
 import com.arcane.sticks.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
- * Created by ChefZatoichi on 8/17/17.
- */
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
+
 
 public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder> {
-    ArrayList<PostComment> mDataset;
-    public CommentsRecyclerAdapter(ArrayList myData){mDataset = myData;}
+    private ArrayList<PostComment> mDataset;
+    private Player mPlayer;
+    private final Context mContext;
+    public CommentsRecyclerAdapter(ArrayList myData, Context context){
+        mContext = context;
+        //noinspection unchecked
+        mDataset = myData;
+    }
 
 
 
@@ -28,13 +43,29 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.comments_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        CommentsRecyclerAdapter.ViewHolder vh = new CommentsRecyclerAdapter.ViewHolder(v,mDataset);
-        return vh;
+        return new ViewHolder(v,mDataset);
     }
 
     @Override
-    public void onBindViewHolder(CommentsRecyclerAdapter.ViewHolder holder, int position) {
-        Log.d("STRING", mDataset.get(position).getText());
+    public void onBindViewHolder(final CommentsRecyclerAdapter.ViewHolder holder, int position) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference playerRef = database.getReference("Users").child(mDataset.get(position).getSender());
+        playerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mPlayer = dataSnapshot.getValue(Player.class);
+                Picasso.with(mContext)
+                        .load(mPlayer.getProfilePicURL())
+                        .transform(new CropCircleTransformation())
+                        .into(holder.imageView);
+        Log.d("STRING", mPlayer.getId());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         holder.mTextView.setText(mDataset.get(position).getText());
 
     }
@@ -44,12 +75,15 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
         return mDataset.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTextView;
+    public  class ViewHolder extends RecyclerView.ViewHolder {
+        final TextView mTextView;
+        ImageView imageView;
         ArrayList<PostComment> mDataset = new ArrayList<>();
         public ViewHolder(View itemView,  ArrayList<PostComment> postComments) {
             super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.profile_icon);
             mTextView = (TextView) itemView.findViewById(R.id.comment_text);
+
         }
 
     }

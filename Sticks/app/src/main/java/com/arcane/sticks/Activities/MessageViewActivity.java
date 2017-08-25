@@ -1,14 +1,13 @@
-package com.arcane.sticks.Activities;
+package com.arcane.sticks.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.arcane.sticks.Frags.MessageViewFrag;
-import com.arcane.sticks.Frags.PlayersFrag;
-import com.arcane.sticks.Frags.ProfilePageFrag;
-import com.arcane.sticks.Models.Player;
+import com.arcane.sticks.frags.MessageViewFrag;
+import com.arcane.sticks.frags.ProfilePageFrag;
+import com.arcane.sticks.models.Player;
 import com.arcane.sticks.R;
 
 public class MessageViewActivity extends AppCompatActivity {

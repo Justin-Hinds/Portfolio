@@ -1,4 +1,4 @@
-package com.arcane.sticks.Activities;
+package com.arcane.sticks.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +8,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.arcane.sticks.Frags.ProfilePageFrag;
-import com.arcane.sticks.Models.Player;
-import com.arcane.sticks.Adapters.ProfileRecyclerAdapter;
+import com.arcane.sticks.frags.ProfilePageFrag;
+import com.arcane.sticks.models.Player;
+import com.arcane.sticks.adapters.ProfileRecyclerAdapter;
 import com.arcane.sticks.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -18,9 +18,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ProfilePageActivity extends AppCompatActivity implements ProfileRecyclerAdapter.AddFellowPlayerInterface {
-Player player;
+private Player player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +63,7 @@ Player player;
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference friendsRef = database.getReference("Users").child(user).child("fellowPlayers");
-        if(player.getId() != user){
+        if(!Objects.equals(player.getId(), user)){
 
             Map<String, Object> fellowPlayers = new HashMap<>();
             fellowPlayers.put(player.getId(), true);

@@ -1,4 +1,4 @@
-package com.arcane.sticks.Frags;
+package com.arcane.sticks.frags;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,18 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arcane.sticks.Adapters.ChatLogRecAdapter;
-import com.arcane.sticks.Models.Message;
-import com.arcane.sticks.Models.Player;
-import com.arcane.sticks.Adapters.PlayersRecyclerAdapter;
+import com.arcane.sticks.adapters.ChatLogRecAdapter;
+import com.arcane.sticks.models.Player;
+import com.arcane.sticks.adapters.PlayersRecyclerAdapter;
 import com.arcane.sticks.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,20 +22,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class ChatFrag extends Fragment {
-    private RecyclerView mRecyclerView;
     private ChatLogRecAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList myDataset = new ArrayList();
     private ChatLogRecAdapter.OnPlayerSelectedListener mListener;
-    Player mPlayer;
-    String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Users").child(userID);
+    private Player mPlayer;
+    private final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference myRef = database.getReference("Users").child(userID);
 
     @Override
     public void onAttach(Context context) {
@@ -66,29 +59,30 @@ public class ChatFrag extends Fragment {
 
 
         myDataset = new ArrayList();
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_view);
+        RecyclerView mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new ChatLogRecAdapter(myDataset);
+        mAdapter = new ChatLogRecAdapter(myDataset,getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnPlayerInteraction(mListener);
-        Map<String, Message> messageMap = new HashMap<>();
+        //Map<String, Message> messageMap = new HashMap<>();
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mPlayer = dataSnapshot.getValue(Player.class);
                // Log.i("FRIENDS: ", mPlayer.getFellowPlayers().toString());
+                assert mPlayer != null;
                 for(String value : mPlayer.getFellowPlayers().keySet()){
                    // Log.d("VALUE: ", value);
                     DatabaseReference friendRef = database.getReference("Users").child(value);
-                    friendRef.addListenerForSingleValueEvent(friendValueEvent);
+                    friendRef.addValueEventListener(friendValueEvent);
                 }
                 //DatabaseReference friendsRef = database.getReference().child("Users").child(mPlayer.getFellowPlayers().toString());
             }
@@ -114,12 +108,14 @@ public class ChatFrag extends Fragment {
 
         }
     };
-    ValueEventListener friendValueEvent = new ValueEventListener() {
+    private final ValueEventListener friendValueEvent = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
            // Log.d("PLAYER", dataSnapshot.getValue().toString());
             Player player = dataSnapshot.getValue(Player.class);
+            //noinspection unchecked
             myDataset.add(player);
+            //noinspection unchecked
             mAdapter.update(myDataset);
         }
 

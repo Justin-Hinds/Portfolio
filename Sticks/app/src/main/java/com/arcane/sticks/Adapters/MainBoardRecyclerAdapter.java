@@ -1,7 +1,8 @@
-package com.arcane.sticks.Adapters;
+package com.arcane.sticks.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.arcane.sticks.Models.Player;
-import com.arcane.sticks.Models.Post;
+import com.arcane.sticks.models.Player;
+import com.arcane.sticks.models.Post;
 import com.arcane.sticks.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,19 +24,22 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecyclerAdapter.ViewHolder> {
-    ArrayList<Post> mDataset;
-    static final String TAG = "MaindBoardRecycler:";
-    OnItemSelected mListener;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    Context mContext;
+    private ArrayList<Post> mDataset;
+    private static final String TAG = "MaindBoardRecycler:";
+    private OnItemSelected mListener;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference myRef = database.getReference();
+    private final Context mContext;
 
     public interface OnItemSelected {
         void onCommentsClicked(Post post);
-        void onDownClicked();
-        void onUpClicked();
+        void onDownClicked(Post post);
+        void onUpClicked(Post post);
         void onHyperlinkClicked();
     }
     public void setOnInteraction(final OnItemSelected listener){
@@ -41,13 +47,13 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
     }
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView mTextView;
-        TextView mPlayerName;
-        ImageButton commentsButton;
-        ImageButton upButton;
-        ImageButton downButton;
-        OnItemSelected mListener;
-        ImageView imageView;
+        final TextView mTextView;
+        final TextView mPlayerName;
+        final ImageButton commentsButton;
+        final ImageButton upButton;
+        final ImageButton downButton;
+        final OnItemSelected mListener;
+        final ImageView imageView;
         ArrayList<Post> mDataset = new ArrayList<>();
 
         public ViewHolder(View itemView, OnItemSelected listener, ArrayList<Post> posts) {
@@ -74,13 +80,100 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
             upButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onUpClicked();
+                    Post post = mDataset.get(getAdapterPosition());
+                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("upCount");
+                     final DatabaseReference myRef = database.getReference("Post").child(post.getId()).child("ups");
+                    final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("ups");
+                    mListener.onUpClicked(post);
+                    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String upId = user;
+                    Map<String, Object> upKeys = new HashMap<>();
+                    upKeys.put(upId,true);
+                    myRef.updateChildren(upKeys);
+                    myUserPostRef.updateChildren(upKeys);
+                    myUserPostRef.addChildEventListener(new ChildEventListener() {
+                        int num = 0;
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                            Log.d("SNAP", dataSnapshot.toString());
+                             num ++;
+                            ref.setValue(num);
+                            Log.d("NUM: ", num + "");
+//
+                        }
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+
+                    });
+
                 }
             });
             downButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onDownClicked();
+                    mListener.onDownClicked(mDataset.get(getAdapterPosition()));
+                    Post post = mDataset.get(getAdapterPosition());
+                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downCount");
+                    final DatabaseReference myRef = database.getReference("Post").child(post.getId()).child("downs");
+                    final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downs");
+                    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String downId = user;
+                    Map<String, Object> downKeys = new HashMap<>();
+                    downKeys.put(downId,true);
+                    myRef.updateChildren(downKeys);
+                    myUserPostRef.updateChildren(downKeys);
+                    myUserPostRef.addChildEventListener(new ChildEventListener() {
+                        int num = 0;
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                            Log.d("SNAP", dataSnapshot.toString());
+                            num ++;
+                            ref.setValue(num);
+                            Log.d("NUM: ", num + "");
+//
+                        }
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+
+                    });
                 }
             });
 
@@ -91,6 +184,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
         }
     }
     public MainBoardRecyclerAdapter(ArrayList myData, Context context){
+        //noinspection unchecked
         mDataset = myData;
         mContext = context;
     }
@@ -101,8 +195,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                 .inflate(R.layout.post_cards, parent, false);
         // set the view's size, margins, paddings and layout parameters
         //Log.i(TAG, " CreatViewHolder Dataset: " + mDataset);
-        MainBoardRecyclerAdapter.ViewHolder vh = new ViewHolder(v,mListener,mDataset);
-        return vh;
+        return new ViewHolder(v,mListener,mDataset);
     }
     public void update(ArrayList<Post> posts){
         mDataset = posts;
@@ -116,6 +209,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d("SNAPSHOT: ", dataSnapshot.toString());
                 Player player = dataSnapshot.getValue(Player.class);
+                assert player != null;
                 holder.mPlayerName.setText(player.getName());
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                     //Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
@@ -130,7 +224,9 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 
             }
         });
+       // holder.mTextView.setMovementMethod(new LinkMovementMethod());
         holder.mTextView.setText(mDataset.get(position).toString());
+        Linkify.addLinks(holder.mTextView,Linkify.WEB_URLS);
         if(mDataset.get(position).getImgURL() != null){
             Picasso.with(mContext).load(mDataset.get(position).imgURL).into(holder.imageView);
         }

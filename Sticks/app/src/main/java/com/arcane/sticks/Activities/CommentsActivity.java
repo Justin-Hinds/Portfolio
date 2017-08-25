@@ -1,4 +1,4 @@
-package com.arcane.sticks.Activities;
+package com.arcane.sticks.activities;
 
 import android.content.Intent;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
@@ -8,9 +8,9 @@ import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 
-import com.arcane.sticks.Frags.CommentFrag;
-import com.arcane.sticks.Frags.MainBoardFrag;
-import com.arcane.sticks.Models.Post;
+import com.arcane.sticks.frags.CommentFrag;
+import com.arcane.sticks.frags.MainBoardFrag;
+import com.arcane.sticks.models.Post;
 import com.arcane.sticks.R;
 
 public class CommentsActivity extends AppCompatActivity {

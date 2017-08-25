@@ -1,9 +1,9 @@
-package com.arcane.sticks.Activities;
+package com.arcane.sticks.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.arcane.sticks.Frags.PostFrag;
+import com.arcane.sticks.frags.PostFrag;
 import com.arcane.sticks.R;
 
 public class PostActivity extends AppCompatActivity {
@@ -13,6 +13,6 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         PostFrag frag = PostFrag.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,frag,frag.POST_TAG).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,frag, PostFrag.POST_TAG).commit();
     }
 }

@@ -1,27 +1,29 @@
-package com.arcane.sticks.Adapters;
+package com.arcane.sticks.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.arcane.sticks.Models.Message;
-import com.arcane.sticks.Models.PostComment;
+import com.arcane.sticks.models.Message;
 import com.arcane.sticks.R;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
+
+import static android.provider.Settings.System.DATE_FORMAT;
 
 
 public class MessageViewRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    ArrayList<Message> mDataset;
-    public MessageViewRecAdapter(ArrayList myData){mDataset = myData;}
+    private ArrayList<Message> mDataset;
+    public MessageViewRecAdapter(ArrayList myData){//noinspection unchecked
+        mDataset = myData;}
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
-    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private final String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -50,13 +52,20 @@ public class MessageViewRecAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Message message = mDataset.get(position);
+        //formatting Date with time information
+        Date today = new Date(message.getTime());
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd HH:SS");
+        String date = DATE_FORMAT.format(today);
 
         switch (holder.getItemViewType()) {
             case VIEW_TYPE_MESSAGE_SENT:
                 ((SentMessageHolder) holder).bind(message);
+                ((SentMessageHolder)holder).timeText.setText(date);
                 break;
             case VIEW_TYPE_MESSAGE_RECEIVED:
                 ((ReceivedMessageHolder) holder).bind(message);
+                ((ReceivedMessageHolder)holder).timeText.setText(date);
+
         }
 
     }
@@ -67,7 +76,7 @@ public class MessageViewRecAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTextView;
+        final TextView mTextView;
         ArrayList<Message> mDataset = new ArrayList<>();
         public ViewHolder(View itemView,  ArrayList<Message> messages) {
             super(itemView);
@@ -81,7 +90,7 @@ public class MessageViewRecAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public int getItemViewType(int position) {
-        Message message = (Message) mDataset.get(position);
+        Message message = mDataset.get(position);
 
         if (message.getSender().equals(user)) {
             // If the current user is the sender of the message
@@ -94,7 +103,8 @@ public class MessageViewRecAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
     private class SentMessageHolder extends RecyclerView.ViewHolder {
-        TextView messageText, timeText;
+        final TextView messageText;
+        final TextView timeText;
 
         SentMessageHolder(View itemView) {
             super(itemView);
@@ -111,7 +121,8 @@ public class MessageViewRecAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
-        TextView messageText, timeText;
+        final TextView messageText;
+        final TextView timeText;
         //ImageView profileImage;
 
         ReceivedMessageHolder(View itemView) {

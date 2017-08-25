@@ -1,4 +1,4 @@
-package com.arcane.sticks.Models;
+package com.arcane.sticks.models;
 
 
 import java.io.Serializable;
@@ -10,17 +10,17 @@ public class Post implements Serializable {
     public Post(){
 
     }
-    public String postText;
-    public String user;
+    private String postText;
+    private String user;
     public String imgURL;
-    public URL hyperLink;
-    public String id;
-    public long time;
-    public int upCount;
-    public int downCount;
-    Map<String, Boolean> ups = new HashMap<>();
-    Map<String, Boolean> downs  = new HashMap<>();
-    Map<String, Boolean>  comments = new HashMap<>();
+    private URL hyperLink;
+    private String id;
+    private long time;
+    private int upCount;
+    private int downCount;
+    private Map<String, Boolean> ups = new HashMap<>();
+    private Map<String, Boolean> downs  = new HashMap<>();
+    private Map<String, Boolean>  comments = new HashMap<>();
 
     public String getId() {
         return id;

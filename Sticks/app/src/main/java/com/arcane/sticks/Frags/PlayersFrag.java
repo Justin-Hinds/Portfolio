@@ -1,4 +1,4 @@
-package com.arcane.sticks.Frags;
+package com.arcane.sticks.frags;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,14 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arcane.sticks.Models.Player;
-import com.arcane.sticks.Adapters.PlayersRecyclerAdapter;
+import com.arcane.sticks.models.Player;
+import com.arcane.sticks.adapters.PlayersRecyclerAdapter;
 import com.arcane.sticks.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,31 +24,29 @@ import java.util.ArrayList;
 
 
 public class PlayersFrag extends Fragment {
-    private RecyclerView mRecyclerView;
     private PlayersRecyclerAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList myDataset = new ArrayList();
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Users");
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference myRef = database.getReference("Users");
     public static PlayersFrag newInstance(){return new PlayersFrag();}
-    PlayersRecyclerAdapter.OnPlayerSelectedListener mListener;
+    private PlayersRecyclerAdapter.OnPlayerSelectedListener mListener;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.players_frag_layout,container,false);
 
         myDataset = new ArrayList();
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_view);
+        RecyclerView mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new PlayersRecyclerAdapter(myDataset);
+        mAdapter = new PlayersRecyclerAdapter(myDataset,getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnPlayerInteraction(mListener);
 
@@ -71,7 +69,7 @@ public class PlayersFrag extends Fragment {
                     "implement OnPersonInteractionListener");
         }
     }
-    ValueEventListener valueEventListener = new ValueEventListener() {
+    private final ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             //Log.i("USERS: ", dataSnapshot.getValue().toString());
@@ -79,9 +77,16 @@ public class PlayersFrag extends Fragment {
                 //Log.d("USERS ", "Name is: "  + childSnapshot.getValue(Player.class).getName());
                 Player player = childSnapshot.getValue(Player.class);
                 // Log.d(TAG, "Time is: "  + post.time);
+                //noinspection unchecked
+                if(!player.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                 myDataset.add(player);
 
+                }
+
+
+
             }
+            //noinspection unchecked
             mAdapter.update(myDataset);
         }
 

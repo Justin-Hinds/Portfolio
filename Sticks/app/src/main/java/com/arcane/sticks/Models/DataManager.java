@@ -1,7 +1,7 @@
 //Justin Hinds
 //MDF3 - 1707
 //DataManager.java
-package com.arcane.sticks.Models;
+package com.arcane.sticks.models;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -37,12 +37,23 @@ public class DataManager {
         }
 
     }
+    public static String stringValidate(String s){
+         if (s.length() < 1) {
+             return null;
+        }
+        if (s.trim().length() == 0) {
+            return null;
+        }
+
+        return s;
+    }
     public void saveSmartphone(Post post){
 
         ArrayList<Post> arrayList;
         File file = mContext.getFileStreamPath(FILE_LOCATION);
 
         if(file.exists()){
+            //noinspection unchecked
             arrayList = readSavedData();
         }else {
             arrayList = new ArrayList<>();

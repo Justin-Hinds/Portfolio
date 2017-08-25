@@ -1,7 +1,10 @@
-package com.arcane.sticks.Frags;
+package com.arcane.sticks.frags;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
-import com.arcane.sticks.Activities.MainActivity;
-import com.arcane.sticks.Models.Player;
+import com.arcane.sticks.activities.MainActivity;
+import com.arcane.sticks.models.DataManager;
+import com.arcane.sticks.models.Player;
 import com.arcane.sticks.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -31,6 +36,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -40,22 +46,36 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.UUID;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
-    public static final LoginFrag newInstance(){return new LoginFrag();}
+    public static LoginFrag newInstance(){return new LoginFrag();}
     public static final String LOGIN_TAG = "LOGIN_TAG";
-    public static final String TAG = "LoginFrag.Tag";
+    private static final String TAG = "LoginFrag.Tag";
+    private static final int PICK_IMAGE_REQUEST = 1;
     private CallbackManager callbackManager;
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
     public static final int RC_SIGN_IN = 9101;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference ref = database.getReference("Users");
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference ref = database.getReference("Users");
+    private final FirebaseStorage storage = FirebaseStorage.getInstance();
+    private Uri profileImageUri;
+    private ImageView imageView;
+
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
     @Nullable
@@ -70,29 +90,52 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                 gSignIn();
             }
         });
+        imageView = (ImageView) root.findViewById(R.id.profile_icon);
+        imageView.setDrawingCacheEnabled(true);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectPhoto();
+            }
+        });
         fbLoginButton.setFragment(this);
         Button emailSign = (Button) root.findViewById(R.id.login);
         Button emailCreate = (Button) root.findViewById(R.id.create_account);
         final EditText emailText = (EditText) root.findViewById(R.id.editText_email);
         final EditText passwordText = (EditText) root.findViewById(R.id.editText_password);
-        //final String email = emailText.getText().toString();
-       // final String password = passwordText.getText().toString();
+//        final String email = emailText.getText().toString();
+//       final String password = passwordText.getText().toString();
+
+
          emailSign.setOnClickListener(new View.OnClickListener() {
+
              @Override
              public void onClick(View v) {
+                 if(DataManager.stringValidate(emailText.getText().toString()) != null &&
+                         DataManager.stringValidate(passwordText.getText().toString()) != null){
                  final String email = emailText.getText().toString();
                  final String password = passwordText.getText().toString();
                  handlEmailSignIn(email,password);
+                 }else {
+                     Toast.makeText(getContext(),"Please enter valid Email and Passwored",Toast.LENGTH_LONG).show();
+                 }
              }
          });
         emailCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(DataManager.stringValidate(emailText.getText().toString()) != null &&
+                        DataManager.stringValidate(passwordText.getText().toString()) != null){
                 final String email = emailText.getText().toString();
                 final String password = passwordText.getText().toString();
                 handleEmailCreateAccount(email,password);
+                }else {
+                    Toast.makeText(getContext(),"Please enter valid Email and Passwored",Toast.LENGTH_LONG).show();
+
+                }
             }
         });
+
         callbackManager = CallbackManager.Factory.create();
         mAuth = FirebaseAuth.getInstance();
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -136,8 +179,25 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
         }else{
         callbackManager.onActivityResult(requestCode,resultCode,data);
         }
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+
+                imageView.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     private void handleEmailCreateAccount(String email, String password){
+
+
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
@@ -146,12 +206,12 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            addPlayer(user);
                             startActivity(new Intent(getContext(),MainActivity.class));
                         } else {
                             // If sign in fails, display a postText to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getContext(), "Authentication failed.",
+                            Toast.makeText(getContext(), "Authentication failed. Please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -212,6 +272,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            assert acct != null;
             String token = acct.getIdToken();
             Log.i(TAG, token);
             firebaseAuthWithGoogle(acct);
@@ -249,16 +310,53 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                     }
                 });
     }
-    public void addPlayer(FirebaseUser user){
+    private void addPlayer(FirebaseUser user){
         String id = user.getUid();
 
-        Player player = new Player();
+        final Player player = new Player();
+        if(user.getDisplayName() != null){
         player.setName(user.getDisplayName());
+        }else {
+            player.setName("N00B");
+        }
         player.setId(id);
+
+        //TODO: retrieve user data if user exists already indstead of rewriting it
+        imageView.buildDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Bitmap uploadBitmap = imageView.getDrawingCache();
+        //compresses bitmap to png
+        uploadBitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+        //writes to a byte array
+        byte[] imgData = baos.toByteArray();
+        //path for image in firebase
+        String path = "Profile_Pics/" + player.getId() +"/" + UUID.randomUUID() + ".png";
+        StorageReference profileImageRef = storage.getReference(path);
+        UploadTask uploadTask = profileImageRef.putBytes(imgData);
+        uploadTask.addOnSuccessListener(getActivity(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                profileImageUri = taskSnapshot.getDownloadUrl();
+                assert profileImageUri != null;
+                player.setProfilePicURL(profileImageUri.toString());
+
+            }
+        });
         ref.child(id).setValue(player);
+                getActivity().finish();
     }
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+
+    private void selectPhoto(){
+        Intent intent = new Intent();
+// set type to image so only images are displayed
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+// Always show the chooser (if there are multiple options available)
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 }

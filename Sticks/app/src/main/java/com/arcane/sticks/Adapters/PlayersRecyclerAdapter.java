@@ -1,23 +1,32 @@
-package com.arcane.sticks.Adapters;
+package com.arcane.sticks.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.arcane.sticks.Models.Player;
+import com.arcane.sticks.models.Player;
 import com.arcane.sticks.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 
 public class PlayersRecyclerAdapter extends  RecyclerView.Adapter<PlayersRecyclerAdapter.ViewHolder> {
-    ArrayList<Player> mDataset;
-    OnPlayerSelectedListener mListener;
-    public PlayersRecyclerAdapter(ArrayList myData){mDataset = myData;}
+    private ArrayList<Player> mDataset;
+    private OnPlayerSelectedListener mListener;
+    private final Context mContext;
+    public PlayersRecyclerAdapter(ArrayList myData, Context context){
+        mContext = context;
+        //noinspection unchecked
+        mDataset = myData;
+    }
     public interface OnPlayerSelectedListener{
         void onPlayerSelected(Player player);
     }
@@ -31,12 +40,20 @@ public class PlayersRecyclerAdapter extends  RecyclerView.Adapter<PlayersRecycle
                 .inflate(R.layout.player_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
         //Log.i(TAG, " CreatViewHolder Dataset: " + mDataset);
-        PlayersRecyclerAdapter.ViewHolder vh = new PlayersRecyclerAdapter.ViewHolder(v,mListener,mDataset);
-        return vh;    }
+        return new ViewHolder(v,mListener,mDataset);    }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        if (mDataset.get(position).getProfilePicURL() != null){
+        String imgURL = mDataset.get(position).getProfilePicURL();
+            Picasso.with(mContext)
+                    .load(imgURL)
+                    .transform(new CropCircleTransformation())
+                    .into(holder.imageView);
+
+        }
         holder.mTextView.setText(mDataset.get(position).getName());
+
     }
 
     @Override
@@ -45,13 +62,15 @@ public class PlayersRecyclerAdapter extends  RecyclerView.Adapter<PlayersRecycle
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView mTextView;
-        OnPlayerSelectedListener mListener;
+        final TextView mTextView;
+        final OnPlayerSelectedListener mListener;
         ArrayList<Player> mDataset = new ArrayList<>();
+        final ImageView imageView;
         public ViewHolder(View itemView, OnPlayerSelectedListener listener, ArrayList<Player> players) {
             super(itemView);
             itemView.setOnClickListener(this);
             mTextView = (TextView) itemView.findViewById(R.id.player_name);
+            imageView = (ImageView) itemView.findViewById(R.id.profile_icon);
             mListener = listener;
             mDataset = players;
 

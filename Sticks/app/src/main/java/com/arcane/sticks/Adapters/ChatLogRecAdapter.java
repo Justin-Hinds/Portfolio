@@ -1,33 +1,41 @@
-package com.arcane.sticks.Adapters;
+package com.arcane.sticks.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.arcane.sticks.Models.Player;
+import com.arcane.sticks.models.Player;
 import com.arcane.sticks.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
- * Created by ChefZatoichi on 8/21/17.
- */
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
+
 
 public class ChatLogRecAdapter extends RecyclerView.Adapter <ChatLogRecAdapter.ViewHolder>{
 
 
-    ArrayList<Player> mDataset;
-    ChatLogRecAdapter.OnPlayerSelectedListener mListener;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    public ChatLogRecAdapter(ArrayList myData){mDataset = myData;}
+    private ArrayList<Player> mDataset;
+    private final Context mContext;
+    private ChatLogRecAdapter.OnPlayerSelectedListener mListener;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public ChatLogRecAdapter(ArrayList myData, Context context){
+        //noinspection unchecked
+        mDataset = myData;
+        mContext = context;
+    }
     public interface OnPlayerSelectedListener{
         void onChatPlayerSelected(Player player);
     }
@@ -41,8 +49,7 @@ public class ChatLogRecAdapter extends RecyclerView.Adapter <ChatLogRecAdapter.V
                 .inflate(R.layout.chat_log_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
         //Log.i(TAG, " CreatViewHolder Dataset: " + mDataset);
-        ChatLogRecAdapter.ViewHolder vh = new ChatLogRecAdapter.ViewHolder(v,mListener,mDataset);
-        return vh;    }
+        return new ViewHolder(v,mListener,mDataset);    }
 
 
 
@@ -51,6 +58,11 @@ public class ChatLogRecAdapter extends RecyclerView.Adapter <ChatLogRecAdapter.V
         Player player = mDataset.get(position);
         Log.d("MDATA: ", player.getName());
         holder.mTextView.setText(player.getName());
+        Picasso.with(mContext)
+                .load(player.getProfilePicURL())
+                .placeholder(R.drawable.ic_person_outline_black_24dp)
+                .transform(new CropCircleTransformation())
+                .into(holder.imageView);
         DatabaseReference ref = database.getReference().child("Users").child(player.getName());
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -77,13 +89,15 @@ public class ChatLogRecAdapter extends RecyclerView.Adapter <ChatLogRecAdapter.V
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView mTextView;
-        ChatLogRecAdapter.OnPlayerSelectedListener mListener;
+        final TextView mTextView;
+        final ImageView imageView;
+        final ChatLogRecAdapter.OnPlayerSelectedListener mListener;
         ArrayList<Player> mDataset = new ArrayList<>();
         public ViewHolder(View itemView, ChatLogRecAdapter.OnPlayerSelectedListener listener, ArrayList<Player> players) {
             super(itemView);
             itemView.setOnClickListener(this);
             mTextView = (TextView) itemView.findViewById(R.id.player_name);
+            imageView = (ImageView) itemView.findViewById(R.id.profile_icon);
             mListener = listener;
             mDataset = players;
 

@@ -1,20 +1,17 @@
-package com.arcane.sticks.Models;
+package com.arcane.sticks.models;
 
 import java.util.HashMap;
 
-/**
- * Created by ChefZatoichi on 8/17/17.
- */
 
 public class PostComment {
 
     public PostComment(){
 
     }
-    String postID;
-    String text;
-    Long time;
-    String sender;
+    private String postID;
+    private String text;
+    private Long time;
+    private String sender;
 
     public String getPostID() {
         return postID;

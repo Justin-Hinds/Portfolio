@@ -1,21 +1,18 @@
-package com.arcane.sticks.Adapters;
+package com.arcane.sticks.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.arcane.sticks.Frags.ChatFrag;
-import com.arcane.sticks.Frags.MainBoardFrag;
-import com.arcane.sticks.Frags.PlayersFrag;
+import com.arcane.sticks.frags.ChatFrag;
+import com.arcane.sticks.frags.MainBoardFrag;
+import com.arcane.sticks.frags.PlayersFrag;
 import com.arcane.sticks.R;
 
-/**
- * Created by ChefZatoichi on 8/16/17.
- */
 
 public class CustomPagerAdapter extends FragmentPagerAdapter {
-    Context mContext;
+    private final Context mContext;
     public CustomPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         mContext = context;

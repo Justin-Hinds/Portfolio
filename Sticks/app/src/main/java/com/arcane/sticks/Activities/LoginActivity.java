@@ -1,10 +1,10 @@
-package com.arcane.sticks.Activities;
+package com.arcane.sticks.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.arcane.sticks.Frags.LoginFrag;
+import com.arcane.sticks.frags.LoginFrag;
 import com.arcane.sticks.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -14,7 +14,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         LoginFrag frag = LoginFrag.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,frag,frag.LOGIN_TAG).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,frag, LoginFrag.LOGIN_TAG).commit();
     }
 
     @Override

@@ -1,21 +1,17 @@
-package com.arcane.sticks.Models;
-
-import android.util.Log;
+package com.arcane.sticks.models;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 
-/**
- * Created by ChefZatoichi on 8/14/17.
- */
+
 
 public class Message {
-    String message;
-    String sender;
-    String receiver;
-    long time;
-    String imgURL;
+    private String message;
+    private String sender;
+    private String receiver;
+    private long time;
+    private String imgURL;
 
     public String getMessage() {
         return message;

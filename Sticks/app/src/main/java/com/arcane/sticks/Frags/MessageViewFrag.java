@@ -1,7 +1,6 @@
-package com.arcane.sticks.Frags;
+package com.arcane.sticks.frags;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,14 +12,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.arcane.sticks.Adapters.CommentsRecyclerAdapter;
-import com.arcane.sticks.Adapters.MessageViewRecAdapter;
-import com.arcane.sticks.Models.Message;
-import com.arcane.sticks.Models.Player;
-import com.arcane.sticks.Models.Post;
+import com.arcane.sticks.adapters.MessageViewRecAdapter;
+import com.arcane.sticks.models.DataManager;
+import com.arcane.sticks.models.Message;
+import com.arcane.sticks.models.Player;
 import com.arcane.sticks.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,14 +27,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class MessageViewFrag extends Fragment {
     public static MessageViewFrag newInstance(){return new MessageViewFrag();}
-    ImageButton sendButton, pickPhoto;
-    EditText messageText;
-    Player mPlayer;
+
+    private EditText messageText;
+    private Player mPlayer;
 
     public static final String TAG = ".MessageViewFrag: ";
     public static final String PLAYER_ARG = "PLAYER_ARG";
@@ -45,9 +41,9 @@ public class MessageViewFrag extends Fragment {
     private MessageViewRecAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList myDataset = new ArrayList();
-    String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Messages");
+    private final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference myRef = database.getReference("Messages");
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -59,7 +55,8 @@ public class MessageViewFrag extends Fragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if(mPlayer == null){
-        mPlayer = (Player) savedInstanceState.getSerializable(PLAYER_ARG);
+            assert savedInstanceState != null;
+            mPlayer = (Player) savedInstanceState.getSerializable(PLAYER_ARG);
 
         }
     }
@@ -70,8 +67,8 @@ public class MessageViewFrag extends Fragment {
         View root = inflater.inflate(R.layout.message_view_frag,container,false);
 
 
-        sendButton = (ImageButton) root.findViewById(R.id.send_button);
-        pickPhoto = (ImageButton) root.findViewById(R.id.camera_button);
+        ImageButton sendButton = (ImageButton) root.findViewById(R.id.send_button);
+        ImageButton pickPhoto = (ImageButton) root.findViewById(R.id.camera_button);
         messageText = (EditText) root.findViewById(R.id.message_text);
         mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_view);
         myDataset = new ArrayList();
@@ -89,7 +86,7 @@ public class MessageViewFrag extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,true);
+        mLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
@@ -115,16 +112,20 @@ public class MessageViewFrag extends Fragment {
                 message.setReceiver(mPlayer.getId());
                 message.setTime(System.currentTimeMillis());
                 message.setMessage(messageText.getText().toString());
-                Map<String,Object> messageValues = message.toMap();
-                String messageID = myRef.push().getKey();
-                Map<String,Object> childUpdates = new HashMap<>();
-                childUpdates.put("/Messages/" + messageID, messageValues);
-                childUpdates.put("/User Messages/" + userID + "/" + messageID, messageValues);
-                childUpdates.put("/User Messages/" + mPlayer.getId() + "/" + messageID, messageValues);
-                database.getReference().updateChildren(childUpdates);
-                messageText.setText("");
-                mAdapter.update(myDataset);
-                scrollToBottom();
+                if(DataManager.stringValidate(messageText.toString()) != null){
+                    Map<String,Object> messageValues = message.toMap();
+                    String messageID = myRef.push().getKey();
+                    Map<String,Object> childUpdates = new HashMap<>();
+                    childUpdates.put("/Messages/" + messageID, messageValues);
+                    childUpdates.put("/User Messages/" + userID + "/" + messageID, messageValues);
+                    childUpdates.put("/User Messages/" + mPlayer.getId() + "/" + messageID, messageValues);
+                    database.getReference().updateChildren(childUpdates);
+                    messageText.setText("");
+                    //noinspection unchecked
+                    mAdapter.update(myDataset);
+                    scrollToBottom();
+                }
+
             }
         });
 
@@ -143,7 +144,7 @@ public class MessageViewFrag extends Fragment {
 //        messageRef.addChildEventListener(childEventListener);
     }
 
-    ValueEventListener messageChildEvent = new ValueEventListener() {
+    private final ValueEventListener messageChildEvent = new ValueEventListener() {
 
 
         @Override
@@ -152,7 +153,7 @@ public class MessageViewFrag extends Fragment {
             messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Message message = dataSnapshot.getValue(Message.class);
+                    //Message message = dataSnapshot.getValue(Message.class);
                     Log.i("PLAYER: ", mPlayer.getId());
                     Log.i("ChatPlayer: ",dataSnapshot.toString());
 //                    if(message.chatPlayerID().equals(mPlayer.getId())  ){
@@ -171,9 +172,12 @@ public class MessageViewFrag extends Fragment {
             Message message = childSnap.getValue(Message.class);
 //            Log.i("PLAYER: ", mPlayer.getId());
 //            Log.i("ChatPlayer: ",message.chatPlayerID());
-            if(message.chatPlayerID().equals(mPlayer.getId())  ){
+                assert message != null;
+                if(message.chatPlayerID().equals(mPlayer.getId())  ){
 //                Log.d("MESSAGE: ", message.getMessage());
+                //noinspection unchecked
                 myDataset.add(message);
+                //noinspection unchecked
                 mAdapter.update(myDataset);
                 //scrollToBottom();
 

@@ -1,4 +1,4 @@
-package com.arcane.sticks.Activities;
+package com.arcane.sticks.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,11 +6,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.arcane.sticks.Frags.ProfileEditFrag;
+import com.arcane.sticks.frags.ProfileEditFrag;
 import com.arcane.sticks.R;
 
 public class ProfileEditActivity extends AppCompatActivity {
-    ProfileEditFrag frag;
+    private ProfileEditFrag frag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

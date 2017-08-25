@@ -2,7 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:id="@+id/profile_icon"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_person_outline_black_24dp"
+        android:layout_marginTop="48dp" />
     <EditText
         android:layout_marginTop="16dp"
         android:id="@+id/editText_email"

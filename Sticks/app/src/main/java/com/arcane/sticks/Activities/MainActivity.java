@@ -1,4 +1,4 @@
-package com.arcane.sticks.Activities;
+package com.arcane.sticks.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -8,20 +8,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import com.arcane.sticks.Frags.MainBoardFrag;
-import com.arcane.sticks.Frags.ProfilePageFrag;
-import com.arcane.sticks.Adapters.ChatLogRecAdapter;
-import com.arcane.sticks.Adapters.CustomPagerAdapter;
-import com.arcane.sticks.Adapters.MainBoardRecyclerAdapter;
-import com.arcane.sticks.Models.Player;
-import com.arcane.sticks.Adapters.PlayersRecyclerAdapter;
-import com.arcane.sticks.Models.Post;
+import com.arcane.sticks.frags.MainBoardFrag;
+import com.arcane.sticks.frags.ProfilePageFrag;
+import com.arcane.sticks.adapters.ChatLogRecAdapter;
+import com.arcane.sticks.adapters.CustomPagerAdapter;
+import com.arcane.sticks.adapters.MainBoardRecyclerAdapter;
+import com.arcane.sticks.models.Player;
+import com.arcane.sticks.adapters.PlayersRecyclerAdapter;
+import com.arcane.sticks.models.Post;
 import com.arcane.sticks.R;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -30,11 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity implements MainBoardRecyclerAdapter.OnItemSelected, PlayersRecyclerAdapter.OnPlayerSelectedListener, ChatLogRecAdapter.OnPlayerSelectedListener{
-    FirebaseAuth mAuth;
-    FirebaseUser mFireUser;
-    CustomPagerAdapter mPagerAdapter;
-    MainBoardFrag frag;
-    ViewGroup mRoot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
@@ -49,28 +44,22 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getPackageName());
-        mPagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(),this);
+        CustomPagerAdapter mPagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(), this);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(mPagerAdapter);
-        mRoot = (ViewGroup) findViewById(R.id.container_a);
+        ViewGroup mRoot = (ViewGroup) findViewById(R.id.container_a);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        mAuth = FirebaseAuth.getInstance();
-        mFireUser = mAuth.getCurrentUser();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mFireUser = mAuth.getCurrentUser();
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
       //  Log.i("auth", mAuth.toString());
-         frag = MainBoardFrag.newInstance();
+        MainBoardFrag frag = MainBoardFrag.newInstance();
         //getSupportFragmentManager().beginTransaction().replace(R.id.container,frag,frag.MaindBoard_TAG).commit();
         if(mFireUser == null){
             startActivity(new Intent(this, LoginActivity.class));
             finish();
-            return;
-        }else {
-            //TODO: handle UI components.
-
-
-
         }
 
     }
@@ -85,6 +74,11 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
         if(item.getItemId() == R.id.add_post_setting){
             startActivity(new Intent(this,PostActivity.class));
         }
+        if(item.getItemId() == R.id.logout){
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
         return true;
     }
 
@@ -97,12 +91,12 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
     }
 
     @Override
-    public void onDownClicked() {
+    public void onDownClicked(Post post) {
 
     }
 
     @Override
-    public void onUpClicked() {
+    public void onUpClicked(Post post) {
 
     }
 

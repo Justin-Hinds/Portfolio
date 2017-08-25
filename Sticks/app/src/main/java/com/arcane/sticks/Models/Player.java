@@ -1,17 +1,17 @@
-package com.arcane.sticks.Models;
+package com.arcane.sticks.models;
 
 
 import java.io.Serializable;
 import java.util.HashMap;
 
 public class Player implements Serializable {
-    String name;
-    String id;
-    String gamerTag;
-    String psnID;
-    String profilePicURL;
-    String preferredConsole;
-    HashMap<String,Object> fellowPlayers = new HashMap<>();
+    private String name;
+    private String id;
+    private String gamerTag;
+    private String psnID;
+    private String profilePicURL;
+    private String preferredConsole;
+    private HashMap<String,Object> fellowPlayers = new HashMap<>();
 
     public String getName() {
         return name;

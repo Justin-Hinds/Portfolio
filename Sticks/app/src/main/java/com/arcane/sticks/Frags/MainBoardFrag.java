@@ -1,4 +1,4 @@
-package com.arcane.sticks.Frags;
+package com.arcane.sticks.frags;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arcane.sticks.Activities.CommentsActivity;
-import com.arcane.sticks.Adapters.MainBoardRecyclerAdapter;
-import com.arcane.sticks.Models.DataManager;
-import com.arcane.sticks.Models.Post;
+import com.arcane.sticks.activities.CommentsActivity;
+import com.arcane.sticks.adapters.MainBoardRecyclerAdapter;
+import com.arcane.sticks.models.DataManager;
+import com.arcane.sticks.models.Post;
 import com.arcane.sticks.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,25 +28,22 @@ import java.util.ArrayList;
 
 
 public class MainBoardFrag extends Fragment {
-    public static final String TAG = "com.arcane.MainBoard:";
+    private static final String TAG = "com.arcane.MainBoard:";
     public static final String MaindBoard_TAG = "MaindBoard_TAG";
-    private RecyclerView mRecyclerView;
     private MainBoardRecyclerAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList myDataset = new ArrayList();
-    MainBoardRecyclerAdapter.OnItemSelected mListener;
+    private MainBoardRecyclerAdapter.OnItemSelected mListener;
     public static final String POST_EXTRA = "com.arcane.sticks.POST_EXTRA";
-    Context mContext;
+
     public static MainBoardFrag newInstance(){return new MainBoardFrag();}
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Posts");
-    DataManager mDataManager;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference myRef = database.getReference("Posts");
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        Context mContext = context;
         getListenerFromContext(context);
     }
 
@@ -54,8 +51,8 @@ public class MainBoardFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mainboard_frag_layout,container,false);
-        mDataManager = new DataManager(getContext());
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_card_view);
+        DataManager mDataManager = new DataManager(getContext());
+        RecyclerView mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_card_view);
         if(mDataManager.readSavedData() != null){
             myDataset = mDataManager.readSavedData();
         }else{
@@ -67,7 +64,7 @@ public class MainBoardFrag extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
@@ -87,11 +84,13 @@ public class MainBoardFrag extends Fragment {
                 //Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
                 Post post = childSnapshot.getValue(Post.class);
                    // Log.d(TAG, "Time is: "  + post.time);
+                    //noinspection unchecked
                     myDataset.add(post);
 
                 }
                   //  Log.d("DATASET", myDataset.toString());
-                    mAdapter.update(myDataset);
+                //noinspection unchecked
+                mAdapter.update(myDataset);
 
             }
 
