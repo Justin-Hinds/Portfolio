@@ -119,6 +119,7 @@ public class MessageViewFrag extends Fragment {
                     childUpdates.put("/Messages/" + messageID, messageValues);
                     childUpdates.put("/User Messages/" + userID + "/" + messageID, messageValues);
                     childUpdates.put("/User Messages/" + mPlayer.getId() + "/" + messageID, messageValues);
+                    myDataset.clear();
                     database.getReference().updateChildren(childUpdates);
                     messageText.setText("");
                     //noinspection unchecked

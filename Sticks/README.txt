@@ -1,1 +1,2 @@
-Installation should be a straightforward download and install.All login methods should work although email login does not have error checking for the text fields so if something is blank it will crash. Only other issue is there is not currently a logout button so the app has to be uninstalled to test other login methods.
+Installation should be a straightforward download and install.Git = https://github.com/Justin-Hinds/Portfolio/tree/master/Sticks
+Features messaging, posting, comments, friending, hyperlinks sent to default browser.
