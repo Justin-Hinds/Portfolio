@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
     public void onCommentsClicked(Post post) {
         ActivityOptions activityOptions =  ActivityOptions.makeSceneTransitionAnimation(this);
         Intent intent = new Intent(this, CommentsActivity.class);
+        Log.d("COMMENTS CLICKED: ", post.getId());
         intent.putExtra(MainBoardFrag.POST_EXTRA,post);
         startActivity(intent, activityOptions.toBundle());
     }

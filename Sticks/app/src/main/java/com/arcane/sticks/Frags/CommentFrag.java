@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,8 @@ public class CommentFrag extends Fragment {
     private ArrayList myDataset = new ArrayList();
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("Comments");
+    DatabaseReference postComRef = database.getReference("Post Comments");
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +59,7 @@ public class CommentFrag extends Fragment {
         RecyclerView mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_view);
         myDataset = new ArrayList();
 
-
+        Log.d("mPOST: ", mPost.getId());
        // mDataManager = new DataManager(getContext());
 //        mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_card_view);
 //        if(mDataManager.readSavedData() != null){
@@ -79,73 +82,29 @@ public class CommentFrag extends Fragment {
        // String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
-        DatabaseReference postComRef = database.getReference("Post Comments").child(mPost.getId());
-        postComRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                final String commentID = dataSnapshot.getKey();
-                DatabaseReference commentsRef = myRef.child(commentID);
-                commentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-               // Log.d("STRING: ", dataSnapshot.getValue(PostComment.class).getText());
-                        PostComment postComment = dataSnapshot.getValue(PostComment.class);
-                        //noinspection unchecked
-                        myDataset.add(postComment);
-                        //noinspection unchecked
-                        mAdapter.update(myDataset);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                myDataset.clear();
-                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                  //  Log.d(TAG, "Value is: "  + childSnapshot.getValue(PostComment.class));
-                    //PostComment postComment = childSnapshot.getValue(PostComment.class);
-                    //Log.d(TAG, "Time is: "  + postComment.getTime());
-                    //myDataset.add(postComment);
-
-                }
-               // Log.d("DATASET", myDataset.toString());
-               // mAdapter.update(myDataset);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        postComRef.child(mPost.getId()).addChildEventListener(postChildEventListener);
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//                myDataset.clear();
+//                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+//                  //  Log.d(TAG, "Value is: "  + childSnapshot.getValue(PostComment.class));
+//                    //PostComment postComment = childSnapshot.getValue(PostComment.class);
+//                    //Log.d(TAG, "Time is: "  + postComment.getTime());
+//                    //myDataset.add(postComment);
+//
+//                }
+//               // Log.d("DATASET", myDataset.toString());
+//               // mAdapter.update(myDataset);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
         //sendFunction
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,8 +127,8 @@ public class CommentFrag extends Fragment {
                     Map<String,Object> childUpdates = new HashMap<>();
                     childUpdates.put("/Comments/" + commentId, commentValues);
 
-                    DatabaseReference postCommentsRef = database.getReference().child("Post Comments").child(postID);
-                    postCommentsRef.updateChildren(commentKeys);
+                   // DatabaseReference postCommentsRef = database.getReference().child("Post Comments").child(postID);
+                    postComRef.child(mPost.getId()).updateChildren(commentKeys);
                     database.getReference().updateChildren(childUpdates);
                     getActivity().finishAfterTransition();
                 }else {
@@ -182,9 +141,64 @@ public class CommentFrag extends Fragment {
 
         return root;
     }
+    private ChildEventListener postChildEventListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            final String commentID = dataSnapshot.getKey();
+            Log.d("COMKEY ", commentID);
+            DatabaseReference commentsRef = myRef.child(commentID);
+            commentsRef.addListenerForSingleValueEvent(valueEventListener);
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+    private final ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+//            for (DataSnapshot childSnap : dataSnapshot.getChildren()){
+            Log.d("STRING: ", dataSnapshot.toString());
+            PostComment postComment = dataSnapshot.getValue(PostComment.class);
+            //noinspection unchecked
+            myDataset.add(postComment);
+            //noinspection unchecked
+            mAdapter.update(myDataset);
+            Log.d("MY DATA ", myDataset.toString());
+
+//            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
     public void setPost(Post post){
         mPost = post;
-        //Log.i("SET POST: " , post.toString());
+       // Log.i("SET POST: " , post.toString());
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        postComRef.child(mPost.getId()).removeEventListener(postChildEventListener);
+        myRef.removeEventListener(valueEventListener);
+    }
 }

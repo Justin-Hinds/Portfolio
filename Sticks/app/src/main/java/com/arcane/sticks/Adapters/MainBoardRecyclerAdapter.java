@@ -68,7 +68,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
             downButton = (ImageButton) itemView.findViewById(R.id.down_button);
             mListener = listener;
             commentsButton.animate();
-            Log.d(TAG, "Post: " + mDataset);
+//            Log.d(TAG, "Post: " + mDataset);
             commentsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -96,10 +96,10 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                         int num = 0;
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            Log.d("SNAP", dataSnapshot.toString());
+//                            Log.d("SNAP", dataSnapshot.toString());
                              num ++;
                             ref.setValue(num);
-                            Log.d("NUM: ", num + "");
+//                            Log.d("NUM: ", num + "");
 //
                         }
 
@@ -146,10 +146,10 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                         int num = 0;
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            Log.d("SNAP", dataSnapshot.toString());
+//                            Log.d("SNAP", dataSnapshot.toString());
                             num ++;
                             ref.setValue(num);
-                            Log.d("NUM: ", num + "");
+//                            Log.d("NUM: ", num + "");
 //
                         }
 

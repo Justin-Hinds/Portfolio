@@ -72,6 +72,7 @@ public class PlayersFrag extends Fragment {
     private final ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
+            myDataset.clear();
             //Log.i("USERS: ", dataSnapshot.getValue().toString());
             for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                 //Log.d("USERS ", "Name is: "  + childSnapshot.getValue(Player.class).getName());
@@ -95,9 +96,10 @@ public class PlayersFrag extends Fragment {
 
         }
     };
+
     @Override
-    public void onPause() {
+    public void onDestroy() {
+        super.onDestroy();
         myRef.removeEventListener(valueEventListener);
-        super.onPause();
     }
 }

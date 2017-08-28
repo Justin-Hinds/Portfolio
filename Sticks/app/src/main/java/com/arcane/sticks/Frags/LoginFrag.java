@@ -44,8 +44,12 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -71,6 +75,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private Uri profileImageUri;
     private ImageView imageView;
+    private Player currentPlayer;
 
     @Override
     public void onStart() {
@@ -105,7 +110,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
         final EditText passwordText = (EditText) root.findViewById(R.id.editText_password);
 //        final String email = emailText.getText().toString();
 //       final String password = passwordText.getText().toString();
-
+       // userCheck();
 
          emailSign.setOnClickListener(new View.OnClickListener() {
 
@@ -115,7 +120,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                          DataManager.stringValidate(passwordText.getText().toString()) != null){
                  final String email = emailText.getText().toString();
                  final String password = passwordText.getText().toString();
-                 handlEmailSignIn(email,password);
+                 handleEmailSignIn(email,password);
                  }else {
                      Toast.makeText(getContext(),"Please enter valid Email and Passwored",Toast.LENGTH_LONG).show();
                  }
@@ -164,6 +169,12 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                 .build();
         return root;
     }
+
+
+
+
+
+
     private void gSignIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         getActivity().startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -172,7 +183,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
-        Log.d("INT REQUEST CODE", requestCode + "");
+        //Log.d("INT REQUEST CODE", requestCode + "");
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
@@ -206,8 +217,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            addPlayer(user);
-                            startActivity(new Intent(getContext(),MainActivity.class));
+                            userCheck();
                         } else {
                             // If sign in fails, display a postText to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -217,8 +227,9 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
 
                     }
                 });
+
     }
-    private void handlEmailSignIn(String email, String password){
+    private void handleEmailSignIn(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
@@ -227,7 +238,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            addPlayer(user);
+                            //addPlayer(user);
                             startActivity(new Intent(getContext(),MainActivity.class));
                         } else {
                             // If sign in fails, display a postText to the user.
@@ -240,7 +251,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                 });
     }
     private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
+       // Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -251,9 +262,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            addPlayer(user);
-                            startActivity(new Intent(getContext(),MainActivity.class));
-
+                            userCheck();
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a postText to the user.
@@ -268,7 +277,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                 });
     }
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        //Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
@@ -284,7 +293,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
         }
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getIdToken());
+        //Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getIdToken());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -295,9 +304,8 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            addPlayer(user);
-                            startActivity(new Intent(getContext(),MainActivity.class));
-                            //updateUI(user);
+                            userCheck();
+
                         } else {
                             // If sign in fails, display a postText to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -311,8 +319,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                 });
     }
     private void addPlayer(FirebaseUser user){
-        String id = user.getUid();
-
+        final String id = user.getUid();
         final Player player = new Player();
         if(user.getDisplayName() != null){
         player.setName(user.getDisplayName());
@@ -320,8 +327,10 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
             player.setName("N00B");
         }
         player.setId(id);
-
-        //TODO: retrieve user data if user exists already indstead of rewriting it
+        player.setPsnID("N/A");
+        player.setGamerTag("N/A");
+        player.setPreferredConsole("N/A");
+        //TODO: retrieve user data if user exists already instead of rewriting it
         imageView.buildDrawingCache();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Bitmap uploadBitmap = imageView.getDrawingCache();
@@ -339,17 +348,23 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                 profileImageUri = taskSnapshot.getDownloadUrl();
                 assert profileImageUri != null;
                 player.setProfilePicURL(profileImageUri.toString());
+                ref.child(id).setValue(player);
+                startActivity(new Intent(getContext(),MainActivity.class));
+                getActivity().finish();
+                Log.d("Check",player.getProfilePicURL());
 
             }
         });
-        ref.child(id).setValue(player);
-                getActivity().finish();
+        Log.d("AFTER ","CHECK ");
+
     }
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
+    private void userCheck(){
+        ref.addListenerForSingleValueEvent(valueEvent);
+    }
 
     private void selectPhoto(){
         Intent intent = new Intent();
@@ -358,5 +373,36 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
         intent.setAction(Intent.ACTION_GET_CONTENT);
 // Always show the chooser (if there are multiple options available)
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    private ValueEventListener valueEvent = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            for(DataSnapshot child : dataSnapshot.getChildren()){
+                Player player = child.getValue(Player.class);
+                Log.d("SNAP: ", child.getValue().toString());
+                String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if(user.equals(player.getId())){
+                    currentPlayer = player;
+                    if(currentPlayer.getId().equals(user)){
+                        startActivity(new Intent(getContext(),MainActivity.class));
+                        getActivity().finish();
+                        return;
+                    }
+                }
+            }
+            addPlayer(mAuth.getCurrentUser());
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ref.removeEventListener(valueEvent);
     }
 }

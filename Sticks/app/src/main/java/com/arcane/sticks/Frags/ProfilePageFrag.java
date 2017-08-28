@@ -35,6 +35,7 @@ public class ProfilePageFrag extends Fragment {
     DatabaseReference myUserRef = database.getReference("Users");
     private final DatabaseReference myRef = database.getReference("User Posts");
     private Player mPlayer;
+    String user;
     private ProfileRecyclerAdapter.AddFellowPlayerInterface mListener;
 
 
@@ -77,34 +78,33 @@ public class ProfilePageFrag extends Fragment {
         mAdapter = new ProfileRecyclerAdapter(myDataset,mPlayer,getContext());
         mAdapter.setAddFellowPlayerInterface(mListener);
         mRecyclerView.setAdapter(mAdapter);
-        String user = mPlayer.getId();
-        myRef.child(user).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                myDataset.clear();
-                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                    Post post = childSnapshot.getValue(Post.class);
-                    //noinspection unchecked
-                    myDataset.add(post);
-
-                }
-                //  Log.d("DATASET", myDataset.toString());
-                //noinspection unchecked
-                mAdapter.update(myDataset);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-        });
+        user = mPlayer.getId();
+        myRef.child(user).addValueEventListener(valueEventListener);
         return root;
     }
+    private final ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            // This method is called once with the initial value and again
+            // whenever data at this location is updated.
+            myDataset.clear();
+            for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                Post post = childSnapshot.getValue(Post.class);
+                //noinspection unchecked
+                myDataset.add(post);
 
+            }
+            //  Log.d("DATASET", myDataset.toString());
+            //noinspection unchecked
+            mAdapter.update(myDataset);
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
     public void setPlayer(Player player){
         mPlayer = player;
        // Log.i("SET PLAYER: " , player.toString());
@@ -116,5 +116,11 @@ public class ProfilePageFrag extends Fragment {
             throw new ClassCastException("Containing activity must " +
                     "implement OnPersonInteractionListener");
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        myRef.child(user).removeEventListener(valueEventListener);
     }
 }

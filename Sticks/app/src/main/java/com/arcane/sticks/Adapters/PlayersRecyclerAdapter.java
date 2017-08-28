@@ -78,8 +78,8 @@ public class PlayersRecyclerAdapter extends  RecyclerView.Adapter<PlayersRecycle
 
         @Override
         public void onClick(View v) {
-            Log.i("POSITION", getAdapterPosition() + "");
-            Log.i("DATA", mDataset.toString() + "");
+//            Log.i("POSITION", getAdapterPosition() + "");
+//            Log.i("DATA", mDataset.toString() + "");
 
             mListener.onPlayerSelected(mDataset.get(getAdapterPosition()));
         }

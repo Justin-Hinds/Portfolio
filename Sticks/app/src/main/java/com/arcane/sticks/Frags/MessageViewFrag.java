@@ -18,6 +18,7 @@ import com.arcane.sticks.models.Message;
 import com.arcane.sticks.models.Player;
 import com.arcane.sticks.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +45,7 @@ public class MessageViewFrag extends Fragment {
     private final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("Messages");
+    DatabaseReference userMessageRef = database.getReference("User Messages").child(userID);
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -60,6 +62,7 @@ public class MessageViewFrag extends Fragment {
 
         }
     }
+
 
     @Nullable
     @Override
@@ -119,12 +122,12 @@ public class MessageViewFrag extends Fragment {
                     childUpdates.put("/Messages/" + messageID, messageValues);
                     childUpdates.put("/User Messages/" + userID + "/" + messageID, messageValues);
                     childUpdates.put("/User Messages/" + mPlayer.getId() + "/" + messageID, messageValues);
-                    myDataset.clear();
+                    //myDataset.clear();
                     database.getReference().updateChildren(childUpdates);
                     messageText.setText("");
                     //noinspection unchecked
                     mAdapter.update(myDataset);
-                    scrollToBottom();
+                    //scrollToBottom();
                 }
 
             }
@@ -136,39 +139,60 @@ public class MessageViewFrag extends Fragment {
 
     private void scrollToBottom() {
         mLayoutManager.smoothScrollToPosition(mRecyclerView, null, mAdapter.getItemCount());
+        Log.i("SCROLL TO: ", mAdapter.getItemCount() + "");
     }
 
     private void observeMessages(){
-        DatabaseReference messageRef = database.getReference("User Messages").child(userID);
-        myDataset.clear();
-        messageRef.addValueEventListener(messageChildEvent);
-//        messageRef.addChildEventListener(childEventListener);
+        //myDataset.clear();
+        userMessageRef.addChildEventListener(messageChildEventNested);
+        //userMessageRef.addValueEventListener(messageChildEvent);
     }
+    private final ChildEventListener messageChildEventNested = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Message message = dataSnapshot.getValue(Message.class);
+//            Log.i("PLAYER: ", mPlayer.getId());
+//            Log.i("ChatPlayer: ",message.chatPlayerID());
+                assert message != null;
+                if (message.chatPlayerID().equals(mPlayer.getId())) {
+//                Log.d("MESSAGE: ", message.getMessage());
+                    //noinspection unchecked
+                    myDataset.add(message);
+                    //noinspection unchecked
+                    mAdapter.update(myDataset);
+                    scrollToBottom();
 
+
+            }
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
     private final ValueEventListener messageChildEvent = new ValueEventListener() {
 
 
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            DatabaseReference messageRef = database.getReference("Messages").child(dataSnapshot.getKey());
-            messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    //Message message = dataSnapshot.getValue(Message.class);
-                    Log.i("PLAYER: ", mPlayer.getId());
-                    Log.i("ChatPlayer: ",dataSnapshot.toString());
-//                    if(message.chatPlayerID().equals(mPlayer.getId())  ){
-//                Log.d("MESSAGE: ", message.getMessage());
-////                        myDataset.add(message);
-////                        mAdapter.update(myDataset);
-//                    }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            //myRef.child(dataSnapshot.getKey()).addListenerForSingleValueEvent(messageChildEventNested);
             for(DataSnapshot childSnap : dataSnapshot.getChildren()){
             Message message = childSnap.getValue(Message.class);
 //            Log.i("PLAYER: ", mPlayer.getId());
@@ -180,7 +204,7 @@ public class MessageViewFrag extends Fragment {
                 myDataset.add(message);
                 //noinspection unchecked
                 mAdapter.update(myDataset);
-                //scrollToBottom();
+                scrollToBottom();
 
             }
 
@@ -192,9 +216,19 @@ public class MessageViewFrag extends Fragment {
         public void onCancelled(DatabaseError databaseError) {
 
         }
-    };
 
+    };
     public void setmPlayer(Player player){
         mPlayer = player;
+    }
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        userMessageRef.removeEventListener(messageChildEvent);
+        myRef.removeEventListener(messageChildEventNested);
+
     }
 }

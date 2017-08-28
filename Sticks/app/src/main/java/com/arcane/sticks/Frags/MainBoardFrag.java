@@ -47,6 +47,9 @@ public class MainBoardFrag extends Fragment {
         getListenerFromContext(context);
     }
 
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,39 +77,44 @@ public class MainBoardFrag extends Fragment {
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Log.d("USER: ", user);
         // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                myDataset.clear();
-                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                //Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
-                Post post = childSnapshot.getValue(Post.class);
-                   // Log.d(TAG, "Time is: "  + post.time);
-                    //noinspection unchecked
-                    myDataset.add(post);
-
-                }
-                  //  Log.d("DATASET", myDataset.toString());
-                //noinspection unchecked
-                mAdapter.update(myDataset);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
+        observePosts();
+        Log.i("onCreateView", "HIT");
 
         return root;
     }
-    public void openComments(Post post, Context context){
-        Intent intent = new Intent(context, CommentsActivity.class);
-        intent.putExtra(POST_EXTRA,post);
-        startActivity(intent);
+    private ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            // This method is called once with the initial value and again
+            // whenever data at this location is updated.
+            myDataset.clear();
+            for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+//                Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
+                Post post = childSnapshot.getValue(Post.class);
+                // Log.d(TAG, "Time is: "  + post.time);
+                //noinspection unchecked
+                myDataset.add(post);
+
+            }
+            //  Log.d("DATASET", myDataset.toString());
+            //noinspection unchecked
+            mAdapter.update(myDataset);
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError error) {
+            // Failed to read value
+            Log.w(TAG, "Failed to read value.", error.toException());
+        }
+    };
+//    public void openComments(Post post, Context context){
+//        Intent intent = new Intent(context, CommentsActivity.class);
+//        intent.putExtra(POST_EXTRA,post);
+//        startActivity(intent);
+//    }
+    private void observePosts(){
+        myRef.addValueEventListener(valueEventListener);
     }
     private void getListenerFromContext(Context context) {
         if (context instanceof MainBoardRecyclerAdapter.OnItemSelected) {
@@ -115,5 +123,15 @@ public class MainBoardFrag extends Fragment {
             throw new ClassCastException("Containing activity must " +
                     "implement OnPersonInteractionListener");
         }
+    }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        myRef.removeEventListener(valueEventListener);
+        Log.i("onDestroyView", "HIT");
+
     }
 }
