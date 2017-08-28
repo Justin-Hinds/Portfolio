@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
 
 public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecyclerAdapter.ViewHolder> {
     private ArrayList<Post> mDataset;
@@ -54,6 +56,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
         final ImageButton downButton;
         final OnItemSelected mListener;
         final ImageView imageView;
+        final ImageView profileImage;
         ArrayList<Post> mDataset = new ArrayList<>();
 
         public ViewHolder(View itemView, OnItemSelected listener, ArrayList<Post> posts) {
@@ -61,6 +64,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
             itemView.setOnClickListener(this);
             mDataset = posts;
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            profileImage = (ImageView) itemView.findViewById(R.id.profile_icon);
             mTextView = (TextView) itemView.findViewById(R.id.post_textview);
             mPlayerName = (TextView) itemView.findViewById(R.id.player_name);
             commentsButton = (ImageButton) itemView.findViewById(R.id.comments_button);
@@ -83,7 +87,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                     Post post = mDataset.get(getAdapterPosition());
                      final FirebaseDatabase database = FirebaseDatabase.getInstance();
                     final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("upCount");
-                     final DatabaseReference myRef = database.getReference("Post").child(post.getId()).child("ups");
+                     final DatabaseReference myRef = database.getReference("Posts").child(post.getId()).child("ups");
                     final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("ups");
                     mListener.onUpClicked(post);
                     String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -99,7 +103,8 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 //                            Log.d("SNAP", dataSnapshot.toString());
                              num ++;
                             ref.setValue(num);
-//                            Log.d("NUM: ", num + "");
+                            myRef.setValue(num);
+                            Log.d("ups: ", num + "");
 //
                         }
 
@@ -134,7 +139,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                     Post post = mDataset.get(getAdapterPosition());
                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                     final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downCount");
-                    final DatabaseReference myRef = database.getReference("Post").child(post.getId()).child("downs");
+                    final DatabaseReference myRef = database.getReference("Posts").child(post.getId()).child("downs");
                     final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downs");
                     String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String downId = user;
@@ -149,7 +154,8 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 //                            Log.d("SNAP", dataSnapshot.toString());
                             num ++;
                             ref.setValue(num);
-//                            Log.d("NUM: ", num + "");
+                            myRef.setValue(num);
+                            Log.d("downs: ", num + "");
 //
                         }
 
@@ -203,6 +209,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
     }
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        Log.i("DATA ", mDataset.size() + "");
         DatabaseReference userRef = database.getReference("Users").child(mDataset.get(position).getUser());
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -211,6 +218,10 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                 Player player = dataSnapshot.getValue(Player.class);
                 assert player != null;
                 holder.mPlayerName.setText(player.getName());
+                Picasso.with(mContext)
+                        .load(player.getProfilePicURL())
+                        .transform(new CropCircleTransformation())
+                        .into(holder.profileImage);
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                     //Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
 
@@ -227,6 +238,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
        // holder.mTextView.setMovementMethod(new LinkMovementMethod());
         holder.mTextView.setText(mDataset.get(position).toString());
         Linkify.addLinks(holder.mTextView,Linkify.WEB_URLS);
+
         if(mDataset.get(position).getImgURL() != null){
             Picasso.with(mContext).load(mDataset.get(position).imgURL).into(holder.imageView);
         }

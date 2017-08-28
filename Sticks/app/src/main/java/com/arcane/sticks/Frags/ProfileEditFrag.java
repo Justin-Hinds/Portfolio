@@ -26,10 +26,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.UUID;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -73,6 +76,12 @@ public class ProfileEditFrag extends Fragment {
                 psnIDEdit.setText(player.getPsnID());
                 gamerTagEdit.setText(player.getGamerTag());
                 consoleEdit.setText(player.getPreferredConsole());
+                if(player.getProfilePicURL() != null){
+                    Picasso.with(getContext())
+                            .load(player.getProfilePicURL())
+                            .transform(new CropCircleTransformation())
+                            .into(imageView);
+                }
             }
 
             @Override
@@ -95,7 +104,11 @@ public class ProfileEditFrag extends Fragment {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
 
-                imageView.setImageBitmap(bitmap);
+                //imageView.setImageBitmap(bitmap);
+                Picasso.with(getContext())
+                        .load(uri)
+                        .transform(new CropCircleTransformation())
+                        .into(imageView);
 
             } catch (IOException e) {
                 e.printStackTrace();

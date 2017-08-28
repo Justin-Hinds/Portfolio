@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arcane.sticks.adapters.MainBoardRecyclerAdapter;
 import com.arcane.sticks.models.Player;
 import com.arcane.sticks.models.Post;
 import com.arcane.sticks.adapters.ProfileRecyclerAdapter;
@@ -37,6 +38,7 @@ public class ProfilePageFrag extends Fragment {
     private Player mPlayer;
     String user;
     private ProfileRecyclerAdapter.AddFellowPlayerInterface mListener;
+    private MainBoardRecyclerAdapter.OnItemSelected mPostListener;
 
 
     @Override
@@ -76,7 +78,7 @@ public class ProfilePageFrag extends Fragment {
 
         // specify an adapter (see also next example)
         mAdapter = new ProfileRecyclerAdapter(myDataset,mPlayer,getContext());
-        mAdapter.setAddFellowPlayerInterface(mListener);
+        mAdapter.setAddFellowPlayerInterface(mListener,mPostListener);
         mRecyclerView.setAdapter(mAdapter);
         user = mPlayer.getId();
         myRef.child(user).addValueEventListener(valueEventListener);
@@ -112,6 +114,7 @@ public class ProfilePageFrag extends Fragment {
     private void getListenerFromContext(Context context) {
         if (context instanceof ProfileRecyclerAdapter.AddFellowPlayerInterface) {
             mListener = (ProfileRecyclerAdapter.AddFellowPlayerInterface) context;
+            mPostListener = (MainBoardRecyclerAdapter.OnItemSelected) context;
         } else {
             throw new ClassCastException("Containing activity must " +
                     "implement OnPersonInteractionListener");

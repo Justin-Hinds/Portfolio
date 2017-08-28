@@ -1,5 +1,6 @@
 package com.arcane.sticks.activities;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,10 +9,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.arcane.sticks.adapters.MainBoardRecyclerAdapter;
+import com.arcane.sticks.frags.MainBoardFrag;
 import com.arcane.sticks.frags.ProfilePageFrag;
 import com.arcane.sticks.models.Player;
 import com.arcane.sticks.adapters.ProfileRecyclerAdapter;
 import com.arcane.sticks.R;
+import com.arcane.sticks.models.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -20,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ProfilePageActivity extends AppCompatActivity implements ProfileRecyclerAdapter.AddFellowPlayerInterface {
+public class ProfilePageActivity extends AppCompatActivity implements ProfileRecyclerAdapter.AddFellowPlayerInterface, MainBoardRecyclerAdapter.OnItemSelected {
 private Player player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,5 +73,36 @@ private Player player;
             fellowPlayers.put(player.getId(), true);
             friendsRef.updateChildren(fellowPlayers);
         }
+    }
+
+    @Override
+    public void messagePlayer() {
+        Intent intent = new Intent(this,MessageViewActivity.class);
+        intent.putExtra(ProfilePageFrag.PLAYER_EXTRA,player);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCommentsClicked(Post post) {
+        ActivityOptions activityOptions =  ActivityOptions.makeSceneTransitionAnimation(this);
+        Intent intent = new Intent(this, CommentsActivity.class);
+        Log.d("COMMENTS CLICKED: ", post.getId());
+        intent.putExtra(MainBoardFrag.POST_EXTRA,post);
+        startActivity(intent, activityOptions.toBundle());
+    }
+
+    @Override
+    public void onDownClicked(Post post) {
+
+    }
+
+    @Override
+    public void onUpClicked(Post post) {
+
+    }
+
+    @Override
+    public void onHyperlinkClicked() {
+
     }
 }
