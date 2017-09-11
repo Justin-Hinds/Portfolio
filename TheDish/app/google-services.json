@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "908097408438",
+    "firebase_url": "https://the-dish-ae1ed.firebaseio.com",
+    "project_id": "the-dish-ae1ed",
+    "storage_bucket": "the-dish-ae1ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908097408438:android:0f0fd108fba2af7b",
+        "android_client_info": {
+          "package_name": "com.arcane.thedish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908097408438-3n9kkq8t7bvb0u95var8s8c0u6a6mroo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arcane.thedish",
+            "certificate_hash": "0d5f69247077ebc8419e394c593702fe0e97af68"
+          }
+        },
+        {
+          "client_id": "908097408438-0kvm7n1dan6n0ld6fb8ra97r45m85g6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9Rne3kdOIfZple0wGGpCQ1x4mEfxTo_E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908097408438-0kvm7n1dan6n0ld6fb8ra97r45m85g6l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

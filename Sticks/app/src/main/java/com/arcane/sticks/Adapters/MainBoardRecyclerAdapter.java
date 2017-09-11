@@ -89,6 +89,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                     final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("upCount");
                      final DatabaseReference myRef = database.getReference("Posts").child(post.getId()).child("ups");
                     final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("ups");
+                    final DatabaseReference postUpRef = database.getReference("Posts").child(post.getId()).child("upCount");
                     mListener.onUpClicked(post);
                     String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String upId = user;
@@ -103,7 +104,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 //                            Log.d("SNAP", dataSnapshot.toString());
                              num ++;
                             ref.setValue(num);
-                            myRef.setValue(num);
+                            postUpRef.setValue(num);
                             Log.d("ups: ", num + "");
 //
                         }
@@ -140,6 +141,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                     final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downCount");
                     final DatabaseReference myRef = database.getReference("Posts").child(post.getId()).child("downs");
+                    final DatabaseReference postDownRef = database.getReference("Posts").child(post.getId()).child("upCount");
                     final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downs");
                     String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String downId = user;
@@ -154,7 +156,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 //                            Log.d("SNAP", dataSnapshot.toString());
                             num ++;
                             ref.setValue(num);
-                            myRef.setValue(num);
+                            postDownRef.setValue(num);
                             Log.d("downs: ", num + "");
 //
                         }

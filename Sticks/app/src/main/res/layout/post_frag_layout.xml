@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:minHeight="48dp"
-            android:hint="@string/comment"
+            android:hint="Whats up..."
             android:backgroundTint="@android:color/transparent"
             android:layout_weight=".5"
             />

@@ -16,8 +16,8 @@ public class Post implements Serializable {
     private URL hyperLink;
     private String id;
     private long time;
-    private int upCount;
-    private int downCount;
+    private long upCount;
+    private long downCount;
     private Map<String, Boolean> ups = new HashMap<>();
     private Map<String, Boolean> downs  = new HashMap<>();
     private Map<String, Boolean>  comments = new HashMap<>();
@@ -30,19 +30,19 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public int getUpCount() {
+    public long getUpCount() {
         return upCount;
     }
 
-    public void setUpCount(int upCount) {
+    public void setUpCount(long upCount) {
         this.upCount = upCount;
     }
 
-    public int getDownCount() {
+    public long getDownCount() {
         return downCount;
     }
 
-    public void setDownCount(int downCount) {
+    public void setDownCount(long downCount) {
         this.downCount = downCount;
     }
 

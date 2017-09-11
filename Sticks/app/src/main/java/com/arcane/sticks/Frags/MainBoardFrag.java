@@ -89,7 +89,7 @@ public class MainBoardFrag extends Fragment {
             // whenever data at this location is updated.
             myDataset.clear();
             for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-//                Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
+               // Log.d(TAG, "Value is: "  + childSnapshot.getValue());
                 Post post = childSnapshot.getValue(Post.class);
                 // Log.d(TAG, "Time is: "  + post.time);
                 //noinspection unchecked
