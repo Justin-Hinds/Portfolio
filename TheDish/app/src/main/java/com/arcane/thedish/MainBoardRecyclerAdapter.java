@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +42,6 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
         void onCommentsClicked(Post post);
         void onDownClicked(Post post);
         void onUpClicked(Post post);
-        void onHyperlinkClicked();
     }
     public void setOnInteraction(final OnItemSelected listener){
         mListener = listener;
@@ -80,7 +80,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                 public void onClick(View v) {
 
                     Log.d(TAG, "Post: " + mDataset.get(getAdapterPosition()).getId());
-                    //mListener.onCommentsClicked(mDataset.get(getAdapterPosition()));
+                    mListener.onCommentsClicked(mDataset.get(getAdapterPosition()));
                 }
             });
             upButton.setOnClickListener(new View.OnClickListener() {
@@ -222,10 +222,10 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                 DishUser dishUser = dataSnapshot.getValue(DishUser.class);
                 assert dishUser != null;
                 holder.mPlayerName.setText(dishUser.getName());
-//                Picasso.with(mContext)
-//                        .load(dishUser.getProfilePicURL())
-//                        .transform(new CropCircleTransformation())
-//                        .into(holder.profileImage);
+                Picasso.with(mContext)
+                        .load(dishUser.getProfilePicURL())
+                        .transform(new CropCircleTransformation())
+                        .into(holder.profileImage);
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                     //Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
 
@@ -239,17 +239,16 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 
             }
         });
-       // holder.mTextView.setMovementMethod(new LinkMovementMethod());
         Post post = mDataset.get(position);
         Date today = new Date(post.getTime());
         long oneDay = 86400000;
         if((post.getTime() - System.currentTimeMillis())/oneDay >= 1 ){
-        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd");
+        DateFormat DATE_FORMAT =  SimpleDateFormat.getDateInstance(DateFormat.SHORT);
         String date = DATE_FORMAT.format(today);
             holder.time.setText(date);
 
         }else {
-            SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:SS");
+            DateFormat DATE_FORMAT = SimpleDateFormat.getTimeInstance(DateFormat.SHORT);
             String date = DATE_FORMAT.format(today);
             holder.time.setText(date);
 

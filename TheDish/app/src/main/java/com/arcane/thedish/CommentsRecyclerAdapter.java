@@ -16,7 +16,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
@@ -44,6 +47,7 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
 
     @Override
     public void onBindViewHolder(final CommentsRecyclerAdapter.ViewHolder holder, int position) {
+        PostComment comment = mDataset.get(position);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference playerRef = database.getReference("Users").child(mDataset.get(position).getSender());
         playerRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -55,6 +59,7 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
                         .transform(new CropCircleTransformation())
                         .into(holder.imageView);
         Log.d("STRING", mUser.getId());
+                holder.userName.setText(mUser.getName());
             }
 
             @Override
@@ -62,8 +67,20 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
 
             }
         });
-        holder.mTextView.setText(mDataset.get(position).getText());
+        holder.mTextView.setText(comment.getText());
+        Date today = new Date(comment.getTime());
+        long oneDay = 86400000;
+        if((comment.getTime() - System.currentTimeMillis())/oneDay >= 1 ){
+            DateFormat DATE_FORMAT =  SimpleDateFormat.getDateInstance(DateFormat.SHORT);
+            String date = DATE_FORMAT.format(today);
+            holder.timeText.setText(date);
 
+        }else {
+            DateFormat DATE_FORMAT =  SimpleDateFormat.getTimeInstance(DateFormat.SHORT);
+            String date = DATE_FORMAT.format(today);
+            holder.timeText.setText(date);
+
+        }
     }
 
     @Override
@@ -73,16 +90,21 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
 
     public  class ViewHolder extends RecyclerView.ViewHolder {
         final TextView mTextView;
+        final TextView timeText;
+        final TextView userName;
         ImageView imageView;
         ArrayList<PostComment> mDataset = new ArrayList<>();
         public ViewHolder(View itemView, ArrayList<PostComment> postComments) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.profile_icon);
-            mTextView = (TextView) itemView.findViewById(R.id.comment_text);
-
+            imageView =  itemView.findViewById(R.id.profile_icon);
+            mTextView =  itemView.findViewById(R.id.comment_text);
+            timeText = itemView.findViewById(R.id.time_text);
+            userName = itemView.findViewById(R.id.user_name);
         }
 
     }
+
+
     public void update(ArrayList<PostComment> postComments){
         mDataset = postComments;
         notifyDataSetChanged();

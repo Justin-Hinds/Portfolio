@@ -6,12 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,41 +19,48 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class MainBoardFrag extends Fragment {
-    private static final String TAG = "com.arcane.MainBoard:";
-    public static final String MaindBoard_TAG = "MaindBoard_TAG";
-    private MainBoardRecyclerAdapter mAdapter;
+public class ProfilePageFrag extends Fragment {
+    public static ProfilePageFrag newInstance(){return new ProfilePageFrag();}
+    public static final String PLAYER_EXTRA = "com.arcane.sticks.PLAYER_EXTRA";
+    public static final String PLAYER_ARG = "PLAYER_ARG";
+    private ProfileRecyclerAdapter mAdapter;
     private ArrayList myDataset = new ArrayList();
-    private MainBoardRecyclerAdapter.OnItemSelected mListener;
-    public static final String POST_EXTRA = "com.arcane.sticks.POST_EXTRA";
-
-    public static MainBoardFrag newInstance(){return new MainBoardFrag();}
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private final DatabaseReference myRef = database.getReference("Posts");
+    DatabaseReference myUserRef = database.getReference("Users");
+    private final DatabaseReference myRef = database.getReference("User Posts");
+    private DishUser mDishUser;
+    String user;
+    private ProfileRecyclerAdapter.AddFellowStaffInterface mListener;
+    private MainBoardRecyclerAdapter.OnItemSelected mPostListener;
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Context mContext = context;
         getListenerFromContext(context);
     }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(PLAYER_ARG, mDishUser);
+    }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(mDishUser == null){
+            assert savedInstanceState != null;
+            mDishUser = (DishUser) savedInstanceState.getSerializable(PLAYER_ARG);
 
-
-
+        }
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.mainboard_frag_layout,container,false);
-        DataManager mDataManager = new DataManager(getContext());
-        RecyclerView mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_card_view);
-        if(mDataManager.readSavedData() != null){
-            myDataset = mDataManager.readSavedData();
-        }else{
-            myDataset = new ArrayList();
-        }
+        View root = inflater.inflate(R.layout.user_frag_layout,container,false);
 
+        myDataset = new ArrayList();
+        RecyclerView mRecyclerView =  root.findViewById(R.id.rec_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -65,27 +70,21 @@ public class MainBoardFrag extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new MainBoardRecyclerAdapter(myDataset,getContext());
+        mAdapter = new ProfileRecyclerAdapter(myDataset, mDishUser,getContext());
+        mAdapter.setAddFellowStaffInterface(mListener,mPostListener);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnInteraction(mListener);
-        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d("USER: ", user);
-        // Read from the database
-        observePosts();
-        Log.i("onCreateView", "HIT");
-
+        user = mDishUser.getId();
+        myRef.child(user).addValueEventListener(valueEventListener);
         return root;
     }
-    private ValueEventListener valueEventListener = new ValueEventListener() {
+    private final ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             // This method is called once with the initial value and again
             // whenever data at this location is updated.
             myDataset.clear();
             for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                Log.d(TAG, "Value is: "  + childSnapshot.getValue());
                 Post post = childSnapshot.getValue(Post.class);
-                // Log.d(TAG, "Time is: "  + post.time);
                 //noinspection unchecked
                 myDataset.add(post);
 
@@ -97,35 +96,27 @@ public class MainBoardFrag extends Fragment {
         }
 
         @Override
-        public void onCancelled(DatabaseError error) {
-            // Failed to read value
-            Log.w(TAG, "Failed to read value.", error.toException());
+        public void onCancelled(DatabaseError databaseError) {
+
         }
     };
-//    public void openComments(Post post, Context context){
-//        Intent intent = new Intent(context, CommentsActivity.class);
-//        intent.putExtra(POST_EXTRA,post);
-//        startActivity(intent);
-//    }
-    private void observePosts(){
-        myRef.addValueEventListener(valueEventListener);
+    public void setPlayer(DishUser dishUser){
+        mDishUser = dishUser;
+       // Log.i("SET PLAYER: " , dishUser.toString());
     }
     private void getListenerFromContext(Context context) {
-        if (context instanceof MainBoardRecyclerAdapter.OnItemSelected) {
-            mListener = (MainBoardRecyclerAdapter.OnItemSelected) context;
+        if (context instanceof ProfileRecyclerAdapter.AddFellowStaffInterface) {
+            mListener = (ProfileRecyclerAdapter.AddFellowStaffInterface) context;
+            mPostListener = (MainBoardRecyclerAdapter.OnItemSelected) context;
         } else {
             throw new ClassCastException("Containing activity must " +
                     "implement OnPersonInteractionListener");
         }
     }
 
-
-
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        myRef.removeEventListener(valueEventListener);
-        Log.i("onDestroyView", "HIT");
-
+    public void onDestroy() {
+        super.onDestroy();
+        myRef.child(user).removeEventListener(valueEventListener);
     }
 }

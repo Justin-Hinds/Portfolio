@@ -1,14 +1,20 @@
 package com.arcane.thedish;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,9 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class UsersFrag extends Fragment {
+public class UsersFrag extends Fragment implements SearchView.OnQueryTextListener {
     private UsersRecyclerAdapter mAdapter;
-    private ArrayList myDataset = new ArrayList();
+    private ArrayList<DishUser> myDataset = new ArrayList();
+    private SearchView searchView;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("Users");
     public static UsersFrag newInstance(){return new UsersFrag();}
@@ -31,6 +38,17 @@ public class UsersFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.user_frag_layout,container,false);
+
+        SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+        searchView = root.findViewById(R.id.searchview);
+        searchView.setElevation(4);
+        searchView.setBackgroundColor(Color.WHITE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getContext(), UsersActivity.class)));
+        searchView.setQueryHint(getString(R.string.search_staff));
+        searchView.setFocusable(false);
+        searchView.setIconified(true);
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(this);
 
         myDataset = new ArrayList();
         RecyclerView mRecyclerView = (RecyclerView) root.findViewById(R.id.rec_view);
@@ -98,5 +116,35 @@ public class UsersFrag extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         myRef.removeEventListener(valueEventListener);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        String qString = query.toLowerCase();
+        ArrayList<DishUser> newList = new ArrayList();
+        for (DishUser user : myDataset){
+            String name = user.getName().toLowerCase();
+
+            if (name.contains(qString)){
+                newList.add(user);
+            }
+        }
+        mAdapter.update(newList);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String qString = newText.toLowerCase();
+        ArrayList<DishUser> newList = new ArrayList();
+        for (DishUser user : myDataset){
+           String name = user.getName().toLowerCase();
+
+            if (name.contains(qString)){
+                newList.add(user);
+            }
+        }
+        mAdapter.update(newList);
+        return false;
     }
 }

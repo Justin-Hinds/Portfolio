@@ -2,6 +2,7 @@ package com.arcane.thedish;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,23 +35,24 @@ public class UsersRecyclerAdapter extends  RecyclerView.Adapter<UsersRecyclerAda
     public UsersRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_users, parent, false);
+                .inflate(R.layout.user_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
         //Log.i(TAG, " CreatViewHolder Dataset: " + mDataset);
         return new ViewHolder(v,mListener,mDataset);    }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.d("USER",mDataset.get(position).getName());
+        DishUser dishUser = mDataset.get(position);
         if (mDataset.get(position).getProfilePicURL() != null){
         String imgURL = mDataset.get(position).getProfilePicURL();
-//            Picasso.with(mContext)
-//                    .load(imgURL)
-//                    .transform(new CropCircleTransformation())
-//                    .into(holder.imageView);
+            Picasso.with(mContext)
+                    .load(imgURL)
+                    .transform(new CropCircleTransformation())
+                    .into(holder.imageView);
 
         }
-//        holder.mTextView.setText(mDataset.get(position).getName());
-
+holder.mTextView.setText(dishUser.getName());
     }
 
     @Override
@@ -66,8 +68,8 @@ public class UsersRecyclerAdapter extends  RecyclerView.Adapter<UsersRecyclerAda
         public ViewHolder(View itemView, OnPlayerSelectedListener listener, ArrayList<DishUser> dishUsers) {
             super(itemView);
             itemView.setOnClickListener(this);
-            mTextView = (TextView) itemView.findViewById(R.id.player_name);
-            imageView = (ImageView) itemView.findViewById(R.id.profile_icon);
+            mTextView =  itemView.findViewById(R.id.user_name);
+            imageView =  itemView.findViewById(R.id.profile_icon);
             mListener = listener;
             mDataset = dishUsers;
 

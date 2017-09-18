@@ -8,28 +8,40 @@
         android:id="@+id/profile_icon"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="48dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
+
     <EditText
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/vertical_space_content_areas"
+        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginEnd="@dimen/start_end_margin"
         android:id="@+id/editText_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/editText_password"
+        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword" />
     <Button
         android:id="@+id/create_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Create Account"
+        android:text="@string/create_account"
         android:backgroundTint="@color/primary"
         android:textColor="@color/icons"
         android:elevation="6dp"/>
@@ -38,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Login"
+        android:text="@string/login"
         android:backgroundTint="@color/primary"
         android:textColor="@color/icons"
         android:elevation="@dimen/cardview_default_elevation"/>
@@ -46,7 +58,7 @@
     android:layout_marginTop="16dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Or Sign in with..."
+    android:text="@string/or_sign_in_with"
     android:textAlignment="center"/>
 
     <com.google.android.gms.common.SignInButton

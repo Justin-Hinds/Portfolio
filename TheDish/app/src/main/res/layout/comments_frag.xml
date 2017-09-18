@@ -19,8 +19,8 @@
         app:layout_behavior="@string/bottom_sheet_behavior">
         <ImageButton
             android:id="@+id/camera_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/touch_target"
+            android:layout_height="@dimen/touch_target"
             android:src="@mipmap/camera_icon"
             android:backgroundTint="@android:color/transparent"/>
 
@@ -29,13 +29,13 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:minHeight="48dp"
-            android:hint="Comment"
+            android:hint="@string/comment"
             android:backgroundTint="@android:color/transparent"
             android:layout_weight=".5"/>
         <ImageButton
             android:id="@+id/send_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/touch_target"
+            android:layout_height="@dimen/touch_target"
             android:src="@mipmap/send_icon"
             android:backgroundTint="@android:color/transparent"/>
     </LinearLayout>

@@ -7,11 +7,20 @@ import java.util.HashMap;
 public class DishUser implements Serializable {
     private String name;
     private String id;
-    private String gamerTag;
-    private String psnID;
+    private String favoriteRestaurant;
+    private String favoriteFood;
     private String profilePicURL;
-    private String preferredConsole;
-    private HashMap<String,Object> fellowPlayers = new HashMap<>();
+
+    public String getFavoriteFood() {
+        return favoriteFood;
+    }
+
+    public void setFavoriteFood(String favoriteFood) {
+        this.favoriteFood = favoriteFood;
+    }
+
+    private String favoriteDrink;
+    private HashMap<String,Object> friends = new HashMap<>();
 
     public String getName() {
         return name;
@@ -29,20 +38,12 @@ public class DishUser implements Serializable {
         this.id = id;
     }
 
-    public String getGamerTag() {
-        return gamerTag;
+    public String getFavoriteRestaurant() {
+        return favoriteRestaurant;
     }
 
-    public void setGamerTag(String gamerTag) {
-        this.gamerTag = gamerTag;
-    }
-
-    public String getPsnID() {
-        return psnID;
-    }
-
-    public void setPsnID(String psnID) {
-        this.psnID = psnID;
+    public void setFavoriteRestaurant(String favoriteRestaurant) {
+        this.favoriteRestaurant = favoriteRestaurant;
     }
 
     public String getProfilePicURL() {
@@ -53,19 +54,19 @@ public class DishUser implements Serializable {
         this.profilePicURL = profilePicURL;
     }
 
-    public String getPreferredConsole() {
-        return preferredConsole;
+    public String getFavoriteDrink() {
+        return favoriteDrink;
     }
 
-    public void setPreferredConsole(String preferredConsole) {
-        this.preferredConsole = preferredConsole;
+    public void setFavoriteDrink(String favoriteDrink) {
+        this.favoriteDrink = favoriteDrink;
     }
 
-    public HashMap<String, Object> getFellowPlayers() {
-        return fellowPlayers;
+    public HashMap<String, Object> getFriends() {
+        return friends;
     }
 
-    public void setFellowPlayers(HashMap<String, Object> fellowPlayers) {
-        this.fellowPlayers = fellowPlayers;
+    public void setFriends(HashMap<String, Object> friends) {
+        this.friends = friends;
     }
 }

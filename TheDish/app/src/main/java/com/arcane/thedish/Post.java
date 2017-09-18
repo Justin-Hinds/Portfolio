@@ -131,4 +131,14 @@ public class Post implements Serializable {
 
         return result;
     }
+    public long compareTo(Post otherPost){
+        long currentPostValue;
+        long otherPostValue;
+
+        currentPostValue = this.upCount - this.downCount;
+        otherPostValue = otherPost.upCount - otherPost.downCount;
+
+
+        return currentPostValue - otherPostValue;
+    }
 }

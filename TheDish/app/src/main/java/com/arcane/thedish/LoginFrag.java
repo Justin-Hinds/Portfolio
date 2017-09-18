@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -62,6 +63,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
     private Uri profileImageUri;
     private ImageView imageView;
     private DishUser currentDishUser;
+    private ProgressBar progressBar;
 
     @Override
     public void onStart() {
@@ -89,19 +91,18 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                 selectPhoto();
             }
         });
-        //fbLoginButton.setFragment(this);
         Button emailSign = (Button) root.findViewById(R.id.login);
         Button emailCreate = (Button) root.findViewById(R.id.create_account);
         final EditText emailText = (EditText) root.findViewById(R.id.editText_email);
         final EditText passwordText = (EditText) root.findViewById(R.id.editText_password);
-//        final String email = emailText.getText().toString();
-//       final String password = passwordText.getText().toString();
-       // userCheck();
+        progressBar = root.findViewById(R.id.progressBar);
+
 
          emailSign.setOnClickListener(new View.OnClickListener() {
 
              @Override
              public void onClick(View v) {
+                 progressBar.setVisibility(View.VISIBLE);
                  if(DataManager.stringValidate(emailText.getText().toString()) != null &&
                          DataManager.stringValidate(passwordText.getText().toString()) != null){
                  final String email = emailText.getText().toString();
@@ -115,6 +116,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
         emailCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 if(DataManager.stringValidate(emailText.getText().toString()) != null &&
                         DataManager.stringValidate(passwordText.getText().toString()) != null){
                 final String email = emailText.getText().toString();
@@ -207,8 +209,10 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //addPlayer(user);
+                            //addFriend(user);
                             startActivity(new Intent(getContext(),MainActivity.class));
+                            progressBar.setVisibility(View.INVISIBLE);
+
                         } else {
                             // If sign in fails, display a postText to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -271,10 +275,9 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
             dishUser.setName("N00B");
         }
         dishUser.setId(id);
-        dishUser.setPsnID("N/A");
-        dishUser.setGamerTag("N/A");
-        dishUser.setPreferredConsole("N/A");
-        //TODO: retrieve user data if user exists already instead of rewriting it
+        dishUser.setFavoriteFood("N/A");
+        dishUser.setFavoriteRestaurant("N/A");
+        dishUser.setFavoriteDrink("N/A");
         imageView.buildDrawingCache();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Bitmap uploadBitmap = imageView.getDrawingCache();

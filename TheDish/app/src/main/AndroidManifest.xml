@@ -15,8 +15,21 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <meta-data android:name="android.app.searchable"
+                    android:resource="@xml/searchable_configuration"/>
             </intent-filter>
         </activity>
+        <activity android:name=".SearchableActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable_configuration"/>
+        </activity>
+        ...
+        <activity android:name=".ProfileEditActivity"/>
+        <activity android:name=".ProfilePageActivity"/>
         <activity android:name=".LoginActivity" />
         <activity android:name=".PostActivity" />
         <activity android:name=".CommentsActivity" />

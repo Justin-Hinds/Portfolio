@@ -22,11 +22,11 @@
 
             <ImageView
                 android:id="@+id/profile_icon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/touch_target"
+                android:layout_height="@dimen/touch_target"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/start_end_margin"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_person_outline_black_24dp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/profile_icon"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="@dimen/start_end_margin"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:text="player name"
                 app:layout_constraintLeft_toRightOf="@+id/profile_icon"
@@ -57,10 +57,9 @@
                 android:src="@mipmap/comments_icon"
                 android:scaleType="centerInside"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginBottom="@dimen/vertical_space_content_areas"
+                android:layout_marginStart="@dimen/start_end_margin"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -72,10 +71,10 @@
                 android:background="@drawable/custom_ripple"
                 android:scaleType="centerInside"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/vertical_space_content_areas"
                 app:layout_constraintLeft_toRightOf="@+id/comments_button"
                 app:layout_constraintRight_toLeftOf="@+id/down_button"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/vertical_space_content_areas"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
                 app:layout_constraintHorizontal_bias="0.501" />
 
@@ -91,12 +90,11 @@
                 android:background="@drawable/custom_ripple"
                 android:scaleType="centerInside"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="@dimen/vertical_space_content_areas"
+                android:layout_marginEnd="@dimen/start_end_margin"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
-                android:layout_marginRight="16dp" />
+                android:layout_marginTop="@dimen/vertical_space_content_areas"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"/>
 
             <TextView
                 android:id="@+id/post_textview"
@@ -104,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:text="Post text"
                 android:layout_below="@id/profile_icon"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/start_end_margin"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/profile_icon" />
