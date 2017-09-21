@@ -1,5 +1,7 @@
 package com.arcane.thedish;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 
 
@@ -53,4 +55,5 @@ public class PostComment {
         result.put("sender",sender);
         return result;
     }
+
 }

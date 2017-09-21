@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +42,7 @@ public class PostFrag extends Fragment {
     private String user;
     private EditText postMessage;
     private ImageView imageView;
+    private ProgressBar progressBar;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("Posts");
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -89,13 +91,14 @@ public class PostFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.post_frag_layout, container,false);
-         postMessage = (EditText) root.findViewById(R.id.post_text);
+         postMessage =  root.findViewById(R.id.post_text);
          user = FirebaseAuth.getInstance().getCurrentUser().getUid();
          childRef = myRef.push();
-        imageView = (ImageView) root.findViewById(R.id.preview);
+        imageView =  root.findViewById(R.id.preview);
+        progressBar = root.findViewById(R.id.progressBar);
         imageView.setDrawingCacheEnabled(true);
-        ImageButton sendButton = (ImageButton) root.findViewById(R.id.send_button);
-        ImageButton cameraButton = (ImageButton) root.findViewById(R.id.camera_button);
+        ImageButton sendButton =  root.findViewById(R.id.send_button);
+        ImageButton cameraButton =  root.findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +157,7 @@ public class PostFrag extends Fragment {
 
 
         if(imageView.getDrawable() != null){
+            progressBar.setVisibility(View.VISIBLE);
             post.setPostText(postMessage.getText().toString());
             imageView.buildDrawingCache();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -179,6 +183,7 @@ public class PostFrag extends Fragment {
                     childUpdates.put("/Posts/" + postID, postValues);
                     childUpdates.put("/User Posts/" + user + "/" + postID, postValues);
                     database.getReference().updateChildren(childUpdates);
+                    progressBar.setVisibility(View.INVISIBLE);
                     getActivity().finish();
                 }
             });

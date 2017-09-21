@@ -70,7 +70,7 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
         holder.mTextView.setText(comment.getText());
         Date today = new Date(comment.getTime());
         long oneDay = 86400000;
-        if((comment.getTime() - System.currentTimeMillis())/oneDay >= 1 ){
+        if((System.currentTimeMillis() - comment.getTime() )/oneDay >= 1 ){
             DateFormat DATE_FORMAT =  SimpleDateFormat.getDateInstance(DateFormat.SHORT);
             String date = DATE_FORMAT.format(today);
             holder.timeText.setText(date);

@@ -19,13 +19,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 public class MainBoardFrag extends Fragment {
     private static final String TAG = "com.arcane.MainBoard:";
     public static final String MaindBoard_TAG = "MaindBoard_TAG";
     private MainBoardRecyclerAdapter mAdapter;
-    private ArrayList myDataset = new ArrayList();
+    private ArrayList<Post> myDataset = new ArrayList();
     private MainBoardRecyclerAdapter.OnItemSelected mListener;
     public static final String POST_EXTRA = "com.arcane.sticks.POST_EXTRA";
 
@@ -64,15 +66,20 @@ public class MainBoardFrag extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+
+
+
+
+
         // specify an adapter (see also next example)
         mAdapter = new MainBoardRecyclerAdapter(myDataset,getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnInteraction(mListener);
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d("USER: ", user);
+//        Log.d("USER: ", user);
         // Read from the database
         observePosts();
-        Log.i("onCreateView", "HIT");
+//        Log.i("onCreateView", "HIT");
 
         return root;
     }
@@ -83,15 +90,18 @@ public class MainBoardFrag extends Fragment {
             // whenever data at this location is updated.
             myDataset.clear();
             for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                Log.d(TAG, "Value is: "  + childSnapshot.getValue());
                 Post post = childSnapshot.getValue(Post.class);
                 // Log.d(TAG, "Time is: "  + post.time);
                 //noinspection unchecked
                 myDataset.add(post);
 
             }
-            //  Log.d("DATASET", myDataset.toString());
+              Log.d("DATA SET", myDataset.toString());
             //noinspection unchecked
+
+            Collections.sort(myDataset);
+            Log.d("DATA SET After", myDataset.toString());
+
             mAdapter.update(myDataset);
 
         }
@@ -125,7 +135,6 @@ public class MainBoardFrag extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         myRef.removeEventListener(valueEventListener);
-        Log.i("onDestroyView", "HIT");
 
     }
 }

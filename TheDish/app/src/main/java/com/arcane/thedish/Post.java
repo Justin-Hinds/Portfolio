@@ -1,12 +1,15 @@
 package com.arcane.thedish;
 
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
 import java.io.Serializable;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Post implements Serializable {
+public class Post implements Serializable, Comparable<Post> {
     public Post(){
 
     }
@@ -131,14 +134,22 @@ public class Post implements Serializable {
 
         return result;
     }
-    public long compareTo(Post otherPost){
-        long currentPostValue;
-        long otherPostValue;
+    @Override
+    public int compareTo(@NonNull Post otherPost){
+        long currentPostValue =  this.upCount - this.downCount;
+        long otherPostValue = otherPost.upCount - otherPost.downCount;
+        int compareValue = (int) (currentPostValue - otherPostValue);
 
-        currentPostValue = this.upCount - this.downCount;
-        otherPostValue = otherPost.upCount - otherPost.downCount;
+        if (currentPostValue < otherPostValue){
+            Log.d("Post has more:", "Ups:" + compareValue);
+            return 1;
+        }
+        if (currentPostValue > otherPostValue){
+            Log.d("Post has more:", "Downs: " + compareValue);
+            return -1;
+        }
+        Log.d("Post is neutral", ": " + compareValue);
 
-
-        return currentPostValue - otherPostValue;
+        return 0;
     }
 }

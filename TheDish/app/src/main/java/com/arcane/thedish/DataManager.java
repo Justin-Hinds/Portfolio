@@ -24,6 +24,7 @@ public class DataManager {
     public DataManager(Context context){
         mContext = context;
     }
+
     private final String FILE_LOCATION = "com.arcane.thedish." + "FILE_LOCATION";
     public void saveImg(Bitmap bitmap, String location) {
         try {

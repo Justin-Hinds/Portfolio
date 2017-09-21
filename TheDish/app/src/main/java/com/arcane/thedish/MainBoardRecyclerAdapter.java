@@ -49,7 +49,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         final TextView mTextView;
-        final TextView mPlayerName;
+        final TextView mUserName;
         final TextView time;
         final ImageButton commentsButton;
         final ImageButton upButton;
@@ -68,18 +68,16 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
             imageView = itemView.findViewById(R.id.imageView);
             profileImage =  itemView.findViewById(R.id.profile_icon);
             mTextView = itemView.findViewById(R.id.post_textview);
-            mPlayerName = itemView.findViewById(R.id.player_name);
+            mUserName = itemView.findViewById(R.id.user_name);
             commentsButton =  itemView.findViewById(R.id.comments_button);
             upButton =  itemView.findViewById(R.id.up_button);
             downButton =  itemView.findViewById(R.id.down_button);
             mListener = listener;
             commentsButton.animate();
-//            Log.d(TAG, "Post: " + mDataset);
             commentsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Log.d(TAG, "Post: " + mDataset.get(getAdapterPosition()).getId());
                     mListener.onCommentsClicked(mDataset.get(getAdapterPosition()));
                 }
             });
@@ -87,18 +85,28 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                 @Override
                 public void onClick(View v) {
                     Post post = mDataset.get(getAdapterPosition());
-                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("upCount");
-                     final DatabaseReference myRef = database.getReference("Posts").child(post.getId()).child("ups");
-                    final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("ups");
-                    final DatabaseReference postUpRef = database.getReference("Posts").child(post.getId()).child("upCount");
-                    mListener.onUpClicked(post);
                     String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String upId = user;
+                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("upCount");
+                     final DatabaseReference myUpsRef = database.getReference("Posts").child(post.getId()).child("ups");
+                    final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("ups");
+                    final DatabaseReference postUpRef = database.getReference("Posts").child(post.getId()).child("upCount");
+                    final DatabaseReference myDownsRefUsersPost = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downs").child(upId);
+                    final DatabaseReference myDownsRef = database.getReference("Posts").child(post.getId()).child("downs").child(upId);
+
+
+
+                    mListener.onUpClicked(post);
                     Map<String, Object> upKeys = new HashMap<>();
                     upKeys.put(upId,true);
-                    myRef.updateChildren(upKeys);
+                    myUpsRef.updateChildren(upKeys);
                     myUserPostRef.updateChildren(upKeys);
+                    myDownsRef.removeValue();
+                    myDownsRefUsersPost.removeValue();
+                    ImageButton imageButton  = (ImageButton) v;
+                   // imageButton.setImageResource(R.mipmap.up_icon_focused);
+                   // downButton.setImageResource(R.mipmap.down_vote_icon);
                     myUserPostRef.addChildEventListener(new ChildEventListener() {
                         int num = 0;
                         @Override
@@ -107,7 +115,6 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                              num ++;
                             ref.setValue(num);
                             postUpRef.setValue(num);
-                            Log.d("ups: ", num + "");
 //
                         }
 
@@ -118,7 +125,10 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 
                         @Override
                         public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                            Log.d("NUM:", num + "");
+                            num --;
+                            ref.setValue(num);
+                            postUpRef.setValue(num);
                         }
 
                         @Override
@@ -140,17 +150,29 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                 public void onClick(View v) {
                     mListener.onDownClicked(mDataset.get(getAdapterPosition()));
                     Post post = mDataset.get(getAdapterPosition());
+                    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String downId = user;
+
                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                     final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downCount");
                     final DatabaseReference myRef = database.getReference("Posts").child(post.getId()).child("downs");
-                    final DatabaseReference postDownRef = database.getReference("Posts").child(post.getId()).child("upCount");
+                    final DatabaseReference postDownRef = database.getReference("Posts").child(post.getId()).child("downCount");
                     final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downs");
-                    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    String downId = user;
+
+                    final DatabaseReference myUpsRefUsersPost = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("ups").child(downId);
+                    final DatabaseReference myUpsRef = database.getReference("Posts").child(post.getId()).child("ups").child(downId);
+
+
                     Map<String, Object> downKeys = new HashMap<>();
                     downKeys.put(downId,true);
                     myRef.updateChildren(downKeys);
                     myUserPostRef.updateChildren(downKeys);
+                   // ImageButton imageButton = (ImageButton) v;
+                   // imageButton.setImageResource(R.mipmap.down_icon_focused);
+                    //upButton.setImageResource(R.mipmap.up_vote_icon);
+                    myUpsRef.removeValue();
+                    myUpsRefUsersPost.removeValue();
+                    //TODO: Completion Handler
                     myUserPostRef.addChildEventListener(new ChildEventListener() {
                         int num = 0;
                         @Override
@@ -159,7 +181,6 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                             num ++;
                             ref.setValue(num);
                             postDownRef.setValue(num);
-                            Log.d("downs: ", num + "");
 //
                         }
 
@@ -170,7 +191,10 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 
                         @Override
                         public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                            Log.d("NUM:", num + "");
+                            num --;
+                            ref.setValue(num);
+                            postDownRef.setValue(num);
                         }
 
                         @Override
@@ -213,16 +237,17 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
     }
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Log.i("DATA ", mDataset.size() + "");
-        DatabaseReference userRef = database.getReference("Users").child(mDataset.get(position).getUser());
+        final Post post = mDataset.get(position);
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = database.getReference("Users").child(post.getUser());
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("SNAPSHOT: ", dataSnapshot.toString());
                 DishUser dishUser = dataSnapshot.getValue(DishUser.class);
                 assert dishUser != null;
-                holder.mPlayerName.setText(dishUser.getName());
-                Picasso.with(mContext)
+                holder.mUserName.setText(dishUser.getName());
+
+                    Picasso.with(mContext)
                         .load(dishUser.getProfilePicURL())
                         .transform(new CropCircleTransformation())
                         .into(holder.profileImage);
@@ -239,10 +264,22 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 
             }
         });
-        Post post = mDataset.get(position);
+        if(post.getUps().containsKey(id)){
+            holder.upButton.setImageResource(R.mipmap.up_icon_focused);
+            holder.downButton.setImageResource(R.mipmap.down_vote_icon);
+//            Log.d(TAG, "Post ups: " + post.getUps());
+
+        }
+        if(post.getDowns().containsKey(id)){
+            holder.upButton.setImageResource(R.mipmap.up_vote_icon);
+            holder.downButton.setImageResource(R.mipmap.down_icon_focused);
+//            Log.d(TAG, "Post downs: " + post.getDowns());
+
+        }
         Date today = new Date(post.getTime());
         long oneDay = 86400000;
-        if((post.getTime() - System.currentTimeMillis())/oneDay >= 1 ){
+//        Log.d("TIME DIFF ", System.currentTimeMillis() - post.getTime() + "");
+        if(( System.currentTimeMillis() - post.getTime())/oneDay >= 1 ){
         DateFormat DATE_FORMAT =  SimpleDateFormat.getDateInstance(DateFormat.SHORT);
         String date = DATE_FORMAT.format(today);
             holder.time.setText(date);
@@ -253,8 +290,6 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
             holder.time.setText(date);
 
         }
-
-
 
 
         holder.mTextView.setText(post.toString());
@@ -269,5 +304,31 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
     public int getItemCount() {
         return mDataset.size();
     }
+ChildEventListener childEventListener = new ChildEventListener() {
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
+};
 
 }

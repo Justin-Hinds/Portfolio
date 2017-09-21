@@ -6,6 +6,7 @@
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:id="@+id/profile_icon"
+        android:src="@mipmap/profile_pic"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="48dp" />
 
