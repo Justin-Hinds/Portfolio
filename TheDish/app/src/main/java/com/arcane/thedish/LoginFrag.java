@@ -191,7 +191,11 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             userCheck();
                         } else {
                             // If sign in fails, display a postText to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Log.w(TAG, task.getException().getMessage(), task.getException());
+                            if(task.getException().getMessage().equals("The email address is already in use by another account.")){
+                                Toast.makeText(getContext(), "Email already in use",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                             Toast.makeText(getContext(), "Authentication failed. Please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
