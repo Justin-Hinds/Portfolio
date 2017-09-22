@@ -112,12 +112,17 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     DishUser dishUser = dataSnapshot.getValue(DishUser.class);
+                    Log.d("Friends: ", mDishUser.getFriends().toString() + " Their ID: " + dishUser.getId());
+                    Log.d("ID: ", mDishUser.getId());
+
                     if(dishUser.getFriends().containsKey(mDishUser.getId())){
                         ((VHHeader)holder).friends.setText("Request Sent");
-                        if(mDishUser.getFriends().containsKey(dishUser.getId())){
-                            ((VHHeader)holder).friends.setText("Friends");
-                        }
+                    if (mDishUser.getFriends().containsKey(dishUser.getId())){
+                         ((VHHeader)holder).friends.setText("Friends");
                     }
+                     }
+
+
                 }
 
                 @Override
