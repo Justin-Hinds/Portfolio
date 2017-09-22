@@ -94,11 +94,11 @@ public class PostFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.post_frag_layout, container,false);
+        progressBar = root.findViewById(R.id.progressBarPost);
          postMessage =  root.findViewById(R.id.post_text);
          user = FirebaseAuth.getInstance().getCurrentUser().getUid();
          childRef = myRef.push();
         imageView =  root.findViewById(R.id.preview);
-        progressBar = root.findViewById(R.id.progressBar);
         imageView.setDrawingCacheEnabled(true);
         ImageButton sendButton =  root.findViewById(R.id.send_button);
         ImageButton cameraButton =  root.findViewById(R.id.camera_button);
@@ -146,6 +146,7 @@ public class PostFrag extends Fragment {
 
     private void sendPost(){
        // DatabaseReference userPostRef = database.getReference("User Posts").child(user);
+            progressBar.setVisibility(View.VISIBLE);
         final Post post = new Post();
         post.setUser(user);
         post.setTime(System.currentTimeMillis());
@@ -160,7 +161,6 @@ public class PostFrag extends Fragment {
 
 
         if(imageView.getDrawable() != null){
-            progressBar.setVisibility(View.VISIBLE);
             post.setPostText(postMessage.getText().toString());
             imageView.buildDrawingCache();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
