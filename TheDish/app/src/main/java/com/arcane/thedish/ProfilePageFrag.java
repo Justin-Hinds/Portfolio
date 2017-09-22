@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ public class ProfilePageFrag extends Fragment {
     private ProfileRecyclerAdapter.AddFellowStaffInterface mListener;
     private MainBoardRecyclerAdapter.OnItemSelected mPostListener;
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -59,7 +59,12 @@ public class ProfilePageFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.user_frag_layout,container,false);
 
-        myDataset = new ArrayList();
+
+        SearchView searchView = root.findViewById(R.id.searchview);
+        searchView.removeAllViews();
+
+
+                myDataset = new ArrayList();
         RecyclerView mRecyclerView =  root.findViewById(R.id.rec_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView

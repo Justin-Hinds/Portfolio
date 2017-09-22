@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
             Intent intent = new Intent(this, ProfileEditActivity.class);
             intent.putExtra(ProfilePageFrag.PLAYER_EXTRA, dishUser);
             startActivity(intent);
+
         }
         return true;
     }

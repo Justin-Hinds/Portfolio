@@ -111,51 +111,54 @@ public class ProfileEditFrag extends Fragment {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
-                ExifInterface exif = new ExifInterface(getRealPathFromURI(getContext(),uri));
-                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,1);
+               // ExifInterface exif = new ExifInterface(getRealPathFromURI(getContext(),uri));
+                //int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,1);
                 Log.d("ORIENTATION", getRealPathFromURI(getContext(),uri) + "");
-                switch (orientation){
-                    case 1:
-                        Picasso.with(getContext())
-                                .load(uri)
-                                .transform(new CropCircleTransformation())
-                                .into(imageView);
-
-                        break;
-                    case 3:
-                        Picasso.with(getContext())
-                                .load(uri)
-                                .rotate(180)
-                                .transform(new CropCircleTransformation())
-                                .into(imageView);
-
-                        break;
-                    case 6:
-                        Picasso.with(getContext())
-                                .load(uri)
-                                .rotate(90)
-                                .transform(new CropCircleTransformation())
-                                .into(imageView);
-
-                        break;
-                    case 8:
-                        Picasso.with(getContext())
-                                .load(uri)
-                                .rotate(270)
-                                .transform(new CropCircleTransformation())
-                                .into(imageView);
-
-                        break;
-                    default:
-                        Picasso.with(getContext())
-                                .load(uri)
-                                .transform(new CropCircleTransformation())
-                                .into(imageView);
-
-                        break;
-
-                }
-
+//                switch (orientation){
+//                    case 1:
+//                        Picasso.with(getContext())
+//                                .load(uri)
+//                                .transform(new CropCircleTransformation())
+//                                .into(imageView);
+//
+//                        break;
+//                    case 3:
+//                        Picasso.with(getContext())
+//                                .load(uri)
+//                                .rotate(180)
+//                                .transform(new CropCircleTransformation())
+//                                .into(imageView);
+//
+//                        break;
+//                    case 6:
+//                        Picasso.with(getContext())
+//                                .load(uri)
+//                                .rotate(90)
+//                                .transform(new CropCircleTransformation())
+//                                .into(imageView);
+//
+//                        break;
+//                    case 8:
+//                        Picasso.with(getContext())
+//                                .load(uri)
+//                                .rotate(270)
+//                                .transform(new CropCircleTransformation())
+//                                .into(imageView);
+//
+//                        break;
+//                    default:
+//                        Picasso.with(getContext())
+//                                .load(uri)
+//                                .transform(new CropCircleTransformation())
+//                                .into(imageView);
+//
+//                        break;
+//
+//                }
+                Picasso.with(getContext())
+                        .load(uri)
+                        .transform(new CropCircleTransformation())
+                        .into(imageView);
             } catch (IOException e) {
                 e.printStackTrace();
             }

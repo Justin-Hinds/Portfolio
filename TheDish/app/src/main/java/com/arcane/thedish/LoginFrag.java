@@ -272,7 +272,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
         if(user.getDisplayName() != null){
         dishUser.setName(user.getDisplayName());
         }else {
-            dishUser.setName("N00B");
+            dishUser.setName("Guest");
         }
         dishUser.setId(id);
         dishUser.setFavoriteFood("N/A");

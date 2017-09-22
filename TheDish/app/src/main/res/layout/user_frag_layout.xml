@@ -9,7 +9,6 @@
         android:id="@+id/searchview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:searchHintIcon="@drawable/ic_search_black_24dp"
         app:searchIcon="@drawable/ic_search_black_24dp"/>
 
     <android.support.v7.widget.RecyclerView

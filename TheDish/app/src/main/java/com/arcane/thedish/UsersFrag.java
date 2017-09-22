@@ -113,6 +113,11 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
     };
 
     @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         myRef.removeEventListener(valueEventListener);

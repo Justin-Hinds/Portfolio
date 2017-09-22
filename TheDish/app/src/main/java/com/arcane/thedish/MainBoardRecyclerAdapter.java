@@ -103,45 +103,50 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                     myUpsRef.updateChildren(upKeys);
                     myUserPostRef.updateChildren(upKeys);
                     myDownsRef.removeValue();
-                    myDownsRefUsersPost.removeValue();
+                    myDownsRefUsersPost.removeValue(new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            myUserPostRef.addChildEventListener(new ChildEventListener() {
+                                int num = 0;
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                            Log.d("SNAP", dataSnapshot.toString());
+                                    num ++;
+                                    ref.setValue(num);
+                                    postUpRef.setValue(num);
+//
+                                }
+
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                    Log.d("NUM:", num + "");
+                                    num --;
+                                    ref.setValue(num);
+                                    postUpRef.setValue(num);
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+
+                            });
+
+                        }
+                    });
                     ImageButton imageButton  = (ImageButton) v;
                    // imageButton.setImageResource(R.mipmap.up_icon_focused);
                    // downButton.setImageResource(R.mipmap.down_vote_icon);
-                    myUserPostRef.addChildEventListener(new ChildEventListener() {
-                        int num = 0;
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                            Log.d("SNAP", dataSnapshot.toString());
-                             num ++;
-                            ref.setValue(num);
-                            postUpRef.setValue(num);
-//
-                        }
-
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-                            Log.d("NUM:", num + "");
-                            num --;
-                            ref.setValue(num);
-                            postUpRef.setValue(num);
-                        }
-
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-
-                    });
 
                 }
             });
@@ -163,51 +168,61 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                     final DatabaseReference myUpsRef = database.getReference("Posts").child(post.getId()).child("ups").child(downId);
 
 
-                    Map<String, Object> downKeys = new HashMap<>();
+                    final Map<String, Object> downKeys = new HashMap<>();
                     downKeys.put(downId,true);
-                    myRef.updateChildren(downKeys);
+                    myRef.updateChildren(downKeys, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
                     myUserPostRef.updateChildren(downKeys);
+                        }
+                    });
                    // ImageButton imageButton = (ImageButton) v;
                    // imageButton.setImageResource(R.mipmap.down_icon_focused);
                     //upButton.setImageResource(R.mipmap.up_vote_icon);
                     myUpsRef.removeValue();
-                    myUpsRefUsersPost.removeValue();
-                    //TODO: Completion Handler
-                    myUserPostRef.addChildEventListener(new ChildEventListener() {
-                        int num = 0;
+                    myUpsRefUsersPost.removeValue(new DatabaseReference.CompletionListener() {
                         @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            //TODO: Completion Handler
+                            myUserPostRef.addChildEventListener(new ChildEventListener() {
+                                int num = 0;
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 //                            Log.d("SNAP", dataSnapshot.toString());
-                            num ++;
-                            ref.setValue(num);
-                            postDownRef.setValue(num);
+                                    num ++;
+                                    ref.setValue(num);
+                                    postDownRef.setValue(num);
 //
+                                }
+
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                    Log.d("NUM:", num + "");
+                                    num --;
+                                    ref.setValue(num);
+                                    postDownRef.setValue(num);
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+
+                            });
                         }
-
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-                            Log.d("NUM:", num + "");
-                            num --;
-                            ref.setValue(num);
-                            postDownRef.setValue(num);
-                        }
-
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-
                     });
+
                 }
             });
 
@@ -304,31 +319,5 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
     public int getItemCount() {
         return mDataset.size();
     }
-ChildEventListener childEventListener = new ChildEventListener() {
-    @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-    }
-
-    @Override
-    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-    }
-
-    @Override
-    public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-    }
-
-    @Override
-    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-
-    }
-};
 
 }
