@@ -22,12 +22,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -121,24 +124,24 @@ public class PostFrag extends Fragment {
 
             Uri uri = data.getData();
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                // Log.d(TAG, String.valueOf(bitmap));
+            Picasso.with(getContext())
+                    .load(uri)
+                    .into(imageView);
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+//                // Log.d(TAG, String.valueOf(bitmap));
+//                imageView.setImageBitmap(bitmap);
 
-                imageView.setImageBitmap(bitmap);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
     private void selectPhoto(){
         Intent intent = new Intent();
 // set type to image so only images are displayed
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        //intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setAction(Intent.ACTION_PICK);
 // Always show the chooser (if there are multiple options available)
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(intent,PICK_IMAGE_REQUEST);
+        // startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     private void sendPost(){
