@@ -1,7 +1,7 @@
 //Justin Hinds
 //MDF3 - 1707
 //DataManager.java
-package com.arcane.thedish;
+package com.arcane.thedish.Models;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,27 +20,16 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 public class DataManager {
+    private final String FILE_LOCATION = "com.arcane.thedish." + "FILE_LOCATION";
     private Context mContext = null;
-    public DataManager(Context context){
+
+    public DataManager(Context context) {
         mContext = context;
     }
 
-    private final String FILE_LOCATION = "com.arcane.thedish." + "FILE_LOCATION";
-    public void saveImg(Bitmap bitmap, String location) {
-        try {
-            FileOutputStream fileStream = mContext.openFileOutput( location + ".png", Context.MODE_PRIVATE);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileStream);
-            fileStream.close();
-            Log.d("ICON SAVED", location);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("SAVE IMG","FAILED");
-        }
-
-    }
-    public static String stringValidate(String s){
-         if (s.length() < 1) {
-             return null;
+    public static String stringValidate(String s) {
+        if (s.length() < 1) {
+            return null;
         }
         if (s.trim().length() == 0) {
             return null;
@@ -48,15 +37,29 @@ public class DataManager {
 
         return s;
     }
-    public void saveSmartphone(Post post){
+
+    public void saveImg(Bitmap bitmap, String location) {
+        try {
+            FileOutputStream fileStream = mContext.openFileOutput(location + ".png", Context.MODE_PRIVATE);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileStream);
+            fileStream.close();
+            Log.d("ICON SAVED", location);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("SAVE IMG", "FAILED");
+        }
+
+    }
+
+    public void saveSmartphone(Post post) {
 
         ArrayList<Post> arrayList;
         File file = mContext.getFileStreamPath(FILE_LOCATION);
 
-        if(file.exists()){
+        if (file.exists()) {
             //noinspection unchecked
             arrayList = readSavedData();
-        }else {
+        } else {
             arrayList = new ArrayList<>();
         }
         try {
@@ -71,22 +74,24 @@ public class DataManager {
         }
 
     }
-    public Bitmap readSavedBitmap(){
+
+    public Bitmap readSavedBitmap() {
 
         Bitmap bitmap = null;
-            try {
-                File filePath = mContext.getFileStreamPath(FILE_LOCATION + ".png");
-                FileInputStream fileInputStream = new FileInputStream(filePath);
-                bitmap = BitmapFactory.decodeStream(fileInputStream);
-                Log.d("BITMAP", bitmap.toString());
+        try {
+            File filePath = mContext.getFileStreamPath(FILE_LOCATION + ".png");
+            FileInputStream fileInputStream = new FileInputStream(filePath);
+            bitmap = BitmapFactory.decodeStream(fileInputStream);
+            Log.d("BITMAP", bitmap.toString());
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("READ FAILED", FILE_LOCATION + ".png");
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("READ FAILED", FILE_LOCATION + ".png");
+        }
         return bitmap;
     }
-    public ArrayList readSavedData(){
+
+    public ArrayList readSavedData() {
         try {
             FileInputStream fileInputStream = mContext.openFileInput(FILE_LOCATION);
             ObjectInputStream ois = new ObjectInputStream(fileInputStream);
@@ -95,7 +100,7 @@ public class DataManager {
             fileInputStream.close();
             //noinspection unchecked
             return readPhones;
-        } catch (IOException | ClassNotFoundException e ) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
 
             return null;

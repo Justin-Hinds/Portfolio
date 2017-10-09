@@ -1,7 +1,9 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Frags;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,6 +17,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.arcane.thedish.Models.DataManager;
+import com.arcane.thedish.Models.Post;
+import com.arcane.thedish.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -30,27 +36,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-
 import static android.app.Activity.RESULT_OK;
 
 
 public class PostFrag extends Fragment {
-    private static final int PICK_IMAGE_REQUEST = 1;
-
-    public static PostFrag newInstance(){return new PostFrag();}
     public static final String POST_TAG = "POST_TAG";
     public static final String TAG = "PostFrag.Tag";
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference myRef = database.getReference("Posts");
+    private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private DatabaseReference childRef;
     private String user;
     private EditText postMessage;
     private ImageView imageView;
     private ProgressBar progressBar;
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private final DatabaseReference myRef = database.getReference("Posts");
-    private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference postImageRef;
     private Uri postImageUri;
+    private Uri imageUri;
+    public static PostFrag newInstance() {
+        return new PostFrag();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -93,25 +99,25 @@ public class PostFrag extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.post_frag_layout, container,false);
+        View root = inflater.inflate(R.layout.post_frag_layout, container, false);
         progressBar = root.findViewById(R.id.progressBarPost);
-         postMessage =  root.findViewById(R.id.post_text);
-         user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-         childRef = myRef.push();
-        imageView =  root.findViewById(R.id.preview);
+        postMessage = root.findViewById(R.id.post_text);
+        user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        childRef = myRef.push();
+        imageView = root.findViewById(R.id.preview);
         imageView.setDrawingCacheEnabled(true);
-        ImageButton sendButton =  root.findViewById(R.id.send_button);
-        ImageButton cameraButton =  root.findViewById(R.id.camera_button);
+        ImageButton sendButton = root.findViewById(R.id.send_button);
+        ImageButton cameraButton = root.findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectPhoto();
             }
         });
-         sendButton.setOnClickListener(new View.OnClickListener() {
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               sendPost();
+                sendPost();
             }
         });
         return root;
@@ -123,34 +129,30 @@ public class PostFrag extends Fragment {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
+            imageUri = uri;
+
 
             Picasso.with(getContext())
                     .load(uri)
                     .into(imageView);
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-//                // Log.d(TAG, String.valueOf(bitmap));
-//                imageView.setImageBitmap(bitmap);
 
         }
     }
-    private void selectPhoto(){
+
+    private void selectPhoto() {
         Intent intent = new Intent();
 // set type to image so only images are displayed
         intent.setType("image/*");
-        //intent.setAction(Intent.ACTION_GET_CONTENT);
+
         intent.setAction(Intent.ACTION_PICK);
-// Always show the chooser (if there are multiple options available)
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
-        // startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    private void sendPost(){
-       // DatabaseReference userPostRef = database.getReference("User Posts").child(user);
-            progressBar.setVisibility(View.VISIBLE);
+    private void sendPost() {
+        progressBar.setVisibility(View.VISIBLE);
         final Post post = new Post();
         post.setUser(user);
         post.setTime(System.currentTimeMillis());
-        //post.setComments(new HashMap<String, Boolean>());
         post.setDowns(new HashMap<String, Boolean>());
         post.setUps(new HashMap<String, Boolean>());
         post.setHyperLink(null);
@@ -160,19 +162,23 @@ public class PostFrag extends Fragment {
         post.setId(postID);
 
 
-        if(imageView.getDrawable() != null){
+        if (imageView.getDrawable() != null) {
             post.setPostText(postMessage.getText().toString());
-            imageView.buildDrawingCache();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Bitmap uploadBitmap = imageView.getDrawingCache();
-            //compresses bitmap to png
-            uploadBitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
-            //writes to a byte array
-            byte[] imgData = baos.toByteArray();
+            //imageView.buildDrawingCache();
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            //Get direct bitmap
+//            Bitmap uploadBitmap = mBitmap;
+////            Bitmap uploadBitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+//            //compresses bitmap to png
+//            uploadBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//            //writes to a byte array
+//            byte[] imgData = baos.toByteArray();
             //path for image in firebase
             String path = "Post_Images/" + UUID.randomUUID() + ".png";
             postImageRef = storage.getReference(path);
-            UploadTask uploadTask = postImageRef.putBytes(imgData);
+            UploadTask uploadTask = postImageRef.putFile(imageUri);
+
+//            UploadTask uploadTask = postImageRef.putBytes(imgData);
             uploadTask.addOnSuccessListener(getActivity(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -180,9 +186,9 @@ public class PostFrag extends Fragment {
                     assert postImageUri != null;
                     post.setImgURL(postImageUri.toString());
                     //mapping values from post object
-                    Map<String,Object> postValues = post.toMap();
+                    Map<String, Object> postValues = post.toMap();
                     //setting map for updateValues
-                    Map<String,Object> childUpdates = new HashMap<>();
+                    Map<String, Object> childUpdates = new HashMap<>();
                     childUpdates.put("/Posts/" + postID, postValues);
                     childUpdates.put("/User Posts/" + user + "/" + postID, postValues);
                     database.getReference().updateChildren(childUpdates);
@@ -190,27 +196,23 @@ public class PostFrag extends Fragment {
                     getActivity().finish();
                 }
             });
-        }else if (DataManager.stringValidate(postMessage.getText().toString())!= null) {
+        } else if (DataManager.stringValidate(postMessage.getText().toString()) != null) {
             post.setPostText(postMessage.getText().toString());
             //mapping values from post object
-            Map<String,Object> postValues = post.toMap();
+            Map<String, Object> postValues = post.toMap();
             //setting map for updateValues
-            Map<String,Object> childUpdates = new HashMap<>();
+            Map<String, Object> childUpdates = new HashMap<>();
             childUpdates.put("/Posts/" + postID, postValues);
             childUpdates.put("/User Posts/" + user + "/" + postID, postValues);
             database.getReference().updateChildren(childUpdates);
             getActivity().finish();
-        }else {
-            Toast.makeText(getContext(),  "Enter some text or a dank meme", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "Enter some text or a dank meme", Toast.LENGTH_LONG).show();
 
         }
 
 
     }
-
-
-
-
 
 
 }

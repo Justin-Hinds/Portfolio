@@ -1,21 +1,24 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Frags;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.arcane.thedish.Activities.UsersActivity;
+import com.arcane.thedish.Adapters.UsersRecyclerAdapter;
+import com.arcane.thedish.Models.DishUser;
+import com.arcane.thedish.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,17 +30,46 @@ import java.util.ArrayList;
 
 
 public class UsersFrag extends Fragment implements SearchView.OnQueryTextListener {
-    private UsersRecyclerAdapter mAdapter;
-    private ArrayList<DishUser> myDataset = new ArrayList();
-    private SearchView searchView;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("Users");
-    public static UsersFrag newInstance(){return new UsersFrag();}
+    private UsersRecyclerAdapter mAdapter;
+    private ArrayList<DishUser> myDataset = new ArrayList();
+    private final ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            myDataset.clear();
+            //Log.i("USERS: ", dataSnapshot.getValue().toString());
+            for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                //Log.d("USERS ", "Name is: "  + childSnapshot.getValue(Player.class).getName());
+                DishUser dishUser = childSnapshot.getValue(DishUser.class);
+                //noinspection unchecked
+                if (!dishUser.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    myDataset.add(dishUser);
+
+                }
+
+
+            }
+            //noinspection unchecked
+            mAdapter.update(myDataset);
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+    private SearchView searchView;
     private UsersRecyclerAdapter.OnPlayerSelectedListener mListener;
+
+    public static UsersFrag newInstance() {
+        return new UsersFrag();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.user_frag_layout,container,false);
+        View root = inflater.inflate(R.layout.user_frag_layout, container, false);
 
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
         searchView = root.findViewById(R.id.searchview);
@@ -61,7 +93,7 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new UsersRecyclerAdapter(myDataset,getContext());
+        mAdapter = new UsersRecyclerAdapter(myDataset, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnPlayerInteraction(mListener);
 
@@ -84,33 +116,6 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
                     "implement OnPersonInteractionListener");
         }
     }
-    private final ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            myDataset.clear();
-            //Log.i("USERS: ", dataSnapshot.getValue().toString());
-            for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                //Log.d("USERS ", "Name is: "  + childSnapshot.getValue(Player.class).getName());
-                DishUser dishUser = childSnapshot.getValue(DishUser.class);
-                // Log.d(TAG, "Time is: "  + post.time);
-                //noinspection unchecked
-                if(!dishUser.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                myDataset.add(dishUser);
-
-                }
-
-
-
-            }
-            //noinspection unchecked
-            mAdapter.update(myDataset);
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
 
     @Override
     public void onPause() {
@@ -127,10 +132,10 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
     public boolean onQueryTextSubmit(String query) {
         String qString = query.toLowerCase();
         ArrayList<DishUser> newList = new ArrayList();
-        for (DishUser user : myDataset){
+        for (DishUser user : myDataset) {
             String name = user.getName().toLowerCase();
 
-            if (name.contains(qString)){
+            if (name.contains(qString)) {
                 newList.add(user);
             }
         }
@@ -142,13 +147,19 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
     public boolean onQueryTextChange(String newText) {
         String qString = newText.toLowerCase();
         ArrayList<DishUser> newList = new ArrayList();
-        for (DishUser user : myDataset){
-           String name = user.getName().toLowerCase();
 
-            if (name.contains(qString)){
+        for (DishUser user : myDataset) {
+            String name = user.getName().toLowerCase();
+
+            if (name.contains(qString)) {
                 newList.add(user);
             }
         }
+        for (DishUser user : newList){
+        Log.d("NEW LIST", user.getName());
+
+        }
+
         mAdapter.update(newList);
         return false;
     }

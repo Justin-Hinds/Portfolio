@@ -1,4 +1,4 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.arcane.thedish.Models.DishUser;
+import com.arcane.thedish.Models.Post;
+import com.arcane.thedish.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -28,41 +31,39 @@ import java.util.Map;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 
-public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    public ProfileRecyclerAdapter(ArrayList data, DishUser dishUser, Context context){
+public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
+    private final DishUser mDishUser;
+    private final Context mContext;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private ArrayList<Post> mDataSet;
+    private AddFellowStaffInterface mListener;
+    private MainBoardRecyclerAdapter.OnItemSelected postLitener;
+    public ProfileRecyclerAdapter(ArrayList data, DishUser dishUser, Context context) {
         //noinspection unchecked
         mDataSet = data;
         mDishUser = dishUser;
         mContext = context;
     }
-    public interface AddFellowStaffInterface {
-        void addFriend();
-//        void messagePlayer();
-    }
-    public void setAddFellowStaffInterface(AddFellowStaffInterface playerInterface, MainBoardRecyclerAdapter.OnItemSelected postInterface){
+
+    public void setAddFellowStaffInterface(AddFellowStaffInterface playerInterface, MainBoardRecyclerAdapter.OnItemSelected postInterface) {
         mListener = playerInterface;
         postLitener = postInterface;
     }
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_ITEM = 1;
-    private ArrayList<Post> mDataSet;
-    private final DishUser mDishUser;
-    private final Context mContext;
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private AddFellowStaffInterface mListener;
-    private MainBoardRecyclerAdapter.OnItemSelected postLitener;
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             //inflate your layout and pass it to view holder
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.post_cards, parent, false);
-            return new ViewHolder(v, mDataSet,postLitener);
+            return new ViewHolder(v, mDataSet, postLitener);
         } else if (viewType == TYPE_HEADER) {
             //inflate your layout and pass it to view holder
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.profile_header_item, parent, false);
-            return new VHHeader(v, mDishUser,mListener,postLitener);
+            return new VHHeader(v, mDishUser, mListener, postLitener);
         }
 
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -79,16 +80,16 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     DishUser dishUser = dataSnapshot.getValue(DishUser.class);
-                    if(mDishUser.getProfilePicURL() != null){
+                    if (mDishUser.getProfilePicURL() != null) {
 
                         Picasso.with(mContext)
                                 .load(mDishUser.getProfilePicURL())
                                 .transform(new CropCircleTransformation())
-                                .into(((ViewHolder)holder).imageView);
+                                .into(((ViewHolder) holder).imageView);
                     }
                     assert dishUser != null;
                     ((ViewHolder) holder).mStaffName.setText(dishUser.getName());
-                   // Log.d("SNAPSHOT: ", "");
+                    // Log.d("SNAPSHOT: ", "");
 
                 }
 
@@ -100,8 +101,8 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             //cast holder to VHItem and set data
             ((ViewHolder) holder).mTextView.setText(post.toString());
             Linkify.addLinks(((ViewHolder) holder).mTextView, Linkify.WEB_URLS);
-            if(post.getImgURL() != null){
-                Picasso.with(mContext).load(post.imgURL).into(((ViewHolder)holder).postImage);
+            if (post.getImgURL() != null) {
+                Picasso.with(mContext).load(post.imgURL).into(((ViewHolder) holder).postImage);
             }
 
         } else if (holder instanceof VHHeader) {
@@ -115,12 +116,12 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Log.d("Friends: ", mDishUser.getFriends().toString() + " Their ID: " + dishUser.getId());
                     Log.d("ID: ", mDishUser.getId());
 
-                    if(dishUser.getFriends().containsKey(mDishUser.getId())){
-                        ((VHHeader)holder).friends.setText("Request Sent");
-                    if (mDishUser.getFriends().containsKey(dishUser.getId())){
-                         ((VHHeader)holder).friends.setText("Friends");
+                    if (dishUser.getFriends().containsKey(mDishUser.getId())) {
+                        ((VHHeader) holder).friends.setText("Request Sent");
+                        if (mDishUser.getFriends().containsKey(dishUser.getId())) {
+                            ((VHHeader) holder).friends.setText("Friends");
+                        }
                     }
-                     }
 
 
                 }
@@ -131,25 +132,25 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
             });
             Log.d("Dataset VHHEADER", mDishUser.getName() + "");
-            if(mDishUser.getProfilePicURL() != null){
-               Picasso.with(mContext)
-                       .load(mDishUser.getProfilePicURL())
-                       .transform(new CropCircleTransformation())
-                       .into(((VHHeader)holder).imageView);
+            if (mDishUser.getProfilePicURL() != null) {
+                Picasso.with(mContext)
+                        .load(mDishUser.getProfilePicURL())
+                        .transform(new CropCircleTransformation())
+                        .into(((VHHeader) holder).imageView);
             }
 
 
-            ((VHHeader)holder).mStaffName.setText(mDishUser.getName());
-            ((VHHeader)holder).faveFood.setText("Favorite Food : " + mDishUser.getFavoriteFood());
-            ((VHHeader)holder).faveDrink.setText("Favorite Drink: " + mDishUser.getFavoriteDrink());
-            ((VHHeader)holder).faveRestaurant.setText("Favorite Restaurant: " + mDishUser.getFavoriteRestaurant());
+            ((VHHeader) holder).mStaffName.setText(mDishUser.getName());
+            ((VHHeader) holder).faveFood.setText("Favorite Food : " + mDishUser.getFavoriteFood());
+            ((VHHeader) holder).faveDrink.setText("Favorite Drink: " + mDishUser.getFavoriteDrink());
+            ((VHHeader) holder).faveRestaurant.setText("Favorite Restaurant: " + mDishUser.getFavoriteRestaurant());
         }
     }
 
-
-    private boolean isPositionHeader(int position){
+    private boolean isPositionHeader(int position) {
         return position == 0;
     }
+
     @Override
     public int getItemCount() {
         return mDataSet.size() + 1;
@@ -163,7 +164,21 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return TYPE_ITEM;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    private Post getItem(int position) {
+        return mDataSet.get(position - 1);
+    }
+
+    public void update(ArrayList<Post> posts) {
+        mDataSet = posts;
+        notifyDataSetChanged();
+    }
+
+    public interface AddFellowStaffInterface {
+        void addFriend();
+//        void messagePlayer();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         final TextView mTextView;
         final TextView mStaffName;
@@ -174,17 +189,18 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         final ImageView postImage;
         MainBoardRecyclerAdapter.OnItemSelected mListener;
         ArrayList<Post> mDataset = new ArrayList<>();
+
         public ViewHolder(View itemView, ArrayList<Post> posts, MainBoardRecyclerAdapter.OnItemSelected listener) {
             super(itemView);
             mDataset = posts;
             mListener = listener;
-            imageView =  itemView.findViewById(R.id.profile_icon);
-            mTextView =  itemView.findViewById(R.id.post_textview);
-            mStaffName =  itemView.findViewById(R.id.user_name);
-            postImage =  itemView.findViewById(R.id.imageView);
-            commentsButton =  itemView.findViewById(R.id.comments_button);
-            upButton =  itemView.findViewById(R.id.up_button);
-            downButton =  itemView.findViewById(R.id.down_button);
+            imageView = itemView.findViewById(R.id.profile_icon);
+            mTextView = itemView.findViewById(R.id.post_textview);
+            mStaffName = itemView.findViewById(R.id.user_name);
+            postImage = itemView.findViewById(R.id.imageView);
+            commentsButton = itemView.findViewById(R.id.comments_button);
+            upButton = itemView.findViewById(R.id.up_button);
+            downButton = itemView.findViewById(R.id.down_button);
 
             commentsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -206,15 +222,16 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String upId = user;
                     Map<String, Object> upKeys = new HashMap<>();
-                    upKeys.put(upId,true);
+                    upKeys.put(upId, true);
                     myRef.updateChildren(upKeys);
                     myUserPostRef.updateChildren(upKeys);
                     myUserPostRef.addChildEventListener(new ChildEventListener() {
                         int num = 0;
+
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 //                            Log.d("SNAP", dataSnapshot.toString());
-                            num ++;
+                            num++;
                             ref.setValue(num);
                             myRef.setValue(num);
 //                            Log.d("NUM: ", num + "");
@@ -257,15 +274,16 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String downId = user;
                     Map<String, Object> downKeys = new HashMap<>();
-                    downKeys.put(downId,true);
+                    downKeys.put(downId, true);
                     myRef.updateChildren(downKeys);
                     myUserPostRef.updateChildren(downKeys);
                     myUserPostRef.addChildEventListener(new ChildEventListener() {
                         int num = 0;
+
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 //                            Log.d("SNAP", dataSnapshot.toString());
-                            num ++;
+                            num++;
                             ref.setValue(num);
                             myRef.setValue(num);
 //                            Log.d("NUM: ", num + "");
@@ -297,9 +315,9 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             });
 
 
-
         }
     }
+
     public static class VHHeader extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         final TextView mStaffName;
@@ -308,27 +326,28 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         final TextView faveRestaurant;
         final ImageView imageView;
         final DishUser mDishUser;
-        public  TextView friends;
         final AddFellowStaffInterface mListener;
         final MainBoardRecyclerAdapter.OnItemSelected postListener;
+        public TextView friends;
+
         public VHHeader(View itemView, DishUser dishUser, AddFellowStaffInterface listener, MainBoardRecyclerAdapter.OnItemSelected postsListener) {
             super(itemView);
             mDishUser = dishUser;
             postListener = postsListener;
             mListener = listener;
             friends = itemView.findViewById(R.id.friends);
-            imageView =  itemView.findViewById(R.id.profile_icon);
-            mStaffName =  itemView.findViewById(R.id.user_name);
-            faveRestaurant =  itemView.findViewById(R.id.favorite_restaurant);
-            faveDrink =  itemView.findViewById(R.id.favorite_drink);
-            faveFood =  itemView.findViewById(R.id.favorite_food);
-            friends =  itemView.findViewById(R.id.friends);
+            imageView = itemView.findViewById(R.id.profile_icon);
+            mStaffName = itemView.findViewById(R.id.user_name);
+            faveRestaurant = itemView.findViewById(R.id.favorite_restaurant);
+            faveDrink = itemView.findViewById(R.id.favorite_drink);
+            faveFood = itemView.findViewById(R.id.favorite_food);
+            friends = itemView.findViewById(R.id.friends);
             friends.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.friends:
                     mListener.addFriend();
                     friends.setText("Request sent");
@@ -341,13 +360,6 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             }
         }
-    }
-    private Post getItem(int position) {
-        return mDataSet.get(position - 1);
-    }
-    public void update(ArrayList<Post> posts){
-        mDataSet = posts;
-        notifyDataSetChanged();
     }
 
 }

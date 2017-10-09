@@ -1,16 +1,11 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Frags;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +13,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.arcane.thedish.Models.DataManager;
+import com.arcane.thedish.Models.DishUser;
+import com.arcane.thedish.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,22 +29,20 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.UUID;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.LOCATION_SERVICE;
 
 
 public class ProfileEditFrag extends Fragment {
 
 
-    public static ProfileEditFrag newInstance(){return new ProfileEditFrag();}
     private static final int PICK_IMAGE_REQUEST = 1;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference userRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private EditText userName;
     private EditText faveFoodEdit;
     private ImageView imageView;
@@ -54,18 +50,21 @@ public class ProfileEditFrag extends Fragment {
     private EditText faveRestaurantEdit;
     private DishUser dishUser;
     private ProgressBar progressBar;
-    private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private Uri profileImageUri;
+
+    public static ProfileEditFrag newInstance() {
+        return new ProfileEditFrag();
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.profile_edit_layout,container,false);
-        userName =  root.findViewById(R.id.user_name);
-        faveFoodEdit =  root.findViewById(R.id.favorite_food);
-        faveDrinkEdit =  root.findViewById(R.id.favorite_drink);
-        faveRestaurantEdit =  root.findViewById(R.id.favorite_restaurant);
-        imageView =  root.findViewById(R.id.profile_icon);
+        View root = inflater.inflate(R.layout.profile_edit_layout, container, false);
+        userName = root.findViewById(R.id.user_name);
+        faveFoodEdit = root.findViewById(R.id.favorite_food);
+        faveDrinkEdit = root.findViewById(R.id.favorite_drink);
+        faveRestaurantEdit = root.findViewById(R.id.favorite_restaurant);
+        imageView = root.findViewById(R.id.profile_icon);
         progressBar = root.findViewById(R.id.progressBar);
         imageView.setDrawingCacheEnabled(true);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +82,7 @@ public class ProfileEditFrag extends Fragment {
                 faveFoodEdit.setText(dishUser.getFavoriteFood());
                 faveDrinkEdit.setText(dishUser.getFavoriteDrink());
                 faveRestaurantEdit.setText(dishUser.getFavoriteRestaurant());
-                if(dishUser.getProfilePicURL() != null){
+                if (dishUser.getProfilePicURL() != null) {
 
                     Picasso.with(getContext())
                             .load(dishUser.getProfilePicURL())
@@ -108,98 +107,46 @@ public class ProfileEditFrag extends Fragment {
 
             Uri uri = data.getData();
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                // Log.d(TAG, String.valueOf(bitmap));
-               // ExifInterface exif = new ExifInterface(getRealPathFromURI(getContext(),uri));
-                //int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,1);
-                Log.d("ORIENTATION", getRealPathFromURI(getContext(),uri) + "");
-//                switch (orientation){
-//                    case 1:
-//                        Picasso.with(getContext())
-//                                .load(uri)
-//                                .transform(new CropCircleTransformation())
-//                                .into(imageView);
-//
-//                        break;
-//                    case 3:
-//                        Picasso.with(getContext())
-//                                .load(uri)
-//                                .rotate(180)
-//                                .transform(new CropCircleTransformation())
-//                                .into(imageView);
-//
-//                        break;
-//                    case 6:
-//                        Picasso.with(getContext())
-//                                .load(uri)
-//                                .rotate(90)
-//                                .transform(new CropCircleTransformation())
-//                                .into(imageView);
-//
-//                        break;
-//                    case 8:
-//                        Picasso.with(getContext())
-//                                .load(uri)
-//                                .rotate(270)
-//                                .transform(new CropCircleTransformation())
-//                                .into(imageView);
-//
-//                        break;
-//                    default:
-//                        Picasso.with(getContext())
-//                                .load(uri)
-//                                .transform(new CropCircleTransformation())
-//                                .into(imageView);
-//
-//                        break;
-//
-//                }
-                Picasso.with(getContext())
-                        .load(uri)
-                        .transform(new CropCircleTransformation())
-                        .into(imageView);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Picasso.with(getContext())
+                    .load(uri)
+                    .transform(new CropCircleTransformation())
+                    .into(imageView);
         }
     }
 
-    private void selectPhoto(){
+    private void selectPhoto() {
         Intent intent = new Intent();
 // set type to image so only images are displayed
         intent.setType("image/*");
-        //intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setAction(Intent.ACTION_PICK);
-// Always show the chooser (if there are multiple options available)
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
-       // startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
-    public void save(){
+
+    public void save() {
         progressBar.setVisibility(View.VISIBLE);
-       // Log.i("SAVE: ", "HIT");
+        // Log.i("SAVE: ", "HIT");
         String name = userName.getText().toString();
         String faveRestaurant = faveRestaurantEdit.getText().toString();
         String faveFood = faveFoodEdit.getText().toString();
         String faveDrink = faveDrinkEdit.getText().toString();
-        if(DataManager.stringValidate(name) != null){
-        dishUser.setName(name);
-        }else {
+        if (DataManager.stringValidate(name) != null) {
+            dishUser.setName(name);
+        } else {
             dishUser.setName("N/A");
         }
-        if(DataManager.stringValidate(faveRestaurant) != null){
+        if (DataManager.stringValidate(faveRestaurant) != null) {
             dishUser.setFavoriteDrink(faveRestaurant);
-        }else {
+        } else {
             dishUser.setFavoriteDrink("N/A");
         }
-        if(DataManager.stringValidate(faveDrink) != null){
+        if (DataManager.stringValidate(faveDrink) != null) {
             dishUser.setFavoriteRestaurant(faveDrink);
-        }else {
+        } else {
             dishUser.setFavoriteRestaurant("N/A");
         }
-        if(DataManager.stringValidate(faveFood) != null){
+        if (DataManager.stringValidate(faveFood) != null) {
             dishUser.setFavoriteFood(faveFood);
-        }else {
+        } else {
             dishUser.setFavoriteFood("N/A");
         }
 
@@ -207,11 +154,11 @@ public class ProfileEditFrag extends Fragment {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Bitmap uploadBitmap = imageView.getDrawingCache();
         //compresses bitmap to png
-        uploadBitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+        uploadBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         //writes to a byte array
         byte[] imgData = baos.toByteArray();
         //path for image in firebase
-        String path = "Profile_Pics/" + dishUser.getId() +"/" + UUID.randomUUID() + ".png";
+        String path = "Profile_Pics/" + dishUser.getId() + "/" + UUID.randomUUID() + ".png";
         userRef.setValue(dishUser);
         StorageReference profileImageRef = storage.getReference(path);
         UploadTask uploadTask = profileImageRef.putBytes(imgData);
@@ -228,23 +175,7 @@ public class ProfileEditFrag extends Fragment {
         });
 
 
-
-
     }
 
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
 
 }

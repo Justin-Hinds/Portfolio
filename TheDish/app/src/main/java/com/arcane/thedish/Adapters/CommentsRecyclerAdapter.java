@@ -1,4 +1,4 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.arcane.thedish.Models.DishUser;
+import com.arcane.thedish.Models.PostComment;
+import com.arcane.thedish.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,15 +28,15 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 
 public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder> {
+    private final Context mContext;
     private ArrayList<PostComment> mDataset;
     private DishUser mUser;
-    private final Context mContext;
-    public CommentsRecyclerAdapter(ArrayList myData, Context context){
+
+    public CommentsRecyclerAdapter(ArrayList myData, Context context) {
         mContext = context;
         //noinspection unchecked
         mDataset = myData;
     }
-
 
 
     @Override
@@ -42,7 +45,7 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.comments_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        return new ViewHolder(v,mDataset);
+        return new ViewHolder(v, mDataset);
     }
 
     @Override
@@ -58,7 +61,7 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
                         .load(mUser.getProfilePicURL())
                         .transform(new CropCircleTransformation())
                         .into(holder.imageView);
-        Log.d("STRING", mUser.getId());
+                Log.d("STRING", mUser.getId());
                 holder.userName.setText(mUser.getName());
             }
 
@@ -70,13 +73,13 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
         holder.mTextView.setText(comment.getText());
         Date today = new Date(comment.getTime());
         long oneDay = 86400000;
-        if((System.currentTimeMillis() - comment.getTime() )/oneDay >= 1 ){
-            DateFormat DATE_FORMAT =  SimpleDateFormat.getDateInstance(DateFormat.SHORT);
+        if ((System.currentTimeMillis() - comment.getTime()) / oneDay >= 1) {
+            DateFormat DATE_FORMAT = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
             String date = DATE_FORMAT.format(today);
             holder.timeText.setText(date);
 
-        }else {
-            DateFormat DATE_FORMAT =  SimpleDateFormat.getTimeInstance(DateFormat.SHORT);
+        } else {
+            DateFormat DATE_FORMAT = SimpleDateFormat.getTimeInstance(DateFormat.SHORT);
             String date = DATE_FORMAT.format(today);
             holder.timeText.setText(date);
 
@@ -88,25 +91,25 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
         return mDataset.size();
     }
 
-    public  class ViewHolder extends RecyclerView.ViewHolder {
+    public void update(ArrayList<PostComment> postComments) {
+        mDataset = postComments;
+        notifyDataSetChanged();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         final TextView mTextView;
         final TextView timeText;
         final TextView userName;
         ImageView imageView;
         ArrayList<PostComment> mDataset = new ArrayList<>();
+
         public ViewHolder(View itemView, ArrayList<PostComment> postComments) {
             super(itemView);
-            imageView =  itemView.findViewById(R.id.profile_icon);
-            mTextView =  itemView.findViewById(R.id.comment_text);
+            imageView = itemView.findViewById(R.id.profile_icon);
+            mTextView = itemView.findViewById(R.id.comment_text);
             timeText = itemView.findViewById(R.id.time_text);
             userName = itemView.findViewById(R.id.user_name);
         }
 
-    }
-
-
-    public void update(ArrayList<PostComment> postComments){
-        mDataset = postComments;
-        notifyDataSetChanged();
     }
 }

@@ -1,10 +1,13 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.arcane.thedish.Frags.ProfileEditFrag;
+import com.arcane.thedish.R;
 
 
 public class ProfileEditActivity extends AppCompatActivity {
@@ -16,7 +19,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
          frag = ProfileEditFrag.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.container,frag).commit();

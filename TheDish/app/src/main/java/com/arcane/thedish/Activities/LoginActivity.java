@@ -1,8 +1,11 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.arcane.thedish.Frags.LoginFrag;
+import com.arcane.thedish.R;
 
 
 public class LoginActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Models;
 
 
 import android.support.annotation.NonNull;
@@ -10,20 +10,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Post implements Serializable, Comparable<Post> {
-    public Post(){
-
-    }
+    public String imgURL;
     private String postText;
     private String user;
-    public String imgURL;
     private URL hyperLink;
     private String id;
     private long time;
     private long upCount;
     private long downCount;
     private Map<String, Boolean> ups = new HashMap<>();
-    private Map<String, Boolean> downs  = new HashMap<>();
+    private Map<String, Boolean> downs = new HashMap<>();
     private Map<String, Boolean> comments = new HashMap<>();
+    public Post() {
+
+    }
 
     public String getId() {
         return id;
@@ -53,9 +53,11 @@ public class Post implements Serializable, Comparable<Post> {
     public String getPostText() {
         return postText;
     }
+
     public void setPostText(String postText) {
         this.postText = postText;
     }
+
     public String getImgURL() {
         return imgURL;
     }
@@ -118,7 +120,7 @@ public class Post implements Serializable, Comparable<Post> {
         return postText;
     }
 
-    public HashMap<String, Object> toMap(){
+    public HashMap<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("user", user);
         result.put("time", time);
@@ -130,21 +132,22 @@ public class Post implements Serializable, Comparable<Post> {
         result.put("ups", ups);
         result.put("downs", downs);
         result.put("comments", comments);
-        result.put("id",id);
+        result.put("id", id);
 
         return result;
     }
+
     @Override
-    public int compareTo(@NonNull Post otherPost){
-        long currentPostValue =  this.upCount - this.downCount;
+    public int compareTo(@NonNull Post otherPost) {
+        long currentPostValue = this.upCount - this.downCount;
         long otherPostValue = otherPost.upCount - otherPost.downCount;
         int compareValue = (int) (currentPostValue - otherPostValue);
 
-        if (currentPostValue < otherPostValue){
+        if (currentPostValue < otherPostValue) {
             Log.d("Post has more:", "Ups:" + compareValue);
             return 1;
         }
-        if (currentPostValue > otherPostValue){
+        if (currentPostValue > otherPostValue) {
             Log.d("Post has more:", "Downs: " + compareValue);
             return -1;
         }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.arcane.thedish.CommentsActivity">
+    tools:context="com.arcane.thedish.Activities.CommentsActivity">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:minHeight="48dp"
-            android:hint="@string/comment"
+            android:hint="@string/comment_here"
             android:backgroundTint="@android:color/transparent"
             android:layout_weight=".5"/>
         <ImageButton

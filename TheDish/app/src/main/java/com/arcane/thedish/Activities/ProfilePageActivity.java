@@ -1,4 +1,4 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -6,8 +6,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.arcane.thedish.Adapters.MainBoardRecyclerAdapter;
+import com.arcane.thedish.Adapters.ProfileRecyclerAdapter;
+import com.arcane.thedish.Frags.MainBoardFrag;
+import com.arcane.thedish.Frags.ProfilePageFrag;
+import com.arcane.thedish.Models.DishUser;
+import com.arcane.thedish.Models.Post;
+import com.arcane.thedish.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,23 +42,7 @@ private DishUser dishUser;
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container,frag).commit();
     }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.profile_menu,menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == R.id.edit_profile){
-//            Intent intent = new Intent(this, ProfileEditActivity.class);
-//            intent.putExtra(ProfilePageFrag.PLAYER_EXTRA, dishUser);
-//            startActivity(intent);
-//        }
-//
-//        return true;
-//    }
+
 
     @Override
     public void addFriend() {

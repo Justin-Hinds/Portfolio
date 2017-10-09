@@ -1,19 +1,17 @@
-package com.arcane.thedish;
-
-import android.support.annotation.NonNull;
+package com.arcane.thedish.Models;
 
 import java.util.HashMap;
 
 
 public class PostComment {
 
-    public PostComment(){
-
-    }
     private String postID;
     private String text;
     private Long time;
     private String sender;
+    public PostComment() {
+
+    }
 
     public String getPostID() {
         return postID;
@@ -46,13 +44,14 @@ public class PostComment {
     public void setSender(String sender) {
         this.sender = sender;
     }
-    public HashMap<String, Object> toMap(){
-        HashMap<String,Object> result = new HashMap<>();
 
-        result.put("text",text);
-        result.put("time",time);
-        result.put("postID",postID);
-        result.put("sender",sender);
+    public HashMap<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+
+        result.put("text", text);
+        result.put("time", time);
+        result.put("postID", postID);
+        result.put("sender", sender);
         return result;
     }
 

@@ -1,4 +1,4 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -11,9 +11,16 @@ import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.view.Window;
 
+import com.arcane.thedish.Adapters.CustomPagerAdapter;
+import com.arcane.thedish.Adapters.MainBoardRecyclerAdapter;
+import com.arcane.thedish.Adapters.UsersRecyclerAdapter;
+import com.arcane.thedish.Frags.MainBoardFrag;
+import com.arcane.thedish.Frags.ProfilePageFrag;
+import com.arcane.thedish.Models.DishUser;
+import com.arcane.thedish.Models.Post;
+import com.arcane.thedish.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,12 +28,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
-
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 
-public class MainActivity extends AppCompatActivity implements MainBoardRecyclerAdapter.OnItemSelected, UsersRecyclerAdapter.OnPlayerSelectedListener{
+public class MainActivity extends AppCompatActivity implements MainBoardRecyclerAdapter.OnItemSelected, UsersRecyclerAdapter.OnPlayerSelectedListener {
 
     DishUser dishUser;
     FirebaseDatabase database = FirebaseDatabase.getInstance();

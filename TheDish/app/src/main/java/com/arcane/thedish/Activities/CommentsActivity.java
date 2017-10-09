@@ -1,4 +1,4 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
+
+import com.arcane.thedish.Frags.CommentFrag;
+import com.arcane.thedish.Frags.MainBoardFrag;
+import com.arcane.thedish.Models.Post;
+import com.arcane.thedish.R;
+
 public class CommentsActivity extends AppCompatActivity {
     Post post;
     @Override

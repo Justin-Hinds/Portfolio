@@ -1,7 +1,10 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.arcane.thedish.Frags.UsersFrag;
+import com.arcane.thedish.R;
 
 public class UsersActivity extends AppCompatActivity {
 

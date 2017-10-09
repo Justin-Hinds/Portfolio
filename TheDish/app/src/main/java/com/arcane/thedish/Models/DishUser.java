@@ -1,4 +1,4 @@
-package com.arcane.thedish;
+package com.arcane.thedish.Models;
 
 
 import java.io.Serializable;
@@ -10,6 +10,8 @@ public class DishUser implements Serializable {
     private String favoriteRestaurant;
     private String favoriteFood;
     private String profilePicURL;
+    private String favoriteDrink;
+    private HashMap<String, Object> friends = new HashMap<>();
 
     public String getFavoriteFood() {
         return favoriteFood;
@@ -18,9 +20,6 @@ public class DishUser implements Serializable {
     public void setFavoriteFood(String favoriteFood) {
         this.favoriteFood = favoriteFood;
     }
-
-    private String favoriteDrink;
-    private HashMap<String,Object> friends = new HashMap<>();
 
     public String getName() {
         return name;

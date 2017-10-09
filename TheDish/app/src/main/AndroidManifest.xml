@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".MainActivity"
+        <activity android:name=".Activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,22 +23,22 @@
             </intent-filter>
         </activity>
         ...
-        <activity android:name=".ProfileEditActivity"
+        <activity android:name=".Activities.ProfileEditActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ProfilePageActivity"
+        <activity android:name=".Activities.ProfilePageActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".LoginActivity"
+        <activity android:name=".Activities.LoginActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".PostActivity"
+        <activity android:name=".Activities.PostActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".CommentsActivity"
+        <activity android:name=".Activities.CommentsActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".UsersActivity"
+        <activity android:name=".Activities.UsersActivity"
             android:screenOrientation="portrait"/>
 
     </application>
