@@ -8,16 +8,16 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="200dp"
+        android:layout_width="180dp"
         android:minHeight="48dp"
         android:minWidth="48dp"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:id="@+id/profile_icon"
         android:src="@mipmap/profile_pic"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/start_end_margin" />
+        android:layout_marginTop="@dimen/vertical_space_content_areas" />
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -29,107 +29,103 @@
         app:layout_constraintBottom_toBottomOf="@+id/profile_icon"
         app:layout_constraintTop_toTopOf="@+id/profile_icon"/>
 
-    <TextView
+    <EditText
+        android:layout_marginTop="@dimen/vertical_space_content_areas"
+        android:id="@+id/editText_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
         android:textAlignment="center"
-        android:layout_gravity="center"
-        android:textSize="30sp"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
         app:layout_constraintTop_toBottomOf="@+id/profile_icon"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/textView" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp" />
+
+    <EditText
+        android:id="@+id/editText_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/editText_email"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+
     <EditText
         android:id="@+id/user_name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:text="@string/name"
+        android:hint="@string/name"
         android:textAlignment="center"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:layout_marginStart="@dimen/start_end_margin"
         android:layout_marginEnd="@dimen/start_end_margin"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/favorite_food"
-        android:textAlignment="center"
-        android:layout_gravity="center"
-        android:textSize="16sp"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
-        app:layout_constraintTop_toBottomOf="@+id/user_name"
+        android:layout_marginTop="@dimen/touch_target"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:id="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_password"/>
+
     <EditText
         android:id="@+id/favorite_food"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:text="@string/favorite_food"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        android:hint="@string/favorite_food"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginStart="@dimen/start_end_margin"
         android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_gravity="center"
-        android:textAlignment="center" />
-    <TextView
-        android:id="@+id/textview3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/favorite_restaurant"
         android:textAlignment="center"
-        android:layout_gravity="center"
-        android:textSize="16sp"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
-        app:layout_constraintTop_toBottomOf="@+id/favorite_drink"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/user_name"/>
+
     <EditText
         android:id="@+id/favorite_restaurant"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textAlignment="center"
         android:layout_marginStart="@dimen/start_end_margin"
         android:layout_marginEnd="@dimen/start_end_margin"
-        android:text="@string/favorite_restaurant"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
-        app:layout_constraintTop_toBottomOf="@+id/textview3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/favorite_drink"
-        android:textAlignment="center"
-        android:layout_gravity="center"
-        android:textSize="16sp"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
-        app:layout_constraintTop_toBottomOf="@+id/favorite_food"
+        android:hint="@string/favorite_restaurant"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/favorite_food"/>
+
     <EditText
         android:id="@+id/favorite_drink"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textAlignment="center"
-        android:text="@string/favorite_drink"
+        android:hint="@string/favorite_drink"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginStart="@dimen/start_end_margin"
         android:layout_marginEnd="@dimen/start_end_margin"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorite_restaurant"/>
+
+    <Button
+        android:id="@+id/create_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/create_account"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/icons"
+        android:elevation="6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="@dimen/start_end_margin"
+        app:layout_constraintTop_toBottomOf="@+id/favorite_drink"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" />
 
 </android.support.constraint.ConstraintLayout>

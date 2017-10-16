@@ -50,11 +50,10 @@ public class MainBoardFrag extends Fragment {
             }
             //Log.d("DATA SET", myDataset.toString());
             //noinspection unchecked
-
-            Collections.sort(myDataset);
-          //  Log.d("DATA SET After", myDataset.toString());
+            DataManager.sortingPosts(myDataset);
 
             mAdapter.update(myDataset);
+
 
         }
 

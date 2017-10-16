@@ -38,7 +38,7 @@
         <activity android:name=".Activities.CommentsActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.UsersActivity"
+        <activity android:name=".Activities.CreateEmailActivity"
             android:screenOrientation="portrait"/>
 
     </application>

@@ -24,11 +24,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
+import static android.R.attr.id;
 
 
 public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -37,7 +42,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private final DishUser mDishUser;
     private final Context mContext;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private ArrayList<Post> mDataSet;
+    private static ArrayList<Post> mDataSet;
     private AddFellowStaffInterface mListener;
     private MainBoardRecyclerAdapter.OnItemSelected postLitener;
     public ProfileRecyclerAdapter(ArrayList data, DishUser dishUser, Context context) {
@@ -74,7 +79,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if (holder instanceof ViewHolder) {
             Post post = getItem(position);
-
+            String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
             DatabaseReference userRef = database.getReference("Users").child(post.getUser());
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -98,11 +103,40 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                 }
             });
+            if (post.getUps().containsKey(id)) {
+                ((ViewHolder) holder).upButton.setImageResource(R.mipmap.up_icon_focused);
+                ((ViewHolder) holder).downButton.setImageResource(R.mipmap.down_vote_icon);
+//            Log.d(TAG, "Post ups: " + post.getUps());
+
+            }
+            if (post.getDowns().containsKey(id)) {
+                ((ViewHolder) holder).upButton.setImageResource(R.mipmap.up_vote_icon);
+                ((ViewHolder) holder).downButton.setImageResource(R.mipmap.down_icon_focused);
+//            Log.d(TAG, "Post downs: " + post.getDowns());
+
+            }
+            Date today = new Date(post.getTime());
+            long oneDay = 86400000;
+//        Log.d("TIME DIFF ", System.currentTimeMillis() - post.getTime() + "");
+            if ((System.currentTimeMillis() - post.getTime()) / oneDay >= 1) {
+                DateFormat DATE_FORMAT = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
+                String date = DATE_FORMAT.format(today);
+                ((ViewHolder) holder).time.setText(date);
+
+            } else {
+                DateFormat DATE_FORMAT = SimpleDateFormat.getTimeInstance(DateFormat.SHORT);
+                String date = DATE_FORMAT.format(today);
+                ((ViewHolder) holder).time.setText(date);
+
+            }
             //cast holder to VHItem and set data
             ((ViewHolder) holder).mTextView.setText(post.toString());
             Linkify.addLinks(((ViewHolder) holder).mTextView, Linkify.WEB_URLS);
+            ((ViewHolder) holder).postImage.setImageBitmap(null);
             if (post.getImgURL() != null) {
-                Picasso.with(mContext).load(post.imgURL).into(((ViewHolder) holder).postImage);
+                Picasso.with(mContext)
+                        .load(post.imgURL)
+                        .into(((ViewHolder) holder).postImage);
             }
 
         } else if (holder instanceof VHHeader) {
@@ -164,7 +198,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return TYPE_ITEM;
     }
 
-    private Post getItem(int position) {
+    static Post getItem(int position) {
         return mDataSet.get(position - 1);
     }
 
@@ -182,6 +216,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         final TextView mTextView;
         final TextView mStaffName;
+        final TextView time;
         final ImageButton commentsButton;
         final ImageButton upButton;
         final ImageButton downButton;
@@ -194,6 +229,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             mDataset = posts;
             mListener = listener;
+            time = itemView.findViewById(R.id.time_text);
             imageView = itemView.findViewById(R.id.profile_icon);
             mTextView = itemView.findViewById(R.id.post_textview);
             mStaffName = itemView.findViewById(R.id.user_name);
@@ -205,7 +241,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             commentsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onCommentsClicked(mDataset.get(getAdapterPosition() - 1));
+                    mListener.onCommentsClicked(getItem(getAdapterPosition()));
 
                 }
             });
@@ -213,104 +249,145 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             upButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Post post = mDataset.get(getAdapterPosition() - 1);
-                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("upCount");
-                    final DatabaseReference myRef = database.getReference("Posts").child(post.getId()).child("ups");
-                    final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("ups");
-                    mListener.onUpClicked(post);
-                    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    String upId = user;
-                    Map<String, Object> upKeys = new HashMap<>();
-                    upKeys.put(upId, true);
-                    myRef.updateChildren(upKeys);
-                    myUserPostRef.updateChildren(upKeys);
-                    myUserPostRef.addChildEventListener(new ChildEventListener() {
-                        int num = 0;
 
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Post post = getItem(getAdapterPosition());
+                        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String upId = user;
+                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("upCount");
+                        final DatabaseReference myUpsRef = database.getReference("Posts").child(post.getId()).child("ups");
+                        final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("ups");
+                        final DatabaseReference postUpRef = database.getReference("Posts").child(post.getId()).child("upCount");
+                        final DatabaseReference myDownsRefUsersPost = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downs").child(upId);
+                        final DatabaseReference myDownsRef = database.getReference("Posts").child(post.getId()).child("downs").child(upId);
+
+
+                        mListener.onUpClicked(post);
+                        Map<String, Object> upKeys = new HashMap<>();
+                        upKeys.put(upId, true);
+                        myUpsRef.updateChildren(upKeys);
+                        myUserPostRef.updateChildren(upKeys);
+                        myDownsRef.removeValue();
+                        myDownsRefUsersPost.removeValue(new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                myUserPostRef.addChildEventListener(new ChildEventListener() {
+                                    int num = 0;
+
+                                    @Override
+                                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 //                            Log.d("SNAP", dataSnapshot.toString());
-                            num++;
-                            ref.setValue(num);
-                            myRef.setValue(num);
-//                            Log.d("NUM: ", num + "");
+                                        num++;
+                                        ref.setValue(num);
+                                        postUpRef.setValue(num);
 //
-                        }
+                                    }
 
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                                    @Override
+                                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                        }
+                                    }
 
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                    @Override
+                                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                        Log.d("NUM:", num + "");
+                                        num--;
+                                        ref.setValue(num);
+                                        postUpRef.setValue(num);
+                                    }
 
-                        }
+                                    @Override
+                                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                                    }
 
-                        }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                                    }
 
-                        }
+                                });
 
-                    });
+                            }
+                        });
+
                 }
             });
 
             downButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onDownClicked(mDataset.get(getAdapterPosition()));
-                    Post post = mDataset.get(getAdapterPosition());
+                    Post post = getItem(getAdapterPosition());
+                    mListener.onDownClicked(post);
+                    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String downId = user;
+
                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                     final DatabaseReference ref = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downCount");
                     final DatabaseReference myRef = database.getReference("Posts").child(post.getId()).child("downs");
+                    final DatabaseReference postDownRef = database.getReference("Posts").child(post.getId()).child("downCount");
                     final DatabaseReference myUserPostRef = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("downs");
-                    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    String downId = user;
-                    Map<String, Object> downKeys = new HashMap<>();
+
+                    final DatabaseReference myUpsRefUsersPost = database.getReference("User Posts").child(post.getUser()).child(post.getId()).child("ups").child(downId);
+                    final DatabaseReference myUpsRef = database.getReference("Posts").child(post.getId()).child("ups").child(downId);
+
+
+                    final Map<String, Object> downKeys = new HashMap<>();
                     downKeys.put(downId, true);
-                    myRef.updateChildren(downKeys);
-                    myUserPostRef.updateChildren(downKeys);
-                    myUserPostRef.addChildEventListener(new ChildEventListener() {
-                        int num = 0;
-
+                    myRef.updateChildren(downKeys, new DatabaseReference.CompletionListener() {
                         @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                            Log.d("SNAP", dataSnapshot.toString());
-                            num++;
-                            ref.setValue(num);
-                            myRef.setValue(num);
-//                            Log.d("NUM: ", num + "");
-//
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            myUserPostRef.updateChildren(downKeys);
                         }
-
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-
                     });
+                    // ImageButton imageButton = (ImageButton) v;
+                    // imageButton.setImageResource(R.mipmap.down_icon_focused);
+                    //upButton.setImageResource(R.mipmap.up_vote_icon);
+                    myUpsRef.removeValue();
+                    myUpsRefUsersPost.removeValue(new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            //TODO: Completion Handler
+                            myUserPostRef.addChildEventListener(new ChildEventListener() {
+                                int num = 0;
+
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                            Log.d("SNAP", dataSnapshot.toString());
+                                    num++;
+                                    ref.setValue(num);
+                                    postDownRef.setValue(num);
+//
+                                }
+
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                    Log.d("NUM:", num + "");
+                                    num--;
+                                    ref.setValue(num);
+                                    postDownRef.setValue(num);
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+
+                            });
+                        }
+                    });
+
                 }
             });
 

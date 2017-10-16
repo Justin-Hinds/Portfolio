@@ -15,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arcane.thedish.Activities.UsersActivity;
+import com.arcane.thedish.Activities.CreateEmailActivity;
 import com.arcane.thedish.Adapters.UsersRecyclerAdapter;
 import com.arcane.thedish.Models.DishUser;
 import com.arcane.thedish.R;
@@ -75,7 +75,7 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
         searchView = root.findViewById(R.id.searchview);
         searchView.setElevation(4);
         searchView.setBackgroundColor(Color.WHITE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getContext(), UsersActivity.class)));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getContext(), CreateEmailActivity.class)));
         searchView.setQueryHint(getString(R.string.search_staff));
         searchView.setFocusable(false);
         searchView.setIconified(true);
