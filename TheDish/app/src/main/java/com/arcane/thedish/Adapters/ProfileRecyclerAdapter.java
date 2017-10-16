@@ -132,6 +132,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             //cast holder to VHItem and set data
             ((ViewHolder) holder).mTextView.setText(post.toString());
             Linkify.addLinks(((ViewHolder) holder).mTextView, Linkify.WEB_URLS);
+            //set imageBitmap to null to prevent images leaking to other posts
             ((ViewHolder) holder).postImage.setImageBitmap(null);
             if (post.getImgURL() != null) {
                 Picasso.with(mContext)
@@ -149,8 +150,9 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     DishUser dishUser = dataSnapshot.getValue(DishUser.class);
                     Log.d("Friends: ", mDishUser.getFriends().toString() + " Their ID: " + dishUser.getId());
                     Log.d("ID: ", mDishUser.getId());
-
-                    if (dishUser.getFriends().containsKey(mDishUser.getId())) {
+                    if(dishUser.getId().equals(mDishUser.getId())){
+                        ((VHHeader) holder).friends.setVisibility(View.GONE);
+                    }else if (dishUser.getFriends().containsKey(mDishUser.getId())) {
                         ((VHHeader) holder).friends.setText("Request Sent");
                         if (mDishUser.getFriends().containsKey(dishUser.getId())) {
                             ((VHHeader) holder).friends.setText("Friends");

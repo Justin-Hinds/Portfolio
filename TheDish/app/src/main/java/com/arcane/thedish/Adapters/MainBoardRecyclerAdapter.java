@@ -101,6 +101,11 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
 
             }
         });
+        if(!post.getUps().containsKey(id) && !post.getDowns().containsKey(id)){
+            holder.upButton.setImageResource(R.mipmap.up_vote_icon);
+            holder.downButton.setImageResource(R.mipmap.down_vote_icon);
+
+        }
         if (post.getUps().containsKey(id)) {
             holder.upButton.setImageResource(R.mipmap.up_icon_focused);
             holder.downButton.setImageResource(R.mipmap.down_vote_icon);
@@ -111,7 +116,6 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
             holder.upButton.setImageResource(R.mipmap.up_vote_icon);
             holder.downButton.setImageResource(R.mipmap.down_icon_focused);
 //            Log.d(TAG, "Post downs: " + post.getDowns());
-
         }
         Date today = new Date(post.getTime());
         long oneDay = 86400000;
@@ -127,6 +131,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
             holder.time.setText(date);
 
         }
+        //set imageBitmap to null to prevent images leaking to other posts
         holder.imageView.setImageBitmap(null);
         if (mDataset.get(position).getImgURL() != null) {
 //            ImageLoadTask task = new ImageLoadTask(holder.imageView);

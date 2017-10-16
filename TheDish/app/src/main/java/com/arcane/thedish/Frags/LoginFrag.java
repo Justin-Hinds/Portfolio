@@ -293,6 +293,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             //userCheck();
+                            datman.userCheck(null,null);
 
                         } else {
                             // If sign in fails, display a postText to the user.

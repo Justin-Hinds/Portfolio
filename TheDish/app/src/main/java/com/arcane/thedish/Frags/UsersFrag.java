@@ -43,9 +43,10 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
                 //Log.d("USERS ", "Name is: "  + childSnapshot.getValue(Player.class).getName());
                 DishUser dishUser = childSnapshot.getValue(DishUser.class);
                 //noinspection unchecked
-                if (!dishUser.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                if (dishUser.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    myDataset.add(0,dishUser);
+                }else {
                     myDataset.add(dishUser);
-
                 }
 
 

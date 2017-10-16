@@ -199,7 +199,9 @@ public class DataManager {
                         }
                     }
                 }
+                if(imageView != null || view != null){
                 addPlayer(mAuth.getCurrentUser(),imageView, view);
+                }
             }
 
             @Override
