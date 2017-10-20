@@ -31,7 +31,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -44,12 +43,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -70,14 +65,14 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
     private ProgressBar progressBar;
     private Uri imageUri;
     private DataManager datman;
-    private ValueEventListener valueEvent = new ValueEventListener() {
+    private final ValueEventListener valueEvent = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             for (DataSnapshot child : dataSnapshot.getChildren()) {
                 DishUser dishUser = child.getValue(DishUser.class);
                 Log.d("SNAP: ", child.getValue().toString());
                 String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                if (user.equals(dishUser.getId())) {
+                if (user.equals(dishUser != null ? dishUser.getId() : null)) {
                     currentDishUser = dishUser;
                     if (currentDishUser.getId().equals(user)) {
                         startActivity(new Intent(getContext(), MainActivity.class));
@@ -110,7 +105,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.login_layout, container, false);
         //LoginButton fbLoginButton = (LoginButton) root.findViewById(R.id.fb_login_button);
-        final SignInButton gSignInButton = (SignInButton) root.findViewById(R.id.g_sign_in_button);
+        final SignInButton gSignInButton = root.findViewById(R.id.g_sign_in_button);
         gSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -246,7 +241,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            //FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(getContext(), MainActivity.class));
                             progressBar.setVisibility(View.INVISIBLE);
 
@@ -291,7 +286,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+//                            FirebaseUser user = mAuth.getCurrentUser();
                             //userCheck();
                             datman.userCheck(null,null);
 

@@ -8,17 +8,12 @@ import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
-/**
- * Created by ChefZatoichi on 10/4/17.
- */
+
 
 public class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
 
-        private static int MaxTextureSize = 2048; /* True for most devices. */
-
-        public ImageView v;
+    private final ImageView v;
 
         public ImageLoadTask(ImageView iv) {
             v = iv;
@@ -34,7 +29,7 @@ public class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
 
             Bitmap bitmap = null;
             if(isCancelled()) {
-                return bitmap;
+                return null;
             }
 
 
@@ -48,7 +43,7 @@ public class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return bitmap;
+            return null;
         }
 
         @Override

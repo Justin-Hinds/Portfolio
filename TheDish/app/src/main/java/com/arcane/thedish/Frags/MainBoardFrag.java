@@ -23,9 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 
+@SuppressWarnings("unchecked")
 public class MainBoardFrag extends Fragment {
     public static final String MaindBoard_TAG = "MaindBoard_TAG";
     public static final String POST_EXTRA = "com.arcane.sticks.POST_EXTRA";
@@ -33,9 +33,9 @@ public class MainBoardFrag extends Fragment {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("Posts");
     private MainBoardRecyclerAdapter mAdapter;
-    private ArrayList<Post> myDataset = new ArrayList();
+    private final ArrayList<Post> myDataset = new ArrayList();
     private MainBoardRecyclerAdapter.OnItemSelected mListener;
-    private ValueEventListener valueEventListener = new ValueEventListener() {
+    private final ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             // This method is called once with the initial value and again
@@ -71,7 +71,6 @@ public class MainBoardFrag extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Context mContext = context;
         getListenerFromContext(context);
     }
 
@@ -96,7 +95,6 @@ public class MainBoardFrag extends Fragment {
         mAdapter = new MainBoardRecyclerAdapter(myDataset, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnInteraction(mListener);
-        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
 //        Log.d("USER: ", user);
         // Read from the database
         observePosts();

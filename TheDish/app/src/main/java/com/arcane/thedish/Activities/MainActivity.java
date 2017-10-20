@@ -11,10 +11,7 @@ import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 
 import com.arcane.thedish.Adapters.CustomPagerAdapter;
 import com.arcane.thedish.Adapters.MainBoardRecyclerAdapter;
@@ -35,10 +32,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements MainBoardRecyclerAdapter.OnItemSelected, UsersRecyclerAdapter.OnPlayerSelectedListener {
 
-    DishUser dishUser;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser mFireUser = mAuth.getCurrentUser();
+    private DishUser dishUser;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private final FirebaseUser mFireUser = mAuth.getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
@@ -108,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
         }
         return true;
     }
-    ValueEventListener eventListener = new ValueEventListener() {
+    private final ValueEventListener eventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             dishUser = dataSnapshot.getValue(DishUser.class);

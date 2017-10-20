@@ -34,14 +34,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.UUID;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 public class DataManager {
@@ -50,7 +46,7 @@ public class DataManager {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference ref = database.getReference("Users");
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public DataManager(Context context) {
         mContext = context;
     }
@@ -113,7 +109,7 @@ public class DataManager {
     }
 
 //Function for adding new user to database
-    public void addPlayer(FirebaseUser user, ImageView imageView, View view) {
+private void addPlayer(FirebaseUser user, ImageView imageView, View view) {
         final String id = user.getUid();
         final DishUser dishUser = new DishUser();
         EditText userName = view.findViewById(R.id.user_name);
@@ -191,7 +187,7 @@ public class DataManager {
                     DishUser dishUser = child.getValue(DishUser.class);
                     Log.d("SNAP: ", child.getValue().toString());
                     String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    if (user.equals(dishUser.getId())) {
+                    if (user.equals(dishUser != null ? dishUser.getId() : null)) {
                         currentDishUser[0] = dishUser;
                         if (currentDishUser[0].getId().equals(user)) {
                             mContext.startActivity(new Intent(mContext, MainActivity.class));
@@ -237,7 +233,7 @@ return upsAndDowns;
 
 
 // Comparator for chronological sorting
-    static class timeCompare implements Comparator<Post>{
+    private static class timeCompare implements Comparator<Post>{
 
         @Override
         public int compare(Post post, Post t1) {

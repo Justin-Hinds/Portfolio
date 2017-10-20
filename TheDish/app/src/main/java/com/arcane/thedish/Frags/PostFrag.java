@@ -1,12 +1,8 @@
 package com.arcane.thedish.Frags;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -30,8 +26,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -155,7 +149,7 @@ public class PostFrag extends Fragment {
         post.setTime(System.currentTimeMillis());
         post.setDowns(new HashMap<String, Boolean>());
         post.setUps(new HashMap<String, Boolean>());
-        post.setHyperLink(null);
+        post.setHyperLink();
         post.setImgURL(null);
 
         final String postID = childRef.getKey();

@@ -2,7 +2,6 @@ package com.arcane.thedish.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdapter.ViewHolder> {
     private final Context mContext;
-    public static ArrayList<DishUser> mDataSet;
+    private static ArrayList<DishUser> mDataSet;
     private OnPlayerSelectedListener mListener;
 
 

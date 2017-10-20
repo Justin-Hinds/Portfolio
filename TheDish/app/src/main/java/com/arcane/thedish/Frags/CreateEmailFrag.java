@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arcane.thedish.Models.DataManager;
-import com.arcane.thedish.Models.DishUser;
 import com.arcane.thedish.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,8 +36,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class CreateEmailFrag extends Fragment {
 
-    DataManager dataMan;
-    FirebaseAuth mAuth;
+    private DataManager dataMan;
+    private FirebaseAuth mAuth;
     private Uri profileImageUri;
     private Uri imageUri;
     private EditText userName;
@@ -46,8 +45,8 @@ public class CreateEmailFrag extends Fragment {
     private ImageView imageView;
     private EditText faveDrinkEdit;
     private EditText faveRestaurantEdit;
-    View view;
-    ProgressBar progressBar;
+    private View view;
+    private ProgressBar progressBar;
     public static final int RC_SIGN_IN = 9101;
     public static final String DISHUSER_INTENT = "DISHUSER_INTENT";
     private static final String TAG = "CreateEmailFrag.Tag";
@@ -110,12 +109,11 @@ public class CreateEmailFrag extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            //FirebaseUser user = mAuth.getCurrentUser();
                             dataMan.userCheck(imageView,view);
                         } else {
                             progressBar.setVisibility(View.INVISIBLE);
                             // If sign in fails, display a postText to the user.
-                            Log.w(TAG, task.getException().getMessage(), task.getException());
                             if (task.getException().getMessage().equals("The email address is already in use by another account.")) {
                                 Toast.makeText(getContext(), "Email already in use",
                                         Toast.LENGTH_SHORT).show();

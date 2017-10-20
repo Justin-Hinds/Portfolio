@@ -2,7 +2,6 @@ package com.arcane.thedish.Models;
 
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.io.Serializable;
 import java.net.URL;
@@ -70,8 +69,8 @@ public class Post implements Serializable, Comparable<Post> {
         return hyperLink;
     }
 
-    public void setHyperLink(URL hyperLink) {
-        this.hyperLink = hyperLink;
+    public void setHyperLink() {
+        this.hyperLink = null;
     }
 
     public long getTime() {
@@ -141,7 +140,6 @@ public class Post implements Serializable, Comparable<Post> {
     public int compareTo(@NonNull Post otherPost) {
         long currentPostValue = this.upCount - this.downCount;
         long otherPostValue = otherPost.upCount - otherPost.downCount;
-        int compareValue = (int) (currentPostValue - otherPostValue);
 
         if (currentPostValue < otherPostValue) {
             return 1;

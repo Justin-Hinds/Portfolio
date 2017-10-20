@@ -37,7 +37,7 @@ public class CommentFrag extends Fragment {
     public static final String TAG = ".CommentsFrag: ";
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("Comments");
-    DatabaseReference postComRef = database.getReference("Post Comments");
+    private final DatabaseReference postComRef = database.getReference("Post Comments");
     private EditText commentText;
     private Post mPost;
     private CommentsRecyclerAdapter mAdapter;
@@ -60,7 +60,7 @@ public class CommentFrag extends Fragment {
 
         }
     };
-    private ChildEventListener postChildEventListener = new ChildEventListener() {
+    private final ChildEventListener postChildEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             final String commentID = dataSnapshot.getKey();

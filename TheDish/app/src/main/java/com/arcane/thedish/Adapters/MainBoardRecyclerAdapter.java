@@ -1,8 +1,6 @@
 package com.arcane.thedish.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -26,9 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -88,12 +83,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
                         .load(dishUser.getProfilePicURL())
                         .transform(new CropCircleTransformation())
                         .into(holder.profileImage);
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    //Log.d(TAG, "Value is: "  + childSnapshot.getValue(Post.class));
 
-                    // Log.d(TAG, "Time is: "  + post.time);
-
-                }
             }
 
             @Override
@@ -159,9 +149,7 @@ public class MainBoardRecyclerAdapter extends RecyclerView.Adapter<MainBoardRecy
     public void onViewRecycled(ViewHolder holder) {
         ImageLoadTask task = new ImageLoadTask(holder.imageView);
 //
-        if (task != null){
-            task.cancel(true);
-        }
+        task.cancel(true);
         super.onViewRecycled(holder);
     }
 

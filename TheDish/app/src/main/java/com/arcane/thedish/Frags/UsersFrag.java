@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -36,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+@SuppressWarnings("unchecked")
 public class UsersFrag extends Fragment implements SearchView.OnQueryTextListener {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("Users");
@@ -173,7 +173,7 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
         mAdapter.update(newList);
         return false;
     }
-    void hideKeyboard(){
+    private void hideKeyboard(){
         InputMethodManager inputMan = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if(!searchView.hasFocus()){
         inputMan.hideSoftInputFromInputMethod(getActivity().getCurrentFocus().getWindowToken(),0);

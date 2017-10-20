@@ -187,7 +187,7 @@ public class ProfileEditFrag extends Fragment {
 
     }
 
-    void hideKeyboard(View v){
+    private void hideKeyboard(View v){
             InputMethodManager inputMan = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMan.hideSoftInputFromInputMethod(userName.getWindowToken(),0);
 

@@ -100,7 +100,7 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<CommentsRecycl
         final TextView mTextView;
         final TextView timeText;
         final TextView userName;
-        ImageView imageView;
+        final ImageView imageView;
         ArrayList<PostComment> mDataset = new ArrayList<>();
 
         public ViewHolder(View itemView, ArrayList<PostComment> postComments) {

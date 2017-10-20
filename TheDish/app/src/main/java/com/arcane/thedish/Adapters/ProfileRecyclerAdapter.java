@@ -33,8 +33,6 @@ import java.util.Map;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
-import static android.R.attr.id;
-
 
 public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
@@ -143,12 +141,12 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else if (holder instanceof VHHeader) {
             //cast holder to VHHeader and set data for header.
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            DatabaseReference currentUserRef = database.getReference("Users").child(user.getUid());
+            DatabaseReference currentUserRef = database.getReference("Users").child(user != null ? user.getUid() : null);
             currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     DishUser dishUser = dataSnapshot.getValue(DishUser.class);
-                    Log.d("Friends: ", mDishUser.getFriends().toString() + " Their ID: " + dishUser.getId());
+                    Log.d("Friends: ", mDishUser.getFriends().toString() + " Their ID: " + (dishUser != null ? dishUser.getId() : null));
                     Log.d("ID: ", dishUser.getId());
                     if(dishUser.getId().equals(mDishUser.getId())){
                         ((VHHeader) holder).friends.setVisibility(View.GONE);
@@ -212,7 +210,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return TYPE_ITEM;
     }
 
-    static Post getItem(int position) {
+    private static Post getItem(int position) {
         return mDataSet.get(position - 1);
     }
 
@@ -236,7 +234,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         final ImageButton downButton;
         final ImageView imageView;
         final ImageView postImage;
-        MainBoardRecyclerAdapter.OnItemSelected mListener;
+        final MainBoardRecyclerAdapter.OnItemSelected mListener;
         ArrayList<Post> mDataset = new ArrayList<>();
 
         public ViewHolder(View itemView, ArrayList<Post> posts, MainBoardRecyclerAdapter.OnItemSelected listener) {

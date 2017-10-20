@@ -27,11 +27,11 @@ import java.util.ArrayList;
 
 public class ProfilePageFrag extends Fragment {
     public static final String PLAYER_EXTRA = "com.arcane.sticks.PLAYER_EXTRA";
-    public static final String PLAYER_ARG = "PLAYER_ARG";
+    private static final String PLAYER_ARG = "PLAYER_ARG";
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef = database.getReference("User Posts");
     DatabaseReference myUserRef = database.getReference("Users");
-    String user;
+    private String user;
     private ProfileRecyclerAdapter mAdapter;
     private ArrayList myDataset = new ArrayList();
     private final ValueEventListener valueEventListener = new ValueEventListener() {

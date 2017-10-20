@@ -59,9 +59,6 @@ private DishUser dishUser;
             otherFellowUsers.put(user, true);
             otherFriendsRef.updateChildren(otherFellowUsers);
 
-            if(dishUser.getRequests().containsKey(user)){
-
-            }
         }
     }
 
