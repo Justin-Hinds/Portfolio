@@ -11,7 +11,10 @@ import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 
 import com.arcane.thedish.Adapters.CustomPagerAdapter;
 import com.arcane.thedish.Adapters.MainBoardRecyclerAdapter;
@@ -53,7 +56,9 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
         userRef.addValueEventListener(eventListener);
 
         }
+
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getPackageName());

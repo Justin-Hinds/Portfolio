@@ -81,11 +81,7 @@ public class MainBoardFrag extends Fragment {
         View root = inflater.inflate(R.layout.mainboard_frag_layout, container, false);
 //        DataManager mDataManager = new DataManager(getContext());
         RecyclerView mRecyclerView =  root.findViewById(R.id.rec_card_view);
-//        if (mDataManager.readSavedData() != null) {
-//            myDataset = mDataManager.readSavedData();
-//        } else {
-//            myDataset = new ArrayList();
-//        }
+
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView

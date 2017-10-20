@@ -49,11 +49,19 @@ private DishUser dishUser;
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference friendsRef = database.getReference("Users").child(user).child("friends");
+        DatabaseReference otherFriendsRef = database.getReference("Users").child(dishUser.getId()).child("requests");
         if(!Objects.equals(dishUser.getId(), user)){
+            Map<String, Object> fellowUsers = new HashMap<>();
+            fellowUsers.put(dishUser.getId(), true);
+            friendsRef.updateChildren(fellowUsers);
 
-            Map<String, Object> fellowPlayers = new HashMap<>();
-            fellowPlayers.put(dishUser.getId(), true);
-            friendsRef.updateChildren(fellowPlayers);
+            Map<String, Object> otherFellowUsers = new HashMap<>();
+            otherFellowUsers.put(user, true);
+            otherFriendsRef.updateChildren(otherFellowUsers);
+
+            if(dishUser.getRequests().containsKey(user)){
+
+            }
         }
     }
 

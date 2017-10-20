@@ -149,11 +149,23 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     DishUser dishUser = dataSnapshot.getValue(DishUser.class);
                     Log.d("Friends: ", mDishUser.getFriends().toString() + " Their ID: " + dishUser.getId());
-                    Log.d("ID: ", mDishUser.getId());
+                    Log.d("ID: ", dishUser.getId());
                     if(dishUser.getId().equals(mDishUser.getId())){
                         ((VHHeader) holder).friends.setVisibility(View.GONE);
                     }else if (dishUser.getFriends().containsKey(mDishUser.getId())) {
                         ((VHHeader) holder).friends.setText("Request Sent");
+                        if(dishUser.getRequests().containsKey(mDishUser.getId())){
+                            Log.d("USERNAME",mDishUser.getId());
+                            Log.d("OTHERUSER",dishUser.getId());
+                            DatabaseReference requestRef2 = database.getReference("Users").child(mDishUser.getId()).child("requests").child(dishUser.getId());
+                            DatabaseReference requestRef = database.getReference("Users").child(dishUser.getId()).child("requests").child(mDishUser.getId());
+                            DatabaseReference ref = database.getReference("Users").child(dishUser.getId()).child("friends");
+                            Map<String, Object> fellowUsers = new HashMap<>();
+                            fellowUsers.put(mDishUser.getId(), true);
+                            ref.updateChildren(fellowUsers);
+                            requestRef.removeValue();
+                            requestRef2.removeValue();
+                        }
                         if (mDishUser.getFriends().containsKey(dishUser.getId())) {
                             ((VHHeader) holder).friends.setText("Friends");
                         }
@@ -431,9 +443,7 @@ public class ProfileRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     mListener.addFriend();
                     friends.setText("Request sent");
                     break;
-//                case R.id.message:
-//                    mListener.messagePlayer();
-//                    break;
+
                 default:
                     break;
 

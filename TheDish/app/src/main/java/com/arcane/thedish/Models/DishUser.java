@@ -12,6 +12,15 @@ public class DishUser implements Serializable {
     private String profilePicURL;
     private String favoriteDrink;
     private HashMap<String, Object> friends = new HashMap<>();
+    private HashMap<String, Object> requests = new HashMap<>();
+
+    public HashMap<String, Object> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(HashMap<String, Object> requests) {
+        this.requests = requests;
+    }
 
     public String getFavoriteFood() {
         return favoriteFood;

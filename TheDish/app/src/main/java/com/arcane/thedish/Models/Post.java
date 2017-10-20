@@ -144,14 +144,11 @@ public class Post implements Serializable, Comparable<Post> {
         int compareValue = (int) (currentPostValue - otherPostValue);
 
         if (currentPostValue < otherPostValue) {
-            Log.d("Post has more:", "Ups:" + compareValue);
             return 1;
         }
         if (currentPostValue > otherPostValue) {
-            Log.d("Post has more:", "Downs: " + compareValue);
             return -1;
         }
-        Log.d("Post is neutral", ": " + compareValue);
 
         return 0;
     }

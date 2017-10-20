@@ -56,6 +56,10 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
                     .into(holder.imageView);
 
         }
+//        holder.requestImage.setImageBitmap(null);
+        if(mDataSet.get(0).getRequests().containsKey(dishUser.getId())){
+            holder.requestImage.setVisibility(View.VISIBLE);
+        }
         holder.mTextView.setText(dishUser.getName());
     }
 
@@ -67,9 +71,7 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
     public void update(ArrayList<DishUser> dishUsers) {
         mDataSet = dishUsers;
         notifyDataSetChanged();
-        for (DishUser user : mDataSet){
-            Log.d("userArrayList", user.getName());
-        }
+
     }
 
 
@@ -81,6 +83,7 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
         final TextView mTextView;
         final OnPlayerSelectedListener mListener;
         final ImageView imageView;
+        final ImageView requestImage;
         ArrayList<DishUser> userArrayList = new ArrayList<>();
 
         public ViewHolder(View itemView, OnPlayerSelectedListener listener, ArrayList<DishUser> dishUsers) {
@@ -89,14 +92,15 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
             mTextView = itemView.findViewById(R.id.user_name);
             imageView = itemView.findViewById(R.id.profile_icon);
             mListener = listener;
+            requestImage = itemView.findViewById(R.id.request_icon);
             userArrayList = dishUsers;
 
         }
 
         @Override
         public void onClick(View v) {
-            Log.i("POSITION", getAdapterPosition() + "");
-            Log.i("DATA", userArrayList.size() + "");
+//            Log.i("POSITION", getAdapterPosition() + "");
+//            Log.i("DATA", userArrayList.size() + "");
 
             mListener.onPlayerSelected(mDataSet.get(getAdapterPosition()));
         }

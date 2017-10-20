@@ -1,5 +1,6 @@
 package com.arcane.thedish.Frags;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -7,8 +8,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -60,6 +63,13 @@ public class ProfileEditFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.profile_edit_layout, container, false);
+        root.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard(view);
+                return false;
+            }
+        });
         userName = root.findViewById(R.id.user_name);
         faveFoodEdit = root.findViewById(R.id.favorite_food);
         faveDrinkEdit = root.findViewById(R.id.favorite_drink);
@@ -177,5 +187,9 @@ public class ProfileEditFrag extends Fragment {
 
     }
 
+    void hideKeyboard(View v){
+            InputMethodManager inputMan = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMan.hideSoftInputFromInputMethod(userName.getWindowToken(),0);
 
+    }
 }
