@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/availability"
+        android:title="@string/availability"
+        android:icon="@drawable/ic_availability"/>
+    <item
+        android:id="@+id/request_time_off"
+        android:title="@string/request_time_off"
+        android:icon="@drawable/ic_time_off"/>
+    <item
+        android:id="@+id/messages"
+        android:icon="@drawable/ic_messages"
+        android:title="@string/messages" />
+
+    <item
+        android:id="@+id/create_schedule"
+        android:title="@string/create_schedule"
+        android:icon="@drawable/ic_create_schedule"/>
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_settings"/>
+    </group>
+</menu>

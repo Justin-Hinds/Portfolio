@@ -303,87 +303,13 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
                 });
     }
 
-//    private void addPlayer(FirebaseUser user) {
-//        final String id = user.getUid();
-//        final DishUser dishUser = new DishUser();
-//        if (user.getDisplayName() != null) {
-//            dishUser.setName(user.getDisplayName());
-//        } else {
-//            dishUser.setName("Guest");
-//        }
-//        dishUser.setId(id);
-//        dishUser.setFavoriteFood("N/A");
-//        dishUser.setFavoriteRestaurant("N/A");
-//        dishUser.setFavoriteDrink("N/A");
-//        imageView.buildDrawingCache();
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        Bitmap uploadBitmap = imageView.getDrawingCache();
-//        //compresses bitmap to png
-//        uploadBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//        //writes to a byte array
-//        byte[] imgData = baos.toByteArray();
-//        //path for image in firebase
-//        String path = "Profile_Pics/" + dishUser.getId() + "/" + UUID.randomUUID() + ".png";
-//        StorageReference profileImageRef = storage.getReference(path);
-//        UploadTask uploadTask = profileImageRef.putBytes(imgData);
-//        uploadTask.addOnSuccessListener(getActivity(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                profileImageUri = taskSnapshot.getDownloadUrl();
-//                assert profileImageUri != null;
-//                dishUser.setProfilePicURL(profileImageUri.toString());
-//                ref.child(id).setValue(dishUser);
-//                startActivity(new Intent(getContext(), MainActivity.class));
-//                getActivity().finish();
-//                Log.d("Check", dishUser.getProfilePicURL());
 //
-//            }
-//        });
-//        Log.d("AFTER ", "CHECK ");
-//
-//    }
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
-//    private void userCheck() {
-//       DatabaseReference userRef = database.getReference("Users");
-//
-//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot child : dataSnapshot.getChildren()) {
-//                    DishUser dishUser = child.getValue(DishUser.class);
-//                    Log.d("SNAP: ", child.getValue().toString());
-//                    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//                    if (user.equals(dishUser.getId())) {
-//                        currentDishUser = dishUser;
-//                        if (currentDishUser.getId().equals(user)) {
-//                            startActivity(new Intent(getContext(), MainActivity.class));
-//                            getActivity().finish();
-//                            return;
-//                        }
-//                    }
-//                }
-//                addPlayer(mAuth.getCurrentUser());
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-//    private void selectPhoto() {
-//        Intent intent = new Intent();
-//// set type to image so only images are displayed
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//// Always show the chooser (if there are multiple options available)
-//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-//    }
+
 
     @Override
     public void onPause() {

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "87555494870",
+    "firebase_url": "https://tournant-b7e7f.firebaseio.com",
+    "project_id": "tournant-b7e7f",
+    "storage_bucket": "tournant-b7e7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87555494870:android:d2c413b4c92c5393",
+        "android_client_info": {
+          "package_name": "com.arcane.tournantscheduling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87555494870-ucll4s9lvbpg9md9cmtmse9apg64afmb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arcane.tournantscheduling",
+            "certificate_hash": "4bbb203cdb2373abdeac6dc8f6857e3324b4635f"
+          }
+        },
+        {
+          "client_id": "87555494870-jq7uu1hn4ro0u0a6a7bodeuir8fnjplp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmx0Cn_Sriz9_RuuzNoCKM1OR2WgCNZDA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87555494870-jq7uu1hn4ro0u0a6a7bodeuir8fnjplp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

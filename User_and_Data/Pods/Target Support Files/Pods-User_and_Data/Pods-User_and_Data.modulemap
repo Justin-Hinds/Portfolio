@@ -1,0 +1,6 @@
+framework module Pods_User_and_Data {
+  umbrella header "Pods-User_and_Data-umbrella.h"
+
+  export *
+  module * { export * }
+}
