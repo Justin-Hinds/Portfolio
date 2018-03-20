@@ -30,25 +30,22 @@ import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
-/**
- * Created by ChefZatoichi on 10/11/17.
- */
 
 public class CreateEmailFrag extends Fragment {
 
     private DataManager dataMan;
     private FirebaseAuth mAuth;
-    private Uri profileImageUri;
+//    private Uri profileImageUri;
     private Uri imageUri;
-    private EditText userName;
-    private EditText faveFoodEdit;
+//    private EditText userName;
+//    private EditText faveFoodEdit;
     private ImageView imageView;
-    private EditText faveDrinkEdit;
-    private EditText faveRestaurantEdit;
+//    private EditText faveDrinkEdit;
+//    private EditText faveRestaurantEdit;
     private View view;
     private ProgressBar progressBar;
-    public static final int RC_SIGN_IN = 9101;
-    public static final String DISHUSER_INTENT = "DISHUSER_INTENT";
+//    public static final int RC_SIGN_IN = 9101;
+//    public static final String DISHUSER_INTENT = "DISHUSER_INTENT";
     private static final String TAG = "CreateEmailFrag.Tag";
     private static final int PICK_IMAGE_REQUEST = 1;
 

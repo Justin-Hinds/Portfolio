@@ -11,23 +11,19 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimeOffFrag extends Fragment {
+public class CreateScheduleFrag extends Fragment {
 
 
-    public static TimeOffFrag newInstance() {
-        return new TimeOffFrag();
+    public static CreateScheduleFrag newInstance() {
+        return new CreateScheduleFrag();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_time_off,container,false);
-
-
-
-
-        return root;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_create_schedule, container, false);
     }
 
 }

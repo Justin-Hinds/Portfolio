@@ -23,4 +23,28 @@
     <string name="date">Date</string>
     <string name="weekday">Weekday</string>
     <string name="time">Time</string>
+    <string name="login">Login</string>
+    <string name="home">Home</string>
+    <string name="create_account">Create Account</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="welcome">Welcome</string>
+    <string name="restaurant_name">Restaurant Name</string>
+    <string name="address">Address</string>
+    <string name="your_name">Your Name</string>
+    <string name="create">Create</string>
+    <string name="next">Next</string>
+    <string name="city">City</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="your_info">Your Info</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+
+    <string-array name="availability_options">
+        <item name="None">None</item>
+        <item name="Mornings">Mornings</item>
+        <item name="Nights">Nights</item>
+        <item name="Available">Available</item>
+    </string-array>
 </resources>

@@ -104,7 +104,6 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.login_layout, container, false);
-        //LoginButton fbLoginButton = (LoginButton) root.findViewById(R.id.fb_login_button);
         final SignInButton gSignInButton = root.findViewById(R.id.g_sign_in_button);
         gSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,12 +112,7 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
             }
         });
         imageView =  root.findViewById(R.id.profile_icon);
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                selectPhoto();
-//            }
-//        });
+
         datman = new DataManager(getActivity());
         Button emailSign =  root.findViewById(R.id.login);
         Button emailCreate =  root.findViewById(R.id.create_account);

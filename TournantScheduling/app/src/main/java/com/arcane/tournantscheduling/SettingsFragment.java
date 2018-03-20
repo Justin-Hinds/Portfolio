@@ -7,27 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimeOffFrag extends Fragment {
+public class SettingsFragment extends Fragment {
 
 
-    public static TimeOffFrag newInstance() {
-        return new TimeOffFrag();
+    public static SettingsFragment newInstance() {
+        return new SettingsFragment();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_time_off,container,false);
-
-
-
-
-        return root;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
 }

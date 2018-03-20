@@ -9,5 +9,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        LoginFrag loginFrag = LoginFrag.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.login_view,loginFrag).commit();
     }
 }
