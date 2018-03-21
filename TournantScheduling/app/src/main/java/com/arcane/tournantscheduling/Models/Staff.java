@@ -1,5 +1,6 @@
 package com.arcane.tournantscheduling.Models;
 
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -8,7 +9,11 @@ public class Staff {
     String name;
     String id;
     String address;
-    int phone;
+    String city;
+    String state;
+    int zip;
+    Date created;
+    long phone;
     boolean manager;
     HashMap<String,Object> week;
     HashMap<String,Object> days;
@@ -37,11 +42,11 @@ public class Staff {
         this.address = address;
     }
 
-    public int getPhone() {
+    public long getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(long phone) {
         this.phone = phone;
     }
 
@@ -67,5 +72,37 @@ public class Staff {
 
     public void setDays(HashMap<String, Object> days) {
         this.days = days;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getZip() {
+        return zip;
+    }
+
+    public void setZip(int zip) {
+        this.zip = zip;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

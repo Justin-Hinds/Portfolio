@@ -84,7 +84,6 @@ public class CreateEmailFrag extends Fragment {
                       handleEmailCreateAccount(email, password);
                 } else {
                     Toast.makeText(getContext(), "Please enter valid Email and Passwored", Toast.LENGTH_LONG).show();
-
                 }
             }
         });

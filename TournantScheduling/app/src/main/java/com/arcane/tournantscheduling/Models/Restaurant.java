@@ -13,10 +13,11 @@ public class Restaurant implements Parcelable{
     String address;
     String city;
     int zip;
-    int phone;
+    long phone;
     Date created;
     HashMap<String,Object> staff;
 
+    public Restaurant(){}
     protected Restaurant(Parcel in) {
         name = in.readString();
         state = in.readString();
@@ -78,11 +79,11 @@ public class Restaurant implements Parcelable{
         this.zip = zip;
     }
 
-    public int getPhone() {
+    public long getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(long phone) {
         this.phone = phone;
     }
 
@@ -114,6 +115,6 @@ public class Restaurant implements Parcelable{
         parcel.writeString(address);
         parcel.writeString(city);
         parcel.writeInt(zip);
-        parcel.writeInt(phone);
+        parcel.writeLong(phone);
     }
 }
