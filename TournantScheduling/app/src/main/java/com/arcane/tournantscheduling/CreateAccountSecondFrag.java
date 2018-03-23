@@ -20,6 +20,7 @@ import com.arcane.tournantscheduling.Models.Restaurant;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,6 +38,7 @@ public class CreateAccountSecondFrag extends Fragment {
     private FirebaseAuth mAuth;
     private DataManager dataMan;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     Spinner state;
     EditText managerName;
@@ -63,6 +65,7 @@ public class CreateAccountSecondFrag extends Fragment {
 
         final View root = inflater.inflate(R.layout.fragment_create_account_second, container, false);
         setupUi(root);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
 
         Bundle bundle = getArguments();
         if(bundle.getParcelable("restaurant") != null){
@@ -74,19 +77,19 @@ public class CreateAccountSecondFrag extends Fragment {
             @Override
             public void onClick(View view) {
                 setUpManager();
-                if(!password.getText().toString().equals(confirmPassword.getText().toString())){
+                if(password.getText().toString().equals(confirmPassword.getText().toString())){
+                    final String emailString = email.getText().toString();
+                    final String passwordString = password.getText().toString();
+                   if(DataManager.loginValidate(emailString,passwordString,getContext())){
+                    handleEmailCreateAccount(emailString, passwordString,root);
+                   } else {
+                       Toast.makeText(getContext(), "Please enter valid Email and Passwored", Toast.LENGTH_LONG).show();
+                   }
+                }else {
                     Log.d("NO MATCH:", "Passwords do not match");
                     return;
                 }
 
-                if (DataManager.stringValidate(email.getText().toString()) != null &&
-                        DataManager.stringValidate(password.getText().toString()) != null) {
-                    final String emailString = email.getText().toString();
-                    final String passwordString = password.getText().toString();
-                    handleEmailCreateAccount(emailString, passwordString,root);
-                } else {
-                    Toast.makeText(getContext(), "Please enter valid Email and Passwored", Toast.LENGTH_LONG).show();
-                }
             }
         });
 
@@ -116,15 +119,16 @@ public class CreateAccountSecondFrag extends Fragment {
         String nameText = DataManager.stringValidate(managerName.getText().toString());
         String addressText = DataManager.stringValidate(address.getText().toString());
         String cityText = DataManager.stringValidate(city.getText().toString());
+        manager = new Staff();
         if(DataManager.stringValidate(zip.getText().toString()) != null){
         int zipText = Integer.parseInt(DataManager.stringValidate(zip.getText().toString()));
+        Log.d("ZIP ", String.valueOf(zipText));
         manager.setZip(zipText);
 
         }
 //        long phoneText = Long.parseLong(DataManager.stringValidate(phone.getText().toString()));
         String stateText = DataManager.stringValidate(state.getSelectedItem().toString());
 
-        manager = new Staff();
         manager.setName(nameText);
         manager.setAddress(addressText);
         manager.setCity(cityText);
@@ -149,9 +153,12 @@ public class CreateAccountSecondFrag extends Fragment {
                                 FirebaseUser user = mAuth.getCurrentUser();
 
                                 manager.setId(user.getUid());
+                                Log.d("MANAGER ID", manager.getId());
                                 dataMan.addRestaurant(restaurant, manager, user);
                                 //dataMan.userCheck(view);
-                                getContext().startActivity(new Intent(getContext(),HomeScreenActivity.class));
+                                Intent intent = new Intent();
+                                intent.putExtra(HomeScreenActivity.EMPLOYEE_TAG,manager);
+                                getContext().startActivity(intent);
                             } else {
                                 // If sign in fails, display a postText to the user.
                                 if (task.getException().getMessage().equals("The email address is already in use by another account.")) {

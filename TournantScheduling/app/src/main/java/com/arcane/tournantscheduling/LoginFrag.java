@@ -58,10 +58,10 @@ public class LoginFrag extends Fragment {
             public void onClick(View view) {
                 final EditText emailText =  root.findViewById(R.id.editText_email);
                 final EditText passwordText =  root.findViewById(R.id.editText_password);
-               if(DataManager.stringValidate(emailText.getText().toString()) != null &&
-                       DataManager.stringValidate(passwordText.getText().toString()) != null){
-                   final String email = emailText.getText().toString();
-                   final String password = passwordText.getText().toString();
+                final String email = emailText.getText().toString();
+                final String password = passwordText.getText().toString();
+
+               if(DataManager.loginValidate(email,password,getContext())){
                    Log.d("Email", email);
                    handleEmailSignIn(email, password);
                }
@@ -103,6 +103,7 @@ private void handleEmailSignIn(String email, String password){
                         Log.d(TAG, "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         startActivity(new Intent(getContext(),HomeScreenActivity.class));
+                        getActivity().finish();
                         //updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.

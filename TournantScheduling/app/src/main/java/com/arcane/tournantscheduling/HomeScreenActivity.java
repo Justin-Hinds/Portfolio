@@ -10,15 +10,22 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 
+import com.arcane.tournantscheduling.Models.Staff;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomeScreenActivity extends AppCompatActivity {
+    public static final String  EMPLOYEE_TAG = "EMPLOYEE_TAG";
+
     private FirebaseAuth mAuth;
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-//    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //TODO: Analytics
+    private FirebaseAnalytics mFirebaseAnalytics;
     private  FirebaseUser mFireUser;
+    private Staff manager;
     private DrawerLayout mDrawerLayout;
     private HomeScreenFrag homeFrag;
     @Override
@@ -44,8 +51,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         mAuth = FirebaseAuth.getInstance();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
+        //db.collection("Restaurants")
         homeFrag = HomeScreenFrag.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.home_view,homeFrag).commit();
 
@@ -54,6 +62,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
@@ -90,6 +99,16 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 Log.d("MENU ITEM: ", menuItem.toString());
                                 fragment = HomeScreenFrag.newInstance();
                                 getSupportFragmentManager().beginTransaction().replace(R.id.home_view,fragment).commit();
+                                break;
+                            case R.id.create_manage_staff:
+                                Log.d("MENU ITEM: ", menuItem.toString());
+                                fragment = RosterFrag.newInstance();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.home_view,fragment).commit();
+                                break;
+                            case R.id.logout:
+                                Log.d("MENU ITEM: ", menuItem.toString());
+                                mAuth.getInstance().signOut();
+                                updateUI(mAuth.getCurrentUser());
                                 break;
                         }
                         return true;

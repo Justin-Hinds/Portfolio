@@ -3,50 +3,76 @@ package com.arcane.tournantscheduling;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arcane.tournantscheduling.Models.Staff;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RosterFrag.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
+import java.util.ArrayList;
+
+
 public class RosterFrag extends Fragment {
+    private RosterRecyclerAdapter mAdapter;
+    private Staff mUser;
+    private ArrayList<Staff> myDataset = new ArrayList();
+    private RosterRecyclerAdapter.OnStaffSelectedListener mListener;
 
-    private OnFragmentInteractionListener mListener;
 
-    public RosterFrag() {
-        // Required empty public constructor
+    public static RosterFrag newInstance() {
+        return new RosterFrag();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_roster, container, false);
+
+        View root = inflater.inflate(R.layout.fragment_roster, container, false);
+
+        RecyclerView mRecyclerView =  root.findViewById(R.id.roster_rec_view);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        // specify an adapter
+        mAdapter = new RosterRecyclerAdapter(myDataset, getContext());
+        mRecyclerView.setAdapter(mAdapter);
+
+
+
+        FloatingActionButton fab = root.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("FAB ", "HIT");
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                CreateStaffFrag frag = CreateStaffFrag.newInstance();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_view,frag).commit();
+            }
+        });
+        return root;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof RosterRecyclerAdapter.OnStaffSelectedListener) {
+//            mListener = (RosterRecyclerAdapter.OnStaffSelectedListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
@@ -55,18 +81,4 @@ public class RosterFrag extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

@@ -15,6 +15,7 @@ public class Restaurant implements Parcelable{
     int zip;
     long phone;
     Date created;
+    String id;
     HashMap<String,Object> staff;
 
     public Restaurant(){}
@@ -25,6 +26,7 @@ public class Restaurant implements Parcelable{
         city = in.readString();
         zip = in.readInt();
         phone = in.readInt();
+        id = in.readString();
     }
 
     public static final Creator<Restaurant> CREATOR = new Creator<Restaurant>() {
@@ -103,6 +105,18 @@ public class Restaurant implements Parcelable{
         this.city = city;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public static Creator<Restaurant> getCREATOR() {
+        return CREATOR;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -116,5 +130,6 @@ public class Restaurant implements Parcelable{
         parcel.writeString(city);
         parcel.writeInt(zip);
         parcel.writeLong(phone);
+        parcel.writeString(id);
     }
 }

@@ -5,9 +5,16 @@
     tools:context="com.arcane.tournantscheduling.RosterFrag">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/roster_rec_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_add"
+        android:layout_margin="16dp" />
 </FrameLayout>

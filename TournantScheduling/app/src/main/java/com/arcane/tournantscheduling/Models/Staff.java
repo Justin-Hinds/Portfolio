@@ -1,13 +1,17 @@
 package com.arcane.tournantscheduling.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 import java.util.HashMap;
 
 
 
-public class Staff {
+public class Staff implements Parcelable {
     String name;
     String id;
+    String restaurantID;
     String address;
     String city;
     String state;
@@ -17,6 +21,30 @@ public class Staff {
     boolean manager;
     HashMap<String,Object> week;
     HashMap<String,Object> days;
+    public Staff(){}
+    protected Staff(Parcel in) {
+        name = in.readString();
+        id = in.readString();
+        restaurantID = in.readString();
+        address = in.readString();
+        city = in.readString();
+        state = in.readString();
+        zip = in.readInt();
+        phone = in.readLong();
+        manager = in.readByte() != 0;
+    }
+
+    public static final Creator<Staff> CREATOR = new Creator<Staff>() {
+        @Override
+        public Staff createFromParcel(Parcel in) {
+            return new Staff(in);
+        }
+
+        @Override
+        public Staff[] newArray(int size) {
+            return new Staff[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -104,5 +132,31 @@ public class Staff {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getRestaurantID() {
+        return restaurantID;
+    }
+
+    public void setRestaurantID(String restaurantID) {
+        this.restaurantID = restaurantID;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(id);
+        parcel.writeString(restaurantID);
+        parcel.writeString(address);
+        parcel.writeString(city);
+        parcel.writeString(state);
+        parcel.writeInt(zip);
+        parcel.writeLong(phone);
+        parcel.writeByte((byte) (manager ? 1 : 0));
     }
 }

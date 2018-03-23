@@ -101,6 +101,7 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
         searchView.setIconified(true);
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(this);
+
         myDataset = new ArrayList();
         RecyclerView mRecyclerView =  root.findViewById(R.id.rec_view);
         // use this setting to improve performance if you know that changes
@@ -111,7 +112,7 @@ public class UsersFrag extends Fragment implements SearchView.OnQueryTextListene
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
+        // specify an adapter
         mAdapter = new UsersRecyclerAdapter(myDataset, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
