@@ -1,6 +1,7 @@
 package com.arcane.tournantscheduling;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import static android.content.ContentValues.TAG;
  * A simple {@link Fragment} subclass.
  */
 public class CreateScheduleFrag extends Fragment {
+    public static final String TAG = "CREATE_SCHEDULE_FRAG";
 
     CalendarView calendarView;
     public static CreateScheduleFrag newInstance() {
@@ -38,6 +40,10 @@ public class CreateScheduleFrag extends Fragment {
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
                 String date = (i1 + 1) + "/" + i2 + "/" + i;
                 Log.d(TAG, date);
+                Intent intent = new Intent();
+                intent.putExtra("date", date);
+                SectionFrag frag = SectionFrag.newInstance();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_view,frag).commit();
             }
         });
         return root;

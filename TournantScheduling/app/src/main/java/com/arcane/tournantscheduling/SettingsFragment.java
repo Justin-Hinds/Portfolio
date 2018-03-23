@@ -11,6 +11,7 @@ import android.view.ViewGroup;
  * A simple {@link Fragment} subclass.
  */
 public class SettingsFragment extends Fragment {
+    public static final String TAG = "SETTINGS_FRAG";
 
 
     public static SettingsFragment newInstance() {

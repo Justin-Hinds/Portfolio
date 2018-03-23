@@ -35,7 +35,7 @@ import static android.content.ContentValues.TAG;
 
 
 public class CreateStaffFrag extends Fragment {
-
+    public static final String TAG = "CREATE_STAFF_FRAG";
     private FirebaseAuth mAuth1;
     private FirebaseAuth mAuth2;
     private DataManager dataMan;

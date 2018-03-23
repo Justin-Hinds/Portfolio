@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 
 public class HomeScreenFrag  extends Fragment {
+    public static final String TAG = "HOMESCREEN_FRAG";
+
     public static HomeScreenFrag newInstance(){return new HomeScreenFrag();}
 
     @Nullable

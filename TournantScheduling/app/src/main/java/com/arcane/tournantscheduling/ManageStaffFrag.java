@@ -12,6 +12,7 @@ import android.view.ViewGroup;
  * A simple {@link Fragment} subclass.
  */
 public class ManageStaffFrag extends Fragment {
+    public static final String TAG = "MANAGE_STAFF_FRAG";
 
 
     public ManageStaffFrag() {

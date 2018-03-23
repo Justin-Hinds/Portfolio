@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFrag extends Fragment {
 
-    private static final String TAG = "Tag";
+    public static final String TAG = "LOGIN_TAG";
     private FirebaseAuth mAuth;
     private DataManager datman;
 //    private OnFragmentInteractionListener mListener;

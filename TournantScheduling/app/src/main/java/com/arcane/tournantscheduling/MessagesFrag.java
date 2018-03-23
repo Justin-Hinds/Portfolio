@@ -15,6 +15,7 @@ public class MessagesFrag extends Fragment {
     public static MessagesFrag newInstance() {
         return new MessagesFrag();
     }
+    public static final String TAG = "MESSAGE_FRAG";
 
 
     @Override

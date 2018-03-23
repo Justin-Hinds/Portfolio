@@ -1,6 +1,7 @@
 package com.arcane.tournantscheduling;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -11,11 +12,17 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 
 import com.arcane.tournantscheduling.Models.Staff;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import static android.content.ContentValues.TAG;
 
 public class HomeScreenActivity extends AppCompatActivity {
     public static final String  EMPLOYEE_TAG = "EMPLOYEE_TAG";
@@ -28,6 +35,8 @@ public class HomeScreenActivity extends AppCompatActivity {
     private Staff manager;
     private DrawerLayout mDrawerLayout;
     private HomeScreenFrag homeFrag;
+    Fragment fragment;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -50,12 +59,15 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        getUser();
+        getSupportFragmentManager().beginTransaction()
+                .add(RosterFrag.newInstance(), RosterFrag.TAG).commit();
         mAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         //db.collection("Restaurants")
         homeFrag = HomeScreenFrag.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.home_view,homeFrag).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_view,homeFrag, HomeScreenFrag.TAG).commit();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -67,7 +79,6 @@ public class HomeScreenActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-                        Fragment fragment;
 
                         switch (menuItem.getItemId()){
                             case R.id.availability:
@@ -102,8 +113,10 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 break;
                             case R.id.create_manage_staff:
                                 Log.d("MENU ITEM: ", menuItem.toString());
-                                fragment = RosterFrag.newInstance();
-                                getSupportFragmentManager().beginTransaction().replace(R.id.home_view,fragment).commit();
+                                //fragment = RosterFrag.newInstance();
+                                RosterFrag frag = (RosterFrag) getSupportFragmentManager().findFragmentByTag(RosterFrag.TAG);
+                                frag.setCurrentUser(manager);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.home_view,frag).commit();
                                 break;
                             case R.id.logout:
                                 Log.d("MENU ITEM: ", menuItem.toString());
@@ -120,7 +133,39 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
 
+    private void getUser(){
 
+        db.collection("Restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot document : task.getResult()) {
+                        db.collection("Restaurants").document(document.getId()).collection("Users")
+                                .whereEqualTo("id",mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                                if (task2.isSuccessful()) {
+                                    for( DocumentSnapshot document2 : task2.getResult()){
+                                        Log.d(TAG, document2.getId() + " => " + document2.getData());
+                                        manager = document2.toObject(Staff.class);
+
+                                        RosterFrag frag = (RosterFrag) getSupportFragmentManager().findFragmentByTag(RosterFrag.TAG);
+                                        frag.setCurrentUser(manager);
+                                        Log.d("NAME", manager.getName());
+                                    }
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task2.getException());
+                                }
+                            }
+                        });
+                        //Log.d(TAG, document.getId() + " => " + document.getData());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
 
 
 }

@@ -34,6 +34,7 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  */
 public class CreateAccountSecondFrag extends Fragment {
+    public static final String TAG = "CREATE_ACCOUNT_SECOND_FRAG";
 
     private FirebaseAuth mAuth;
     private DataManager dataMan;

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
  */
 public class TimeOffFrag extends Fragment {
 
+    public static final String TAG = "TIME_OFF_FRAG";
 
     public static TimeOffFrag newInstance() {
         return new TimeOffFrag();
