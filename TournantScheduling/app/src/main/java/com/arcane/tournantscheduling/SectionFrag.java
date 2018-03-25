@@ -1,6 +1,7 @@
 package com.arcane.tournantscheduling;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,16 +19,27 @@ public class SectionFrag extends Fragment {
     private SectionRecyclerAdapter mAdapter;
     private RecyclerView recyclerView;
     ArrayList<String> mDataset;
+    String newDate;
+    private SectionRecyclerAdapter.OnSectionSelectedListener mListener;
+
     public static SectionFrag newInstance() {
         return new SectionFrag();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        getListenerFromContext(context);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_section, container, false);
-
+        Bundle bundle = getArguments();
+        if(bundle != null){
+           newDate = bundle.getString(CreateScheduleFrag.SCHEDULE_DATE);
+        }
         mDataset = new ArrayList<>();
         mDataset.add("Bar");
         mDataset.add("Floor");
@@ -42,12 +54,19 @@ public class SectionFrag extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter
-        mAdapter = new SectionRecyclerAdapter(mDataset, getContext());
-
+        mAdapter = new SectionRecyclerAdapter(mDataset, newDate,getContext());
+        mAdapter.setOnSectionSelectedListener(mListener);
         mRecyclerView.setAdapter(mAdapter);
 
 
         return root;
     }
-
+    private void getListenerFromContext(Context context) {
+        if (context instanceof SectionRecyclerAdapter.OnSectionSelectedListener) {
+            mListener = (SectionRecyclerAdapter.OnSectionSelectedListener) context;
+        } else {
+            throw new ClassCastException("Containing activity must " +
+                    "implement OnPersonInteractionListener");
+        }
+    }
 }

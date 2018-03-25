@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.Date;
 import java.util.HashMap;
-
+import java.util.Map;
 
 
 public class Staff implements Parcelable {
@@ -19,8 +19,8 @@ public class Staff implements Parcelable {
     Date created;
     long phone;
     boolean manager;
-    HashMap<String,Object> week;
-    HashMap<String,Object> days;
+    Map<String,Object> week;
+    Map<String, Object> days;
     public Staff(){}
     protected Staff(Parcel in) {
         name = in.readString();
@@ -86,7 +86,7 @@ public class Staff implements Parcelable {
         this.manager = manager;
     }
 
-    public HashMap<String, Object> getWeek() {
+    public Map<String, Object> getWeek() {
         return week;
     }
 
@@ -94,11 +94,11 @@ public class Staff implements Parcelable {
         this.week = week;
     }
 
-    public HashMap<String, Object> getDays() {
+    public Map<String, Object> getDays() {
         return days;
     }
 
-    public void setDays(HashMap<String, Object> days) {
+    public void setDays(Map<String, Object> days) {
         this.days = days;
     }
 

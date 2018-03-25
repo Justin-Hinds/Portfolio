@@ -46,6 +46,9 @@
     <string name="logout">Logout</string>
     <string name="manage_staff">Manage Staff</string>
     <string name="employee_info">Employee Info</string>
+    <string name="done">Done</string>
+    <string name="out">Out</string>
+    <string name="in">In</string>
 
     <string-array name="availability_options">
         <item name="None">None</item>

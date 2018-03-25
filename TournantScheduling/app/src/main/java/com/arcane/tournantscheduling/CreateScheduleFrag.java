@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import static android.content.ContentValues.TAG;
@@ -22,7 +23,7 @@ import static android.content.ContentValues.TAG;
  */
 public class CreateScheduleFrag extends Fragment {
     public static final String TAG = "CREATE_SCHEDULE_FRAG";
-
+    public static final String SCHEDULE_DATE = "SCHEDULE_DATE";
     CalendarView calendarView;
     public static CreateScheduleFrag newInstance() {
         return new CreateScheduleFrag();
@@ -38,11 +39,12 @@ public class CreateScheduleFrag extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                String date = (i1 + 1) + "/" + i2 + "/" + i;
+                String date = (i1 + 1) + "-" + i2 + "-" + i;
                 Log.d(TAG, date);
-                Intent intent = new Intent();
-                intent.putExtra("date", date);
+                Bundle bundle = new Bundle();
+                bundle.putString(SCHEDULE_DATE, date);
                 SectionFrag frag = SectionFrag.newInstance();
+                frag.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_view,frag).commit();
             }
         });

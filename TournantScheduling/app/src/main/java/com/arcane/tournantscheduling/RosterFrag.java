@@ -1,7 +1,6 @@
 package com.arcane.tournantscheduling;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -23,17 +22,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
-
 
 public class RosterFrag extends Fragment {
     public static final String TAG = "ROSTER_FRAG";
-
+    static Boolean isInActionMode = false;
+    static Boolean inSchedulingMode = false;
     private RosterRecyclerAdapter mAdapter;
+    private RosterScheduleRecAdapter scheduleRecAdapter;
     private Staff mUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ArrayList<Staff> myDataset;
     private RosterRecyclerAdapter.OnStaffSelectedListener mListener;
+    private RosterScheduleRecAdapter.OnScheduleSelectedListener scheduleSelectedListener;
 
 
     public static RosterFrag newInstance() {
@@ -44,7 +44,6 @@ public class RosterFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        myDataset = new ArrayList<>();
         View root = inflater.inflate(R.layout.fragment_roster, container, false);
         RecyclerView mRecyclerView =  root.findViewById(R.id.roster_rec_view);
         // use this setting to improve performance if you know that changes
@@ -54,9 +53,48 @@ public class RosterFrag extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter
-        Log.d("SIZE",myDataset.size() + "");
+        //Log.d("SIZE",myDataset.size() + "");
+
+        myDataset = new ArrayList<>();
         mAdapter = new RosterRecyclerAdapter(myDataset, getContext());
-        mRecyclerView.setAdapter(mAdapter);
+        scheduleRecAdapter = new RosterScheduleRecAdapter(myDataset,getContext());
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            Log.d("BUNDLE CONTENTS", bundle.toString());
+            if(bundle.getParcelable(HomeScreenActivity.EMPLOYEE_TAG)!=null){
+                mUser = bundle.getParcelable(HomeScreenActivity.EMPLOYEE_TAG);
+                Log.d("mUSER FROM BUNDLE", mUser.getName());
+                getUsers();
+                Log.d("BUNDLE:","RECEIVED");
+            }
+            if(bundle.getSerializable(HomeScreenActivity.ARRAYLIST_SCHEDULE) != null){
+               // myDataset.clear();
+                myDataset = (ArrayList<Staff>) bundle.getSerializable(HomeScreenActivity.ARRAYLIST_SCHEDULE);
+                mAdapter.update(myDataset);
+            }
+            if(bundle.getString(HomeScreenActivity.SECTION)!=null){
+                Log.d("SECTION FROM BUNDLE", bundle.getString(HomeScreenActivity.SECTION));
+            }
+
+            if(bundle.getBoolean(HomeScreenActivity.ACTION_MODE)){
+                isInActionMode = true;
+                mAdapter.setOnStaffelectedListener(mListener);
+            }else {
+                isInActionMode = false;
+            }
+            if(bundle.getBoolean(HomeScreenActivity.SCHEDULE_MODE)){
+                inSchedulingMode = true;
+                scheduleRecAdapter.setOnScheduledSelectedListener(scheduleSelectedListener);
+                scheduleRecAdapter.update(myDataset);
+                mRecyclerView.setAdapter(scheduleRecAdapter);
+
+            }else {
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        }else {
+            Log.d("BUNDLE:","FAILED");
+        }
+
 
 
 
@@ -64,11 +102,14 @@ public class RosterFrag extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("FAB ", "HIT");
+                if(isInActionMode){
+                Log.d("FAB ", "HIT IN ACTION MODE");
                 Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                }else {
                 CreateStaffFrag frag = CreateStaffFrag.newInstance();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_view,frag).commit();
+                }
             }
         });
         return root;
@@ -78,12 +119,8 @@ public class RosterFrag extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof RosterRecyclerAdapter.OnStaffSelectedListener) {
-//            mListener = (RosterRecyclerAdapter.OnStaffSelectedListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+        Log.d("onAttach:","Hit");
+        getListenerFromContext(context);
     }
 
     @Override
@@ -104,17 +141,26 @@ public class RosterFrag extends Fragment {
                         myDataset.add(staff);
                     }
                 }
+        mAdapter.update(myDataset);
             }
         });
         for (Staff staff : myDataset){
-            Log.d("DATASET", staff.getId());
+            Log.d("GetUsersFunction", staff.getId());
         }
-        mAdapter.update(myDataset);
     }
-    public void setCurrentUser(Staff currentUser){
-        mUser = currentUser;
-        getUsers();
-        Log.d("NAME CURRENT", mUser.getName());
+    private void getListenerFromContext(Context context) {
+        if (context instanceof RosterRecyclerAdapter.OnStaffSelectedListener) {
+            mListener = (RosterRecyclerAdapter.OnStaffSelectedListener) context;
+        } else {
+            throw new ClassCastException("Containing activity must " +
+                    "implement OnPersonInteractionListener");
+        }
+        if (context instanceof RosterScheduleRecAdapter.OnScheduleSelectedListener) {
+            scheduleSelectedListener = (RosterScheduleRecAdapter.OnScheduleSelectedListener) context;
+        } else {
+            throw new ClassCastException("Containing activity must " +
+                    "implement OnPersonInteractionListener");
+        }
+    }
 
-    }
 }

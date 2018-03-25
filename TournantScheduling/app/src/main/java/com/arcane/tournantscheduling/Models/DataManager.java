@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -202,6 +204,30 @@ public class DataManager {
 
         employee.setRestaurantID(boss.getRestaurantID());
         refManager.set(employee).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully written!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error writing document", e);
+            }
+        });
+    }
+    public void updateUser(Staff scheduledEmployee, Staff boss, Day day){
+        final DocumentReference restaurantRef = db.collection("Restaurants").document(boss.getRestaurantID());
+        final DocumentReference refManager =  restaurantRef.collection("Users").document(scheduledEmployee.getId());
+
+        scheduledEmployee.setRestaurantID(boss.getRestaurantID());
+        Map<String,Object> values = new HashMap<>();
+        values.put("date",day.getDate());
+        values.put("hour",day.getHour());
+        values.put("min", day.getMin());
+        values.put("outHour",day.getHourOut());
+        values.put("minOut",day.getMinOut());
+        values.put("month",day.getMonth());
+        refManager.update( "days."+ day.getDate(),values).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "DocumentSnapshot successfully written!");

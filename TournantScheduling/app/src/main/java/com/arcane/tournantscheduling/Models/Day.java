@@ -3,9 +3,20 @@ package com.arcane.tournantscheduling.Models;
 
 public class Day {
     String date;
-    String hours;
+    String hour;
+    String min;
+    String hourOut;
+    String minOut;
     String month;
 
+    public Day(String sDate, String sHour, String sMin, String sMonth, String sMinOut, String sHourOut){
+        date = sDate;
+        hour = sHour;
+        min = sMin;
+        hourOut = sHourOut;
+        minOut = sMinOut;
+        month = sMonth;
+    }
     public String getDate() {
         return date;
     }
@@ -14,12 +25,36 @@ public class Day {
         this.date = date;
     }
 
-    public String getHours() {
-        return hours;
+    public String getHour() {
+        return hour;
     }
 
-    public void setHours(String hours) {
-        this.hours = hours;
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public String getMin() {
+        return min;
+    }
+
+    public String getHourOut() {
+        return hourOut;
+    }
+
+    public void setHourOut(String hourOut) {
+        this.hourOut = hourOut;
+    }
+
+    public String getMinOut() {
+        return minOut;
+    }
+
+    public void setMinOut(String minOut) {
+        this.minOut = minOut;
+    }
+
+    public void setMin(String min) {
+        this.min = min;
     }
 
     public String getMonth() {

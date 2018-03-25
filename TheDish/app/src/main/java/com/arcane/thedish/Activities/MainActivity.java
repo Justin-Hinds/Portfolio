@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements MainBoardRecycler
         explode.excludeTarget(android.R.id.navigationBarBackground,true);
         if(mFireUser == null){
             startActivity(new Intent(this, LoginActivity.class));
-            finish();
+             finish();
         }
         getWindow().setExitTransition(explode);
         if(FirebaseAuth.getInstance().getCurrentUser() != null){

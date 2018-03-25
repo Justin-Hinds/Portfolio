@@ -95,7 +95,7 @@ public class MainBoardFrag extends Fragment {
         mAdapter = new MainBoardRecyclerAdapter(myDataset, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnInteraction(mListener);
-//        Log.d("USER: ", user);
+ //        Log.d("USER: ", user);
         // Read from the database
         observePosts();
 //        Log.i("onCreateView", "HIT");

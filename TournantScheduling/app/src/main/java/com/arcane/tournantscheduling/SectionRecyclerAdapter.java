@@ -17,17 +17,21 @@ import java.util.zip.Inflater;
 public class SectionRecyclerAdapter extends RecyclerView.Adapter<SectionRecyclerAdapter.ViewHolder>{
     private final Context mContext;
     private ArrayList<String> mDataset;
+    private String scheduleDate;
     private OnSectionSelectedListener mListener;
-    public SectionRecyclerAdapter(ArrayList<String> myData, Context context){
+    public SectionRecyclerAdapter(ArrayList<String> myData,String date, Context context){
         mContext = context;
         mDataset = myData;
+        scheduleDate = date;
     }
-
+    public void setOnSectionSelectedListener(OnSectionSelectedListener listener){
+        mListener = listener;
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.list_item_roster,parent,false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.list_item_section,parent,false);
 
-        return new ViewHolder(v,mDataset);
+        return new ViewHolder(v,mDataset,mListener, scheduleDate);
     }
 
     @Override
@@ -43,21 +47,25 @@ public class SectionRecyclerAdapter extends RecyclerView.Adapter<SectionRecycler
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private static final String TAG = "VIEWHOLDER" ;
         TextView sectionName;
-
-        public ViewHolder(View itemView, ArrayList<String> name ) {
+        OnSectionSelectedListener listener;
+        String date;
+        public ViewHolder(View itemView, ArrayList<String> name, OnSectionSelectedListener myListener,String newDate ) {
             super(itemView);
             itemView.setOnClickListener(this);
-            sectionName = itemView.findViewById(R.id.textview_staff_name);
+            sectionName = itemView.findViewById(R.id.section_name);
+            listener = myListener;
+            date = newDate;
         }
 
         @Override
         public void onClick(View view) {
             Log.d("SECTION NAME", sectionName.getText().toString());
+            listener.onSectionSelected(sectionName.getText().toString(), date);
         }
     }
 
-    public static interface OnSectionSelectedListener{
-
+    public  interface OnSectionSelectedListener{
+        void onSectionSelected(String section, String date);
     }
 
 }
