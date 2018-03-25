@@ -157,7 +157,7 @@ public class CreateAccountSecondFrag extends Fragment {
                                 Log.d("MANAGER ID", manager.getId());
                                 dataMan.addRestaurant(restaurant, manager, user);
                                 //dataMan.userCheck(view);
-                                Intent intent = new Intent();
+                                Intent intent = new Intent(getContext(),HomeScreenActivity.class);
                                 intent.putExtra(HomeScreenActivity.EMPLOYEE_TAG,manager);
                                 getContext().startActivity(intent);
                             } else {

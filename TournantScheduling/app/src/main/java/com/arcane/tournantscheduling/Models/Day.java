@@ -14,7 +14,7 @@ public class Day implements Parcelable{
 public Day(){
 
 }
-    public Day(String sDate, String sHour, String sMin, String sMonth, String sMinOut, String sHourOut){
+    public Day(String sDate, String sHour, String sMin, String sMonth, String sHourOut, String sMinOut){
         date = sDate;
         hour = sHour;
         min = sMin;

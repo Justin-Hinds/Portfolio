@@ -308,12 +308,12 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
         if(inTime) {
-            scheduledHour = i1;
-            scheduledMinute = i;
+            scheduledHour = timePicker.getCurrentHour();
+            scheduledMinute = timePicker.getCurrentMinute();
             inTime = false;
         }else{
-            outHour = i1;
-            outMin = i;
+            outHour = timePicker.getCurrentHour();
+            outMin = timePicker.getCurrentMinute();
             setScheduledDay();
             inTime = true;
         }
