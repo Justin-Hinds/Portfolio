@@ -26,7 +26,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     public static final String ACTION_MODE = "ACTION_MODE";
     public static final String SCHEDULE_MODE = "SCHEDULE_MODE";
     public static final String ARRAYLIST_SCHEDULE = "ARRAYLIST_SCHEDULE";
+    public static final String DAYS_SCHEDULE = "DAYS_SCHEDULE";
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -53,6 +56,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     private  FirebaseUser mFireUser;
     private Staff manager;
     private Staff scheduledUser;
+    private ArrayList<Day> dayArrayList;
     private DrawerLayout mDrawerLayout;
     private HomeScreenFrag homeFrag;
     Fragment fragment;
@@ -93,8 +97,11 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         mAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        homeFrag = HomeScreenFrag.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.home_view,homeFrag, HomeScreenFrag.TAG).commit();
+//        Bundle scheduleBundle = new Bundle();
+//        scheduleBundle.putSerializable(DAYS_SCHEDULE,dayArrayList);
+//        homeFrag = HomeScreenFrag.newInstance();
+//        homeFrag.setArguments(scheduleBundle);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.home_view,homeFrag, HomeScreenFrag.TAG).commit();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -135,7 +142,10 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                 break;
                             case R.id.home:
                                 Log.d("MENU ITEM: ", menuItem.toString());
+                                Bundle scheduleBundle = new Bundle();
+                                scheduleBundle.putSerializable(DAYS_SCHEDULE,dayArrayList);
                                 fragment = HomeScreenFrag.newInstance();
+                                fragment.setArguments(scheduleBundle);
                                 getSupportFragmentManager().beginTransaction().replace(R.id.home_view,fragment).commit();
                                 break;
                             case R.id.create_manage_staff:
@@ -179,6 +189,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                         bundle = new Bundle();
                                         //bundle.putParcelable(EMPLOYEE_TAG,manager);
                                         getStaffList();
+                                        getUserSchedule(manager);
                                         Log.d("BUNDLE MADE", "");
                                     }
                                 } else {
@@ -323,5 +334,33 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         dayHashMap.put(newDate, newDay);
         //scheduledUser.setDays(dayHashMap);
         dataManager.updateUser(scheduledUser,manager, newDay);
+    }
+    public void getUserSchedule(Staff staff){
+        db.collection("Restaurants").document(manager.getRestaurantID()).collection("Users").document(manager.getId()).collection("Days")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot values, FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+
+                        ArrayList<Day> days = new ArrayList<>();
+                        for (DocumentSnapshot doc : values ) {
+                            if (doc.get("hour") != null) {
+                                //Day newDay = doc.toObject(Day.class);
+                                days.add(doc.toObject(Day.class));
+                        Log.d("SCHEDULED DAY", doc.getData().toString());
+                            }
+                        }
+                        dayArrayList = days;
+                        Bundle scheduleBundle = new Bundle();
+                        scheduleBundle.putSerializable(DAYS_SCHEDULE,dayArrayList);
+                        homeFrag = HomeScreenFrag.newInstance();
+                        homeFrag.setArguments(scheduleBundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.home_view,homeFrag, HomeScreenFrag.TAG).commit();
+                    }
+
+                });
     }
 }

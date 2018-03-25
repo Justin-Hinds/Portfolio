@@ -1,14 +1,19 @@
 package com.arcane.tournantscheduling.Models;
 
 
-public class Day {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Day implements Parcelable{
     String date;
     String hour;
     String min;
     String hourOut;
     String minOut;
     String month;
+public Day(){
 
+}
     public Day(String sDate, String sHour, String sMin, String sMonth, String sMinOut, String sHourOut){
         date = sDate;
         hour = sHour;
@@ -17,6 +22,28 @@ public class Day {
         minOut = sMinOut;
         month = sMonth;
     }
+
+    protected Day(Parcel in) {
+        date = in.readString();
+        hour = in.readString();
+        min = in.readString();
+        hourOut = in.readString();
+        minOut = in.readString();
+        month = in.readString();
+    }
+
+    public static final Creator<Day> CREATOR = new Creator<Day>() {
+        @Override
+        public Day createFromParcel(Parcel in) {
+            return new Day(in);
+        }
+
+        @Override
+        public Day[] newArray(int size) {
+            return new Day[size];
+        }
+    };
+
     public String getDate() {
         return date;
     }
@@ -63,5 +90,20 @@ public class Day {
 
     public void setMonth(String month) {
         this.month = month;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(date);
+        parcel.writeString(hour);
+        parcel.writeString(min);
+        parcel.writeString(hourOut);
+        parcel.writeString(minOut);
+        parcel.writeString(month);
     }
 }
