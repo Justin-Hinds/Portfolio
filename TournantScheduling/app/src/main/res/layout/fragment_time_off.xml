@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.arcane.tournantscheduling.TimeOffFrag">
+    tools:context="com.arcane.tournantscheduling.Frags.TimeOffFrag">
 
     <TextView
         android:id="@+id/textView_time_off"
@@ -82,7 +82,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editText_end_date" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button_request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorIcons"

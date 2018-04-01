@@ -5,22 +5,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Day implements Parcelable{
-    String date;
+    public String date;
     String hour;
     String min;
     String hourOut;
     String minOut;
     String month;
-public Day(){
+    String dayOfWeek;
 
-}
-    public Day(String sDate, String sHour, String sMin, String sMonth, String sHourOut, String sMinOut){
+    public Day(){
+
+    }
+
+    public Day(String sDate, String sHour, String sMin, String sMonth, String sHourOut, String sMinOut,String weekday){
         date = sDate;
         hour = sHour;
         min = sMin;
         hourOut = sHourOut;
         minOut = sMinOut;
         month = sMonth;
+        dayOfWeek = weekday;
     }
 
     protected Day(Parcel in) {
@@ -90,6 +94,14 @@ public Day(){
 
     public void setMonth(String month) {
         this.month = month;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
     @Override

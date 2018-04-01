@@ -13,5 +13,7 @@
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+    </android.support.v7.widget.RecyclerView>
+
 </android.support.constraint.ConstraintLayout>

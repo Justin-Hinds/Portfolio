@@ -36,7 +36,6 @@
     <string name="your_name">Your Name</string>
     <string name="create">Create</string>
     <string name="next">Next</string>
-    <string name="city">City</string>
     <string name="zip_code">Zip Code</string>
     <string name="phone_number">Phone Number</string>
     <string name="your_info">Your Info</string>
@@ -49,6 +48,16 @@
     <string name="done">Done</string>
     <string name="out">Out</string>
     <string name="in">In</string>
+    <string name="password_format">Password must contain Uppercase, lowercase, and numeric values.</string>
+    <string name="name">Name: </string>
+    <string name="zip">Zip</string>
+    <string name="confirm">Confirm</string>
+    <string name="employee_name">Employee Name</string>
+    <string name="phone">Phone</string>
+    <string name="city">City</string>
+    <string name="type_message">Type message</string>
+    <string name="others_working">Others Working:</string>
+    <string name="scheduled_time">Scheduled Time:</string>
 
     <string-array name="availability_options">
         <item name="None">None</item>

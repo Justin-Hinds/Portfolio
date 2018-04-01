@@ -15,12 +15,13 @@ public class Staff implements Parcelable {
     String address;
     String city;
     String state;
-    int zip;
+    public int zip;
     Date created;
     long phone;
     boolean manager;
     Map<String,Object> week;
     Map<String, Object> days;
+    Map<String, Object> availability;
     public Staff(){}
     protected Staff(Parcel in) {
         name = in.readString();
@@ -147,6 +148,16 @@ public class Staff implements Parcelable {
         return 0;
     }
 
+
+
+    public Map<String, Object> getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(Map<String, Object> availability) {
+        this.availability = availability;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(name);
@@ -158,5 +169,14 @@ public class Staff implements Parcelable {
         parcel.writeInt(zip);
         parcel.writeLong(phone);
         parcel.writeByte((byte) (manager ? 1 : 0));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Staff newStaff = (Staff) obj;
+        if(newStaff.getId() == id){
+            return true;
+        }
+        return false;
     }
 }

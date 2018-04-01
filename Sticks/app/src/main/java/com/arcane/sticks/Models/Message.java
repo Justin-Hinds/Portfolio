@@ -66,7 +66,6 @@ public class Message {
 
 
     public String chatPlayerID(){
-
         return sender.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? receiver : sender ;
     }
 }

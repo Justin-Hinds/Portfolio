@@ -1,0 +1,1682 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@3.10.10
+3 info using node@v6.11.3
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly install normalizeTree
+8 silly loadCurrentTree Finishing
+9 silly loadIdealTree Starting
+10 silly install loadIdealTree
+11 silly cloneCurrentTree Starting
+12 silly install cloneCurrentTreeToIdealTree
+13 silly cloneCurrentTree Finishing
+14 silly loadShrinkwrap Starting
+15 silly install loadShrinkwrap
+16 silly loadShrinkwrap Finishing
+17 silly loadAllDepsIntoIdealTree Starting
+18 silly install loadAllDepsIntoIdealTree
+19 silly fetchNamedPackageData firebase-admin
+20 silly mapToRegistry name firebase-admin
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry data Result {
+23 silly mapToRegistry   raw: 'firebase-admin',
+23 silly mapToRegistry   scope: null,
+23 silly mapToRegistry   escapedName: 'firebase-admin',
+23 silly mapToRegistry   name: 'firebase-admin',
+23 silly mapToRegistry   rawSpec: '',
+23 silly mapToRegistry   spec: 'latest',
+23 silly mapToRegistry   type: 'tag' }
+24 silly mapToRegistry uri https://registry.npmjs.org/firebase-admin
+25 silly fetchNamedPackageData firebase-functions
+26 silly mapToRegistry name firebase-functions
+27 silly mapToRegistry using default registry
+28 silly mapToRegistry registry https://registry.npmjs.org/
+29 silly mapToRegistry data Result {
+29 silly mapToRegistry   raw: 'firebase-functions',
+29 silly mapToRegistry   scope: null,
+29 silly mapToRegistry   escapedName: 'firebase-functions',
+29 silly mapToRegistry   name: 'firebase-functions',
+29 silly mapToRegistry   rawSpec: '',
+29 silly mapToRegistry   spec: 'latest',
+29 silly mapToRegistry   type: 'tag' }
+30 silly mapToRegistry uri https://registry.npmjs.org/firebase-functions
+31 verbose request uri https://registry.npmjs.org/firebase-admin
+32 verbose request no auth needed
+33 info attempt registry request try #1 at 5:52:41 PM
+34 verbose request using bearer token for auth
+35 verbose request id 0c3c9f018f3a92f7
+36 http request GET https://registry.npmjs.org/firebase-admin
+37 verbose request uri https://registry.npmjs.org/firebase-functions
+38 verbose request no auth needed
+39 info attempt registry request try #1 at 5:52:41 PM
+40 verbose request using bearer token for auth
+41 http request GET https://registry.npmjs.org/firebase-functions
+42 http 200 https://registry.npmjs.org/firebase-admin
+43 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+43 verbose headers   server: 'UploadServer',
+43 verbose headers   'cache-control': 'max-age=300',
+43 verbose headers   'last-modified': 'Thu, 15 Mar 2018 20:51:22 GMT',
+43 verbose headers   etag: '"5aaadcca-1c85b"',
+43 verbose headers   'x-npm-region': 'US-East',
+43 verbose headers   'content-encoding': 'gzip',
+43 verbose headers   'content-length': '8972',
+43 verbose headers   'accept-ranges': 'bytes',
+43 verbose headers   date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+43 verbose headers   via: '1.1 varnish',
+43 verbose headers   age: '4103',
+43 verbose headers   connection: 'keep-alive',
+43 verbose headers   'x-served-by': 'cache-mia17620-MIA',
+43 verbose headers   'x-cache': 'HIT',
+43 verbose headers   'x-cache-hits': '1',
+43 verbose headers   'x-timer': 'S1522273961.330631,VS0,VE1',
+43 verbose headers   vary: 'Accept-Encoding, Accept' }
+44 silly get cb [ 200,
+44 silly get   { 'content-type': 'application/json; charset=UTF-8',
+44 silly get     server: 'UploadServer',
+44 silly get     'cache-control': 'max-age=300',
+44 silly get     'last-modified': 'Thu, 15 Mar 2018 20:51:22 GMT',
+44 silly get     etag: '"5aaadcca-1c85b"',
+44 silly get     'x-npm-region': 'US-East',
+44 silly get     'content-encoding': 'gzip',
+44 silly get     'content-length': '8972',
+44 silly get     'accept-ranges': 'bytes',
+44 silly get     date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+44 silly get     via: '1.1 varnish',
+44 silly get     age: '4103',
+44 silly get     connection: 'keep-alive',
+44 silly get     'x-served-by': 'cache-mia17620-MIA',
+44 silly get     'x-cache': 'HIT',
+44 silly get     'x-cache-hits': '1',
+44 silly get     'x-timer': 'S1522273961.330631,VS0,VE1',
+44 silly get     vary: 'Accept-Encoding, Accept' } ]
+45 verbose get saving firebase-admin to /Users/ChefZatoichi/.npm/registry.npmjs.org/firebase-admin/.cache.json
+46 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+47 silly resolveWithNewModule firebase-admin@5.10.0 checking installable status
+48 silly cache add args [ 'firebase-admin@~5.10.0', null ]
+49 verbose cache add spec firebase-admin@~5.10.0
+50 silly cache add parsed spec Result {
+50 silly cache add   raw: 'firebase-admin@~5.10.0',
+50 silly cache add   scope: null,
+50 silly cache add   escapedName: 'firebase-admin',
+50 silly cache add   name: 'firebase-admin',
+50 silly cache add   rawSpec: '~5.10.0',
+50 silly cache add   spec: '>=5.10.0 <5.11.0',
+50 silly cache add   type: 'range' }
+51 silly addNamed firebase-admin@>=5.10.0 <5.11.0
+52 verbose addNamed ">=5.10.0 <5.11.0" is a valid semver range for firebase-admin
+53 silly addNameRange { name: 'firebase-admin',
+53 silly addNameRange   range: '>=5.10.0 <5.11.0',
+53 silly addNameRange   hasData: false }
+54 silly mapToRegistry name firebase-admin
+55 silly mapToRegistry using default registry
+56 silly mapToRegistry registry https://registry.npmjs.org/
+57 silly mapToRegistry data Result {
+57 silly mapToRegistry   raw: 'firebase-admin',
+57 silly mapToRegistry   scope: null,
+57 silly mapToRegistry   escapedName: 'firebase-admin',
+57 silly mapToRegistry   name: 'firebase-admin',
+57 silly mapToRegistry   rawSpec: '',
+57 silly mapToRegistry   spec: 'latest',
+57 silly mapToRegistry   type: 'tag' }
+58 silly mapToRegistry uri https://registry.npmjs.org/firebase-admin
+59 verbose addNameRange registry:https://registry.npmjs.org/firebase-admin not in flight; fetching
+60 verbose get https://registry.npmjs.org/firebase-admin not expired, no request
+61 silly addNameRange number 2 { name: 'firebase-admin',
+61 silly addNameRange   range: '>=5.10.0 <5.11.0',
+61 silly addNameRange   hasData: true }
+62 silly addNameRange versions [ 'firebase-admin',
+62 silly addNameRange   [ '1.0.0',
+62 silly addNameRange     '1.0.1',
+62 silly addNameRange     '1.0.4',
+62 silly addNameRange     '1.0.5',
+62 silly addNameRange     '1.0.6',
+62 silly addNameRange     '1.0.7',
+62 silly addNameRange     '1.0.8',
+62 silly addNameRange     '1.0.9',
+62 silly addNameRange     '1.1.0',
+62 silly addNameRange     '1.2.0',
+62 silly addNameRange     '2.0.0',
+62 silly addNameRange     '2.0.1',
+62 silly addNameRange     '2.1.0',
+62 silly addNameRange     '2.1.1',
+62 silly addNameRange     '2.2.0',
+62 silly addNameRange     '3.0.0',
+62 silly addNameRange     '4.0.0',
+62 silly addNameRange     '4.0.1',
+62 silly addNameRange     '4.0.2',
+62 silly addNameRange     '4.0.3',
+62 silly addNameRange     '4.0.4',
+62 silly addNameRange     '4.0.5',
+62 silly addNameRange     '4.0.6',
+62 silly addNameRange     '4.1.0',
+62 silly addNameRange     '4.1.1',
+62 silly addNameRange     '4.1.2',
+62 silly addNameRange     '4.1.3',
+62 silly addNameRange     '4.1.4',
+62 silly addNameRange     '4.2.0',
+62 silly addNameRange     '4.2.1',
+62 silly addNameRange     '5.0.0',
+62 silly addNameRange     '5.0.1',
+62 silly addNameRange     '5.1.0',
+62 silly addNameRange     '5.2.0',
+62 silly addNameRange     '5.2.1',
+62 silly addNameRange     '5.3.0',
+62 silly addNameRange     '5.4.0',
+62 silly addNameRange     '5.4.1',
+62 silly addNameRange     '5.4.2',
+62 silly addNameRange     '5.4.3',
+62 silly addNameRange     '5.5.0',
+62 silly addNameRange     '5.5.1',
+62 silly addNameRange     '5.6.0',
+62 silly addNameRange     '5.7.0',
+62 silly addNameRange     '5.8.0',
+62 silly addNameRange     '5.8.1',
+62 silly addNameRange     '5.8.2',
+62 silly addNameRange     '5.9.0',
+62 silly addNameRange     '5.9.1',
+62 silly addNameRange     '5.10.0',
+62 silly addNameRange     '5.11.0' ] ]
+63 silly addNamed firebase-admin@5.10.0
+64 verbose addNamed "5.10.0" is a plain semver version for firebase-admin
+65 silly mapToRegistry name firebase-admin
+66 silly mapToRegistry using default registry
+67 silly mapToRegistry registry https://registry.npmjs.org/
+68 silly mapToRegistry data Result {
+68 silly mapToRegistry   raw: 'firebase-admin',
+68 silly mapToRegistry   scope: null,
+68 silly mapToRegistry   escapedName: 'firebase-admin',
+68 silly mapToRegistry   name: 'firebase-admin',
+68 silly mapToRegistry   rawSpec: '',
+68 silly mapToRegistry   spec: 'latest',
+68 silly mapToRegistry   type: 'tag' }
+69 silly mapToRegistry uri https://registry.npmjs.org/firebase-admin
+70 verbose addRemoteTarball https://registry.npmjs.org/firebase-admin/-/firebase-admin-5.10.0.tgz not in flight; adding
+71 verbose addRemoteTarball [ 'https://registry.npmjs.org/firebase-admin/-/firebase-admin-5.10.0.tgz',
+71 verbose addRemoteTarball   '76d8fce6bb1dbd2c05ec76cbfb59dc1ad3977e56' ]
+72 info retry fetch attempt 1 at 5:52:41 PM
+73 info attempt registry request try #1 at 5:52:41 PM
+74 http fetch GET https://registry.npmjs.org/firebase-admin/-/firebase-admin-5.10.0.tgz
+75 verbose request using bearer token for auth
+76 http fetch 200 https://registry.npmjs.org/firebase-admin/-/firebase-admin-5.10.0.tgz
+77 http 200 https://registry.npmjs.org/firebase-functions
+78 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+78 verbose headers   server: 'UploadServer',
+78 verbose headers   'cache-control': 'max-age=300',
+78 verbose headers   'last-modified': 'Thu, 22 Mar 2018 0:17:54 GMT',
+78 verbose headers   etag: '"5ab2f632-ef5e"',
+78 verbose headers   'x-npm-region': 'US-East',
+78 verbose headers   'content-encoding': 'gzip',
+78 verbose headers   'content-length': '5226',
+78 verbose headers   'accept-ranges': 'bytes',
+78 verbose headers   date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+78 verbose headers   via: '1.1 varnish',
+78 verbose headers   age: '0',
+78 verbose headers   connection: 'keep-alive',
+78 verbose headers   'x-served-by': 'cache-mia17630-MIA',
+78 verbose headers   'x-cache': 'HIT',
+78 verbose headers   'x-cache-hits': '1',
+78 verbose headers   'x-timer': 'S1522273961.341636,VS0,VE81',
+78 verbose headers   vary: 'Accept-Encoding, Accept' }
+79 silly get cb [ 200,
+79 silly get   { 'content-type': 'application/json; charset=UTF-8',
+79 silly get     server: 'UploadServer',
+79 silly get     'cache-control': 'max-age=300',
+79 silly get     'last-modified': 'Thu, 22 Mar 2018 0:17:54 GMT',
+79 silly get     etag: '"5ab2f632-ef5e"',
+79 silly get     'x-npm-region': 'US-East',
+79 silly get     'content-encoding': 'gzip',
+79 silly get     'content-length': '5226',
+79 silly get     'accept-ranges': 'bytes',
+79 silly get     date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+79 silly get     via: '1.1 varnish',
+79 silly get     age: '0',
+79 silly get     connection: 'keep-alive',
+79 silly get     'x-served-by': 'cache-mia17630-MIA',
+79 silly get     'x-cache': 'HIT',
+79 silly get     'x-cache-hits': '1',
+79 silly get     'x-timer': 'S1522273961.341636,VS0,VE81',
+79 silly get     vary: 'Accept-Encoding, Accept' } ]
+80 verbose get saving firebase-functions to /Users/ChefZatoichi/.npm/registry.npmjs.org/firebase-functions/.cache.json
+81 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+82 silly resolveWithNewModule firebase-functions@0.9.1 checking installable status
+83 silly cache add args [ 'firebase-functions@^0.9.0', null ]
+84 verbose cache add spec firebase-functions@^0.9.0
+85 silly cache add parsed spec Result {
+85 silly cache add   raw: 'firebase-functions@^0.9.0',
+85 silly cache add   scope: null,
+85 silly cache add   escapedName: 'firebase-functions',
+85 silly cache add   name: 'firebase-functions',
+85 silly cache add   rawSpec: '^0.9.0',
+85 silly cache add   spec: '>=0.9.0 <0.10.0',
+85 silly cache add   type: 'range' }
+86 silly addNamed firebase-functions@>=0.9.0 <0.10.0
+87 verbose addNamed ">=0.9.0 <0.10.0" is a valid semver range for firebase-functions
+88 silly addNameRange { name: 'firebase-functions',
+88 silly addNameRange   range: '>=0.9.0 <0.10.0',
+88 silly addNameRange   hasData: false }
+89 silly mapToRegistry name firebase-functions
+90 silly mapToRegistry using default registry
+91 silly mapToRegistry registry https://registry.npmjs.org/
+92 silly mapToRegistry data Result {
+92 silly mapToRegistry   raw: 'firebase-functions',
+92 silly mapToRegistry   scope: null,
+92 silly mapToRegistry   escapedName: 'firebase-functions',
+92 silly mapToRegistry   name: 'firebase-functions',
+92 silly mapToRegistry   rawSpec: '',
+92 silly mapToRegistry   spec: 'latest',
+92 silly mapToRegistry   type: 'tag' }
+93 silly mapToRegistry uri https://registry.npmjs.org/firebase-functions
+94 verbose addNameRange registry:https://registry.npmjs.org/firebase-functions not in flight; fetching
+95 verbose get https://registry.npmjs.org/firebase-functions not expired, no request
+96 silly addNameRange number 2 { name: 'firebase-functions',
+96 silly addNameRange   range: '>=0.9.0 <0.10.0',
+96 silly addNameRange   hasData: true }
+97 silly addNameRange versions [ 'firebase-functions',
+97 silly addNameRange   [ '0.5.1',
+97 silly addNameRange     '0.5.2',
+97 silly addNameRange     '0.5.3',
+97 silly addNameRange     '0.5.4',
+97 silly addNameRange     '0.5.5',
+97 silly addNameRange     '0.5.6',
+97 silly addNameRange     '0.5.7',
+97 silly addNameRange     '0.5.8',
+97 silly addNameRange     '0.5.9',
+97 silly addNameRange     '0.6.0',
+97 silly addNameRange     '0.6.1',
+97 silly addNameRange     '0.6.2',
+97 silly addNameRange     '0.6.3',
+97 silly addNameRange     '0.7.0',
+97 silly addNameRange     '0.7.1',
+97 silly addNameRange     '0.7.2',
+97 silly addNameRange     '0.7.3',
+97 silly addNameRange     '0.7.4',
+97 silly addNameRange     '0.7.5',
+97 silly addNameRange     '0.8.0',
+97 silly addNameRange     '0.8.1',
+97 silly addNameRange     '0.8.2',
+97 silly addNameRange     '0.9.0',
+97 silly addNameRange     '0.9.1' ] ]
+98 silly addNamed firebase-functions@0.9.1
+99 verbose addNamed "0.9.1" is a plain semver version for firebase-functions
+100 silly mapToRegistry name firebase-functions
+101 silly mapToRegistry using default registry
+102 silly mapToRegistry registry https://registry.npmjs.org/
+103 silly mapToRegistry data Result {
+103 silly mapToRegistry   raw: 'firebase-functions',
+103 silly mapToRegistry   scope: null,
+103 silly mapToRegistry   escapedName: 'firebase-functions',
+103 silly mapToRegistry   name: 'firebase-functions',
+103 silly mapToRegistry   rawSpec: '',
+103 silly mapToRegistry   spec: 'latest',
+103 silly mapToRegistry   type: 'tag' }
+104 silly mapToRegistry uri https://registry.npmjs.org/firebase-functions
+105 verbose addRemoteTarball https://registry.npmjs.org/firebase-functions/-/firebase-functions-0.9.1.tgz not in flight; adding
+106 verbose addRemoteTarball [ 'https://registry.npmjs.org/firebase-functions/-/firebase-functions-0.9.1.tgz',
+106 verbose addRemoteTarball   '9472b8d04a6fa3f11c4bc855fda2338657852527' ]
+107 info retry fetch attempt 1 at 5:52:41 PM
+108 info attempt registry request try #1 at 5:52:41 PM
+109 http fetch GET https://registry.npmjs.org/firebase-functions/-/firebase-functions-0.9.1.tgz
+110 verbose request using bearer token for auth
+111 silly fetchAndShaCheck shasum 76d8fce6bb1dbd2c05ec76cbfb59dc1ad3977e56
+112 verbose addTmpTarball /var/folders/6d/zh0sqwkn6wng96xk4t415fwm0000gn/T/npm-36855-4af95e29/registry.npmjs.org/firebase-admin/-/firebase-admin-5.10.0.tgz not in flight; adding
+113 verbose addTmpTarball already have metadata; skipping unpack for firebase-admin@5.10.0
+114 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+115 silly cache afterAdd firebase-admin@5.10.0
+116 verbose afterAdd /Users/ChefZatoichi/.npm/firebase-admin/5.10.0/package/package.json not in flight; writing
+117 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+118 verbose afterAdd /Users/ChefZatoichi/.npm/firebase-admin/5.10.0/package/package.json written
+119 http fetch 200 https://registry.npmjs.org/firebase-functions/-/firebase-functions-0.9.1.tgz
+120 silly fetchAndShaCheck shasum 9472b8d04a6fa3f11c4bc855fda2338657852527
+121 verbose addTmpTarball /var/folders/6d/zh0sqwkn6wng96xk4t415fwm0000gn/T/npm-36855-4af95e29/registry.npmjs.org/firebase-functions/-/firebase-functions-0.9.1.tgz not in flight; adding
+122 verbose addTmpTarball already have metadata; skipping unpack for firebase-functions@0.9.1
+123 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+124 silly cache afterAdd firebase-functions@0.9.1
+125 verbose afterAdd /Users/ChefZatoichi/.npm/firebase-functions/0.9.1/package/package.json not in flight; writing
+126 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+127 verbose afterAdd /Users/ChefZatoichi/.npm/firebase-functions/0.9.1/package/package.json written
+128 silly fetchNamedPackageData @firebase/app
+129 silly mapToRegistry name @firebase/app
+130 silly mapToRegistry scope (from package name) @firebase
+131 verbose mapToRegistry no registry URL found in name for scope @firebase
+132 silly mapToRegistry using default registry
+133 silly mapToRegistry registry https://registry.npmjs.org/
+134 silly mapToRegistry data Result {
+134 silly mapToRegistry   raw: '@firebase/app',
+134 silly mapToRegistry   scope: '@firebase',
+134 silly mapToRegistry   escapedName: '@firebase%2fapp',
+134 silly mapToRegistry   name: '@firebase/app',
+134 silly mapToRegistry   rawSpec: '',
+134 silly mapToRegistry   spec: 'latest',
+134 silly mapToRegistry   type: 'tag' }
+135 silly mapToRegistry uri https://registry.npmjs.org/@firebase%2fapp
+136 silly fetchNamedPackageData @firebase/database
+137 silly mapToRegistry name @firebase/database
+138 silly mapToRegistry scope (from package name) @firebase
+139 verbose mapToRegistry no registry URL found in name for scope @firebase
+140 silly mapToRegistry using default registry
+141 silly mapToRegistry registry https://registry.npmjs.org/
+142 silly mapToRegistry data Result {
+142 silly mapToRegistry   raw: '@firebase/database',
+142 silly mapToRegistry   scope: '@firebase',
+142 silly mapToRegistry   escapedName: '@firebase%2fdatabase',
+142 silly mapToRegistry   name: '@firebase/database',
+142 silly mapToRegistry   rawSpec: '',
+142 silly mapToRegistry   spec: 'latest',
+142 silly mapToRegistry   type: 'tag' }
+143 silly mapToRegistry uri https://registry.npmjs.org/@firebase%2fdatabase
+144 silly fetchNamedPackageData @google-cloud/firestore
+145 silly mapToRegistry name @google-cloud/firestore
+146 silly mapToRegistry scope (from package name) @google-cloud
+147 verbose mapToRegistry no registry URL found in name for scope @google-cloud
+148 silly mapToRegistry using default registry
+149 silly mapToRegistry registry https://registry.npmjs.org/
+150 silly mapToRegistry data Result {
+150 silly mapToRegistry   raw: '@google-cloud/firestore',
+150 silly mapToRegistry   scope: '@google-cloud',
+150 silly mapToRegistry   escapedName: '@google-cloud%2ffirestore',
+150 silly mapToRegistry   name: '@google-cloud/firestore',
+150 silly mapToRegistry   rawSpec: '',
+150 silly mapToRegistry   spec: 'latest',
+150 silly mapToRegistry   type: 'tag' }
+151 silly mapToRegistry uri https://registry.npmjs.org/@google-cloud%2ffirestore
+152 silly fetchNamedPackageData @google-cloud/storage
+153 silly mapToRegistry name @google-cloud/storage
+154 silly mapToRegistry scope (from package name) @google-cloud
+155 verbose mapToRegistry no registry URL found in name for scope @google-cloud
+156 silly mapToRegistry using default registry
+157 silly mapToRegistry registry https://registry.npmjs.org/
+158 silly mapToRegistry data Result {
+158 silly mapToRegistry   raw: '@google-cloud/storage',
+158 silly mapToRegistry   scope: '@google-cloud',
+158 silly mapToRegistry   escapedName: '@google-cloud%2fstorage',
+158 silly mapToRegistry   name: '@google-cloud/storage',
+158 silly mapToRegistry   rawSpec: '',
+158 silly mapToRegistry   spec: 'latest',
+158 silly mapToRegistry   type: 'tag' }
+159 silly mapToRegistry uri https://registry.npmjs.org/@google-cloud%2fstorage
+160 silly fetchNamedPackageData @types/google-cloud__storage
+161 silly mapToRegistry name @types/google-cloud__storage
+162 silly mapToRegistry scope (from package name) @types
+163 verbose mapToRegistry no registry URL found in name for scope @types
+164 silly mapToRegistry using default registry
+165 silly mapToRegistry registry https://registry.npmjs.org/
+166 silly mapToRegistry data Result {
+166 silly mapToRegistry   raw: '@types/google-cloud__storage',
+166 silly mapToRegistry   scope: '@types',
+166 silly mapToRegistry   escapedName: '@types%2fgoogle-cloud__storage',
+166 silly mapToRegistry   name: '@types/google-cloud__storage',
+166 silly mapToRegistry   rawSpec: '',
+166 silly mapToRegistry   spec: 'latest',
+166 silly mapToRegistry   type: 'tag' }
+167 silly mapToRegistry uri https://registry.npmjs.org/@types%2fgoogle-cloud__storage
+168 silly fetchNamedPackageData @types/node
+169 silly mapToRegistry name @types/node
+170 silly mapToRegistry scope (from package name) @types
+171 verbose mapToRegistry no registry URL found in name for scope @types
+172 silly mapToRegistry using default registry
+173 silly mapToRegistry registry https://registry.npmjs.org/
+174 silly mapToRegistry data Result {
+174 silly mapToRegistry   raw: '@types/node',
+174 silly mapToRegistry   scope: '@types',
+174 silly mapToRegistry   escapedName: '@types%2fnode',
+174 silly mapToRegistry   name: '@types/node',
+174 silly mapToRegistry   rawSpec: '',
+174 silly mapToRegistry   spec: 'latest',
+174 silly mapToRegistry   type: 'tag' }
+175 silly mapToRegistry uri https://registry.npmjs.org/@types%2fnode
+176 silly fetchNamedPackageData faye-websocket
+177 silly mapToRegistry name faye-websocket
+178 silly mapToRegistry using default registry
+179 silly mapToRegistry registry https://registry.npmjs.org/
+180 silly mapToRegistry data Result {
+180 silly mapToRegistry   raw: 'faye-websocket',
+180 silly mapToRegistry   scope: null,
+180 silly mapToRegistry   escapedName: 'faye-websocket',
+180 silly mapToRegistry   name: 'faye-websocket',
+180 silly mapToRegistry   rawSpec: '',
+180 silly mapToRegistry   spec: 'latest',
+180 silly mapToRegistry   type: 'tag' }
+181 silly mapToRegistry uri https://registry.npmjs.org/faye-websocket
+182 silly fetchNamedPackageData jsonwebtoken
+183 silly mapToRegistry name jsonwebtoken
+184 silly mapToRegistry using default registry
+185 silly mapToRegistry registry https://registry.npmjs.org/
+186 silly mapToRegistry data Result {
+186 silly mapToRegistry   raw: 'jsonwebtoken',
+186 silly mapToRegistry   scope: null,
+186 silly mapToRegistry   escapedName: 'jsonwebtoken',
+186 silly mapToRegistry   name: 'jsonwebtoken',
+186 silly mapToRegistry   rawSpec: '',
+186 silly mapToRegistry   spec: 'latest',
+186 silly mapToRegistry   type: 'tag' }
+187 silly mapToRegistry uri https://registry.npmjs.org/jsonwebtoken
+188 silly fetchNamedPackageData node-forge
+189 silly mapToRegistry name node-forge
+190 silly mapToRegistry using default registry
+191 silly mapToRegistry registry https://registry.npmjs.org/
+192 silly mapToRegistry data Result {
+192 silly mapToRegistry   raw: 'node-forge',
+192 silly mapToRegistry   scope: null,
+192 silly mapToRegistry   escapedName: 'node-forge',
+192 silly mapToRegistry   name: 'node-forge',
+192 silly mapToRegistry   rawSpec: '',
+192 silly mapToRegistry   spec: 'latest',
+192 silly mapToRegistry   type: 'tag' }
+193 silly mapToRegistry uri https://registry.npmjs.org/node-forge
+194 verbose request uri https://registry.npmjs.org/@firebase%2fapp
+195 verbose request no auth needed
+196 info attempt registry request try #1 at 5:52:41 PM
+197 verbose request using bearer token for auth
+198 http request GET https://registry.npmjs.org/@firebase%2fapp
+199 verbose request uri https://registry.npmjs.org/@firebase%2fdatabase
+200 verbose request no auth needed
+201 info attempt registry request try #1 at 5:52:41 PM
+202 verbose request using bearer token for auth
+203 http request GET https://registry.npmjs.org/@firebase%2fdatabase
+204 verbose request uri https://registry.npmjs.org/@google-cloud%2ffirestore
+205 verbose request no auth needed
+206 info attempt registry request try #1 at 5:52:41 PM
+207 verbose request using bearer token for auth
+208 http request GET https://registry.npmjs.org/@google-cloud%2ffirestore
+209 verbose request uri https://registry.npmjs.org/@types%2fgoogle-cloud__storage
+210 verbose request no auth needed
+211 info attempt registry request try #1 at 5:52:41 PM
+212 verbose request using bearer token for auth
+213 http request GET https://registry.npmjs.org/@types%2fgoogle-cloud__storage
+214 verbose request uri https://registry.npmjs.org/@types%2fnode
+215 verbose request no auth needed
+216 info attempt registry request try #1 at 5:52:41 PM
+217 verbose request using bearer token for auth
+218 http request GET https://registry.npmjs.org/@types%2fnode
+219 verbose request uri https://registry.npmjs.org/jsonwebtoken
+220 verbose request no auth needed
+221 info attempt registry request try #1 at 5:52:41 PM
+222 verbose request using bearer token for auth
+223 verbose etag "5ab0c12e-1f244"
+224 verbose lastModified Tue, 20 Mar 2018 8:07:10 GMT
+225 http request GET https://registry.npmjs.org/jsonwebtoken
+226 verbose request uri https://registry.npmjs.org/node-forge
+227 verbose request no auth needed
+228 info attempt registry request try #1 at 5:52:41 PM
+229 verbose request using bearer token for auth
+230 verbose etag "5aabbb85-41c6d"
+231 verbose lastModified Fri, 16 Mar 2018 12:41:41 GMT
+232 http request GET https://registry.npmjs.org/node-forge
+233 verbose request uri https://registry.npmjs.org/faye-websocket
+234 verbose request no auth needed
+235 info attempt registry request try #1 at 5:52:41 PM
+236 verbose request using bearer token for auth
+237 verbose etag W/"59a1798a-b052"
+238 verbose lastModified Sat, 26 Aug 2017 13:37:14 GMT
+239 http request GET https://registry.npmjs.org/faye-websocket
+240 verbose request uri https://registry.npmjs.org/@google-cloud%2fstorage
+241 verbose request no auth needed
+242 info attempt registry request try #1 at 5:52:41 PM
+243 verbose request using bearer token for auth
+244 verbose etag W/"5a835f74-14b86"
+245 verbose lastModified Tue, 13 Feb 2018 21:58:12 GMT
+246 http request GET https://registry.npmjs.org/@google-cloud%2fstorage
+247 http 304 https://registry.npmjs.org/jsonwebtoken
+248 verbose headers { date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+248 verbose headers   via: '1.1 varnish',
+248 verbose headers   'cache-control': 'max-age=300',
+248 verbose headers   etag: '"5ab0c12e-1f244"',
+248 verbose headers   age: '3083',
+248 verbose headers   connection: 'keep-alive',
+248 verbose headers   'x-served-by': 'cache-mia17633-MIA',
+248 verbose headers   'x-cache': 'HIT',
+248 verbose headers   'x-cache-hits': '1',
+248 verbose headers   'x-timer': 'S1522273962.679416,VS0,VE1',
+248 verbose headers   vary: 'Accept-Encoding, Accept' }
+249 silly get cb [ 304,
+249 silly get   { date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+249 silly get     via: '1.1 varnish',
+249 silly get     'cache-control': 'max-age=300',
+249 silly get     etag: '"5ab0c12e-1f244"',
+249 silly get     age: '3083',
+249 silly get     connection: 'keep-alive',
+249 silly get     'x-served-by': 'cache-mia17633-MIA',
+249 silly get     'x-cache': 'HIT',
+249 silly get     'x-cache-hits': '1',
+249 silly get     'x-timer': 'S1522273962.679416,VS0,VE1',
+249 silly get     vary: 'Accept-Encoding, Accept' } ]
+250 verbose etag https://registry.npmjs.org/jsonwebtoken from cache
+251 verbose get saving jsonwebtoken to /Users/ChefZatoichi/.npm/registry.npmjs.org/jsonwebtoken/.cache.json
+252 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+253 silly resolveWithNewModule jsonwebtoken@8.1.0 checking installable status
+254 silly cache add args [ 'jsonwebtoken@8.1.0', null ]
+255 verbose cache add spec jsonwebtoken@8.1.0
+256 silly cache add parsed spec Result {
+256 silly cache add   raw: 'jsonwebtoken@8.1.0',
+256 silly cache add   scope: null,
+256 silly cache add   escapedName: 'jsonwebtoken',
+256 silly cache add   name: 'jsonwebtoken',
+256 silly cache add   rawSpec: '8.1.0',
+256 silly cache add   spec: '8.1.0',
+256 silly cache add   type: 'version' }
+257 silly addNamed jsonwebtoken@8.1.0
+258 verbose addNamed "8.1.0" is a plain semver version for jsonwebtoken
+259 silly mapToRegistry name jsonwebtoken
+260 silly mapToRegistry using default registry
+261 silly mapToRegistry registry https://registry.npmjs.org/
+262 silly mapToRegistry data Result {
+262 silly mapToRegistry   raw: 'jsonwebtoken',
+262 silly mapToRegistry   scope: null,
+262 silly mapToRegistry   escapedName: 'jsonwebtoken',
+262 silly mapToRegistry   name: 'jsonwebtoken',
+262 silly mapToRegistry   rawSpec: '',
+262 silly mapToRegistry   spec: 'latest',
+262 silly mapToRegistry   type: 'tag' }
+263 silly mapToRegistry uri https://registry.npmjs.org/jsonwebtoken
+264 verbose addNameVersion registry:https://registry.npmjs.org/jsonwebtoken not in flight; fetching
+265 http 304 https://registry.npmjs.org/node-forge
+266 verbose headers { date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+266 verbose headers   via: '1.1 varnish',
+266 verbose headers   'cache-control': 'max-age=300',
+266 verbose headers   etag: '"5aabbb85-41c6d"',
+266 verbose headers   age: '10410',
+266 verbose headers   connection: 'keep-alive',
+266 verbose headers   'x-served-by': 'cache-mia17626-MIA',
+266 verbose headers   'x-cache': 'HIT',
+266 verbose headers   'x-cache-hits': '1',
+266 verbose headers   'x-timer': 'S1522273962.690868,VS0,VE1',
+266 verbose headers   vary: 'Accept-Encoding, Accept' }
+267 silly get cb [ 304,
+267 silly get   { date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+267 silly get     via: '1.1 varnish',
+267 silly get     'cache-control': 'max-age=300',
+267 silly get     etag: '"5aabbb85-41c6d"',
+267 silly get     age: '10410',
+267 silly get     connection: 'keep-alive',
+267 silly get     'x-served-by': 'cache-mia17626-MIA',
+267 silly get     'x-cache': 'HIT',
+267 silly get     'x-cache-hits': '1',
+267 silly get     'x-timer': 'S1522273962.690868,VS0,VE1',
+267 silly get     vary: 'Accept-Encoding, Accept' } ]
+268 verbose etag https://registry.npmjs.org/node-forge from cache
+269 verbose get saving node-forge to /Users/ChefZatoichi/.npm/registry.npmjs.org/node-forge/.cache.json
+270 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+271 http 200 https://registry.npmjs.org/faye-websocket
+272 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+272 verbose headers   server: 'UploadServer',
+272 verbose headers   'cache-control': 'max-age=300',
+272 verbose headers   'last-modified': 'Tue, 20 Feb 2018 2:30:01 GMT',
+272 verbose headers   etag: '"5a8b8829-b068"',
+272 verbose headers   'x-npm-region': 'US-East',
+272 verbose headers   'content-encoding': 'gzip',
+272 verbose headers   'content-length': '8290',
+272 verbose headers   'accept-ranges': 'bytes',
+272 verbose headers   date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+272 verbose headers   via: '1.1 varnish',
+272 verbose headers   age: '6315',
+272 verbose headers   connection: 'keep-alive',
+272 verbose headers   'x-served-by': 'cache-mia17624-MIA',
+272 verbose headers   'x-cache': 'HIT',
+272 verbose headers   'x-cache-hits': '20',
+272 verbose headers   'x-timer': 'S1522273962.690508,VS0,VE0',
+272 verbose headers   vary: 'Accept-Encoding, Accept' }
+273 silly get cb [ 200,
+273 silly get   { 'content-type': 'application/json; charset=UTF-8',
+273 silly get     server: 'UploadServer',
+273 silly get     'cache-control': 'max-age=300',
+273 silly get     'last-modified': 'Tue, 20 Feb 2018 2:30:01 GMT',
+273 silly get     etag: '"5a8b8829-b068"',
+273 silly get     'x-npm-region': 'US-East',
+273 silly get     'content-encoding': 'gzip',
+273 silly get     'content-length': '8290',
+273 silly get     'accept-ranges': 'bytes',
+273 silly get     date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+273 silly get     via: '1.1 varnish',
+273 silly get     age: '6315',
+273 silly get     connection: 'keep-alive',
+273 silly get     'x-served-by': 'cache-mia17624-MIA',
+273 silly get     'x-cache': 'HIT',
+273 silly get     'x-cache-hits': '20',
+273 silly get     'x-timer': 'S1522273962.690508,VS0,VE0',
+273 silly get     vary: 'Accept-Encoding, Accept' } ]
+274 verbose get saving faye-websocket to /Users/ChefZatoichi/.npm/registry.npmjs.org/faye-websocket/.cache.json
+275 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+276 verbose get https://registry.npmjs.org/jsonwebtoken not expired, no request
+277 silly mapToRegistry name jsonwebtoken
+278 silly mapToRegistry using default registry
+279 silly mapToRegistry registry https://registry.npmjs.org/
+280 silly mapToRegistry data Result {
+280 silly mapToRegistry   raw: 'jsonwebtoken',
+280 silly mapToRegistry   scope: null,
+280 silly mapToRegistry   escapedName: 'jsonwebtoken',
+280 silly mapToRegistry   name: 'jsonwebtoken',
+280 silly mapToRegistry   rawSpec: '',
+280 silly mapToRegistry   spec: 'latest',
+280 silly mapToRegistry   type: 'tag' }
+281 silly mapToRegistry uri https://registry.npmjs.org/jsonwebtoken
+282 verbose addRemoteTarball https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.1.0.tgz not in flight; adding
+283 verbose addRemoteTarball [ 'https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.1.0.tgz',
+283 verbose addRemoteTarball   'c6397cd2e5fd583d65c007a83dc7bb78e6982b83' ]
+284 info retry fetch attempt 1 at 5:52:41 PM
+285 info attempt registry request try #1 at 5:52:41 PM
+286 http fetch GET https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.1.0.tgz
+287 verbose request using bearer token for auth
+288 silly resolveWithNewModule node-forge@0.7.1 checking installable status
+289 silly cache add args [ 'node-forge@0.7.1', null ]
+290 verbose cache add spec node-forge@0.7.1
+291 silly cache add parsed spec Result {
+291 silly cache add   raw: 'node-forge@0.7.1',
+291 silly cache add   scope: null,
+291 silly cache add   escapedName: 'node-forge',
+291 silly cache add   name: 'node-forge',
+291 silly cache add   rawSpec: '0.7.1',
+291 silly cache add   spec: '0.7.1',
+291 silly cache add   type: 'version' }
+292 silly addNamed node-forge@0.7.1
+293 verbose addNamed "0.7.1" is a plain semver version for node-forge
+294 silly mapToRegistry name node-forge
+295 silly mapToRegistry using default registry
+296 silly mapToRegistry registry https://registry.npmjs.org/
+297 silly mapToRegistry data Result {
+297 silly mapToRegistry   raw: 'node-forge',
+297 silly mapToRegistry   scope: null,
+297 silly mapToRegistry   escapedName: 'node-forge',
+297 silly mapToRegistry   name: 'node-forge',
+297 silly mapToRegistry   rawSpec: '',
+297 silly mapToRegistry   spec: 'latest',
+297 silly mapToRegistry   type: 'tag' }
+298 silly mapToRegistry uri https://registry.npmjs.org/node-forge
+299 verbose addNameVersion registry:https://registry.npmjs.org/node-forge not in flight; fetching
+300 silly resolveWithNewModule faye-websocket@0.9.3 checking installable status
+301 silly cache add args [ 'faye-websocket@0.9.3', null ]
+302 verbose cache add spec faye-websocket@0.9.3
+303 silly cache add parsed spec Result {
+303 silly cache add   raw: 'faye-websocket@0.9.3',
+303 silly cache add   scope: null,
+303 silly cache add   escapedName: 'faye-websocket',
+303 silly cache add   name: 'faye-websocket',
+303 silly cache add   rawSpec: '0.9.3',
+303 silly cache add   spec: '0.9.3',
+303 silly cache add   type: 'version' }
+304 silly addNamed faye-websocket@0.9.3
+305 verbose addNamed "0.9.3" is a plain semver version for faye-websocket
+306 silly mapToRegistry name faye-websocket
+307 silly mapToRegistry using default registry
+308 silly mapToRegistry registry https://registry.npmjs.org/
+309 silly mapToRegistry data Result {
+309 silly mapToRegistry   raw: 'faye-websocket',
+309 silly mapToRegistry   scope: null,
+309 silly mapToRegistry   escapedName: 'faye-websocket',
+309 silly mapToRegistry   name: 'faye-websocket',
+309 silly mapToRegistry   rawSpec: '',
+309 silly mapToRegistry   spec: 'latest',
+309 silly mapToRegistry   type: 'tag' }
+310 silly mapToRegistry uri https://registry.npmjs.org/faye-websocket
+311 verbose addNameVersion registry:https://registry.npmjs.org/faye-websocket not in flight; fetching
+312 verbose get https://registry.npmjs.org/node-forge not expired, no request
+313 silly mapToRegistry name node-forge
+314 silly mapToRegistry using default registry
+315 silly mapToRegistry registry https://registry.npmjs.org/
+316 silly mapToRegistry data Result {
+316 silly mapToRegistry   raw: 'node-forge',
+316 silly mapToRegistry   scope: null,
+316 silly mapToRegistry   escapedName: 'node-forge',
+316 silly mapToRegistry   name: 'node-forge',
+316 silly mapToRegistry   rawSpec: '',
+316 silly mapToRegistry   spec: 'latest',
+316 silly mapToRegistry   type: 'tag' }
+317 silly mapToRegistry uri https://registry.npmjs.org/node-forge
+318 verbose addRemoteTarball https://registry.npmjs.org/node-forge/-/node-forge-0.7.1.tgz not in flight; adding
+319 verbose addRemoteTarball [ 'https://registry.npmjs.org/node-forge/-/node-forge-0.7.1.tgz',
+319 verbose addRemoteTarball   '9da611ea08982f4b94206b3beb4cc9665f20c300' ]
+320 verbose get https://registry.npmjs.org/faye-websocket not expired, no request
+321 info retry fetch attempt 1 at 5:52:41 PM
+322 info attempt registry request try #1 at 5:52:41 PM
+323 http fetch GET https://registry.npmjs.org/node-forge/-/node-forge-0.7.1.tgz
+324 verbose request using bearer token for auth
+325 silly cache afterAdd faye-websocket@0.9.3
+326 verbose afterAdd /Users/ChefZatoichi/.npm/faye-websocket/0.9.3/package/package.json not in flight; writing
+327 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+328 verbose afterAdd /Users/ChefZatoichi/.npm/faye-websocket/0.9.3/package/package.json written
+329 http fetch 200 https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.1.0.tgz
+330 http fetch 200 https://registry.npmjs.org/node-forge/-/node-forge-0.7.1.tgz
+331 silly fetchAndShaCheck shasum c6397cd2e5fd583d65c007a83dc7bb78e6982b83
+332 verbose addTmpTarball /var/folders/6d/zh0sqwkn6wng96xk4t415fwm0000gn/T/npm-36855-4af95e29/registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.1.0.tgz not in flight; adding
+333 verbose addTmpTarball already have metadata; skipping unpack for jsonwebtoken@8.1.0
+334 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+335 silly cache afterAdd jsonwebtoken@8.1.0
+336 verbose afterAdd /Users/ChefZatoichi/.npm/jsonwebtoken/8.1.0/package/package.json not in flight; writing
+337 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+338 verbose afterAdd /Users/ChefZatoichi/.npm/jsonwebtoken/8.1.0/package/package.json written
+339 http 200 https://registry.npmjs.org/@types%2fgoogle-cloud__storage
+340 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+340 verbose headers   server: 'AmazonS3',
+340 verbose headers   'last-modified': 'Mon, 19 Mar 2018 18:34:50 GMT',
+340 verbose headers   etag: 'W/"5ab002ca-2fe2"',
+340 verbose headers   'content-encoding': 'gzip',
+340 verbose headers   age: '522491',
+340 verbose headers   via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+340 verbose headers   'accept-ranges': 'bytes, bytes',
+340 verbose headers   'cache-control': 'max-age=0',
+340 verbose headers   'content-length': '2759',
+340 verbose headers   date: 'Wed, 28 Mar 2018 21:52:42 GMT',
+340 verbose headers   connection: 'keep-alive',
+340 verbose headers   'x-served-by': 'cache-mia17629-MIA',
+340 verbose headers   'x-cache': 'MISS',
+340 verbose headers   'x-cache-hits': '0',
+340 verbose headers   'x-timer': 'S1522273962.649829,VS0,VE369',
+340 verbose headers   vary: 'Accept, Accept-Encoding' }
+341 silly get cb [ 200,
+341 silly get   { 'content-type': 'application/json; charset=UTF-8',
+341 silly get     server: 'AmazonS3',
+341 silly get     'last-modified': 'Mon, 19 Mar 2018 18:34:50 GMT',
+341 silly get     etag: 'W/"5ab002ca-2fe2"',
+341 silly get     'content-encoding': 'gzip',
+341 silly get     age: '522491',
+341 silly get     via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+341 silly get     'accept-ranges': 'bytes, bytes',
+341 silly get     'cache-control': 'max-age=0',
+341 silly get     'content-length': '2759',
+341 silly get     date: 'Wed, 28 Mar 2018 21:52:42 GMT',
+341 silly get     connection: 'keep-alive',
+341 silly get     'x-served-by': 'cache-mia17629-MIA',
+341 silly get     'x-cache': 'MISS',
+341 silly get     'x-cache-hits': '0',
+341 silly get     'x-timer': 'S1522273962.649829,VS0,VE369',
+341 silly get     vary: 'Accept, Accept-Encoding' } ]
+342 verbose get saving @types/google-cloud__storage to /Users/ChefZatoichi/.npm/registry.npmjs.org/_40types_252fgoogle-cloud__storage/.cache.json
+343 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+344 silly resolveWithNewModule @types/google-cloud__storage@1.1.7 checking installable status
+345 silly cache add args [ '@types/google-cloud__storage@^1.1.7', null ]
+346 verbose cache add spec @types/google-cloud__storage@^1.1.7
+347 silly cache add parsed spec Result {
+347 silly cache add   raw: '@types/google-cloud__storage@^1.1.7',
+347 silly cache add   scope: '@types',
+347 silly cache add   escapedName: '@types%2fgoogle-cloud__storage',
+347 silly cache add   name: '@types/google-cloud__storage',
+347 silly cache add   rawSpec: '^1.1.7',
+347 silly cache add   spec: '>=1.1.7 <2.0.0',
+347 silly cache add   type: 'range' }
+348 silly addNamed @types/google-cloud__storage@>=1.1.7 <2.0.0
+349 verbose addNamed ">=1.1.7 <2.0.0" is a valid semver range for @types/google-cloud__storage
+350 silly addNameRange { name: '@types/google-cloud__storage',
+350 silly addNameRange   range: '>=1.1.7 <2.0.0',
+350 silly addNameRange   hasData: false }
+351 silly mapToRegistry name @types/google-cloud__storage
+352 silly mapToRegistry scope (from package name) @types
+353 verbose mapToRegistry no registry URL found in name for scope @types
+354 silly mapToRegistry using default registry
+355 silly mapToRegistry registry https://registry.npmjs.org/
+356 silly mapToRegistry data Result {
+356 silly mapToRegistry   raw: '@types/google-cloud__storage',
+356 silly mapToRegistry   scope: '@types',
+356 silly mapToRegistry   escapedName: '@types%2fgoogle-cloud__storage',
+356 silly mapToRegistry   name: '@types/google-cloud__storage',
+356 silly mapToRegistry   rawSpec: '',
+356 silly mapToRegistry   spec: 'latest',
+356 silly mapToRegistry   type: 'tag' }
+357 silly mapToRegistry uri https://registry.npmjs.org/@types%2fgoogle-cloud__storage
+358 verbose addNameRange registry:https://registry.npmjs.org/@types%2fgoogle-cloud__storage not in flight; fetching
+359 verbose get https://registry.npmjs.org/@types%2fgoogle-cloud__storage not expired, no request
+360 silly addNameRange number 2 { name: '@types/google-cloud__storage',
+360 silly addNameRange   range: '>=1.1.7 <2.0.0',
+360 silly addNameRange   hasData: true }
+361 silly addNameRange versions [ '@types/google-cloud__storage',
+361 silly addNameRange   [ '0.6.0',
+361 silly addNameRange     '1.1.0',
+361 silly addNameRange     '1.1.1',
+361 silly addNameRange     '1.1.2',
+361 silly addNameRange     '1.1.3',
+361 silly addNameRange     '1.1.4',
+361 silly addNameRange     '1.1.5',
+361 silly addNameRange     '1.1.6',
+361 silly addNameRange     '1.1.7' ] ]
+362 silly addNamed @types/google-cloud__storage@1.1.7
+363 verbose addNamed "1.1.7" is a plain semver version for @types/google-cloud__storage
+364 silly mapToRegistry name @types/google-cloud__storage
+365 silly mapToRegistry scope (from package name) @types
+366 verbose mapToRegistry no registry URL found in name for scope @types
+367 silly mapToRegistry using default registry
+368 silly mapToRegistry registry https://registry.npmjs.org/
+369 silly mapToRegistry data Result {
+369 silly mapToRegistry   raw: '@types/google-cloud__storage',
+369 silly mapToRegistry   scope: '@types',
+369 silly mapToRegistry   escapedName: '@types%2fgoogle-cloud__storage',
+369 silly mapToRegistry   name: '@types/google-cloud__storage',
+369 silly mapToRegistry   rawSpec: '',
+369 silly mapToRegistry   spec: 'latest',
+369 silly mapToRegistry   type: 'tag' }
+370 silly mapToRegistry uri https://registry.npmjs.org/@types%2fgoogle-cloud__storage
+371 verbose addRemoteTarball https://registry.npmjs.org/@types/google-cloud__storage/-/google-cloud__storage-1.1.7.tgz not in flight; adding
+372 verbose addRemoteTarball [ 'https://registry.npmjs.org/@types/google-cloud__storage/-/google-cloud__storage-1.1.7.tgz',
+372 verbose addRemoteTarball   'f4b568b163cce16314f32f954f5b7d5c9001fa86' ]
+373 info retry fetch attempt 1 at 5:52:42 PM
+374 info attempt registry request try #1 at 5:52:42 PM
+375 http fetch GET https://registry.npmjs.org/@types/google-cloud__storage/-/google-cloud__storage-1.1.7.tgz
+376 verbose request using bearer token for auth
+377 http 200 https://registry.npmjs.org/@google-cloud%2ffirestore
+378 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+378 verbose headers   server: 'AmazonS3',
+378 verbose headers   'last-modified': 'Tue, 27 Mar 2018 20:42:46 GMT',
+378 verbose headers   etag: 'W/"5abaacc6-e60d"',
+378 verbose headers   'content-encoding': 'gzip',
+378 verbose headers   age: '90507',
+378 verbose headers   via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+378 verbose headers   'accept-ranges': 'bytes, bytes',
+378 verbose headers   'cache-control': 'max-age=0',
+378 verbose headers   'content-length': '6808',
+378 verbose headers   date: 'Wed, 28 Mar 2018 21:52:42 GMT',
+378 verbose headers   connection: 'keep-alive',
+378 verbose headers   'x-served-by': 'cache-mia17635-MIA',
+378 verbose headers   'x-cache': 'MISS',
+378 verbose headers   'x-cache-hits': '0',
+378 verbose headers   'x-timer': 'S1522273962.643828,VS0,VE396',
+378 verbose headers   vary: 'Accept, Accept-Encoding' }
+379 silly get cb [ 200,
+379 silly get   { 'content-type': 'application/json; charset=UTF-8',
+379 silly get     server: 'AmazonS3',
+379 silly get     'last-modified': 'Tue, 27 Mar 2018 20:42:46 GMT',
+379 silly get     etag: 'W/"5abaacc6-e60d"',
+379 silly get     'content-encoding': 'gzip',
+379 silly get     age: '90507',
+379 silly get     via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+379 silly get     'accept-ranges': 'bytes, bytes',
+379 silly get     'cache-control': 'max-age=0',
+379 silly get     'content-length': '6808',
+379 silly get     date: 'Wed, 28 Mar 2018 21:52:42 GMT',
+379 silly get     connection: 'keep-alive',
+379 silly get     'x-served-by': 'cache-mia17635-MIA',
+379 silly get     'x-cache': 'MISS',
+379 silly get     'x-cache-hits': '0',
+379 silly get     'x-timer': 'S1522273962.643828,VS0,VE396',
+379 silly get     vary: 'Accept, Accept-Encoding' } ]
+380 verbose get saving @google-cloud/firestore to /Users/ChefZatoichi/.npm/registry.npmjs.org/_40google-cloud_252ffirestore/.cache.json
+381 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+382 silly resolveWithNewModule @google-cloud/firestore@0.13.1 checking installable status
+383 silly cache add args [ '@google-cloud/firestore@^0.13.0', null ]
+384 verbose cache add spec @google-cloud/firestore@^0.13.0
+385 silly cache add parsed spec Result {
+385 silly cache add   raw: '@google-cloud/firestore@^0.13.0',
+385 silly cache add   scope: '@google-cloud',
+385 silly cache add   escapedName: '@google-cloud%2ffirestore',
+385 silly cache add   name: '@google-cloud/firestore',
+385 silly cache add   rawSpec: '^0.13.0',
+385 silly cache add   spec: '>=0.13.0 <0.14.0',
+385 silly cache add   type: 'range' }
+386 silly addNamed @google-cloud/firestore@>=0.13.0 <0.14.0
+387 verbose addNamed ">=0.13.0 <0.14.0" is a valid semver range for @google-cloud/firestore
+388 silly addNameRange { name: '@google-cloud/firestore',
+388 silly addNameRange   range: '>=0.13.0 <0.14.0',
+388 silly addNameRange   hasData: false }
+389 silly mapToRegistry name @google-cloud/firestore
+390 silly mapToRegistry scope (from package name) @google-cloud
+391 verbose mapToRegistry no registry URL found in name for scope @google-cloud
+392 silly mapToRegistry using default registry
+393 silly mapToRegistry registry https://registry.npmjs.org/
+394 silly mapToRegistry data Result {
+394 silly mapToRegistry   raw: '@google-cloud/firestore',
+394 silly mapToRegistry   scope: '@google-cloud',
+394 silly mapToRegistry   escapedName: '@google-cloud%2ffirestore',
+394 silly mapToRegistry   name: '@google-cloud/firestore',
+394 silly mapToRegistry   rawSpec: '',
+394 silly mapToRegistry   spec: 'latest',
+394 silly mapToRegistry   type: 'tag' }
+395 silly mapToRegistry uri https://registry.npmjs.org/@google-cloud%2ffirestore
+396 verbose addNameRange registry:https://registry.npmjs.org/@google-cloud%2ffirestore not in flight; fetching
+397 verbose get https://registry.npmjs.org/@google-cloud%2ffirestore not expired, no request
+398 silly addNameRange number 2 { name: '@google-cloud/firestore',
+398 silly addNameRange   range: '>=0.13.0 <0.14.0',
+398 silly addNameRange   hasData: true }
+399 silly addNameRange versions [ '@google-cloud/firestore',
+399 silly addNameRange   [ '0.8.0',
+399 silly addNameRange     '0.8.1',
+399 silly addNameRange     '0.8.2',
+399 silly addNameRange     '0.9.0',
+399 silly addNameRange     '0.10.0',
+399 silly addNameRange     '0.10.1',
+399 silly addNameRange     '0.11.0',
+399 silly addNameRange     '0.10.2',
+399 silly addNameRange     '0.11.1',
+399 silly addNameRange     '0.11.2',
+399 silly addNameRange     '0.12.0',
+399 silly addNameRange     '0.13.0',
+399 silly addNameRange     '0.13.1' ] ]
+400 silly addNamed @google-cloud/firestore@0.13.1
+401 verbose addNamed "0.13.1" is a plain semver version for @google-cloud/firestore
+402 silly mapToRegistry name @google-cloud/firestore
+403 silly mapToRegistry scope (from package name) @google-cloud
+404 verbose mapToRegistry no registry URL found in name for scope @google-cloud
+405 silly mapToRegistry using default registry
+406 silly mapToRegistry registry https://registry.npmjs.org/
+407 silly mapToRegistry data Result {
+407 silly mapToRegistry   raw: '@google-cloud/firestore',
+407 silly mapToRegistry   scope: '@google-cloud',
+407 silly mapToRegistry   escapedName: '@google-cloud%2ffirestore',
+407 silly mapToRegistry   name: '@google-cloud/firestore',
+407 silly mapToRegistry   rawSpec: '',
+407 silly mapToRegistry   spec: 'latest',
+407 silly mapToRegistry   type: 'tag' }
+408 silly mapToRegistry uri https://registry.npmjs.org/@google-cloud%2ffirestore
+409 verbose addRemoteTarball https://registry.npmjs.org/@google-cloud/firestore/-/firestore-0.13.1.tgz not in flight; adding
+410 verbose addRemoteTarball [ 'https://registry.npmjs.org/@google-cloud/firestore/-/firestore-0.13.1.tgz',
+410 verbose addRemoteTarball   '40e376852d9aa19aee62deb0334ffc437ebd8d64' ]
+411 info retry fetch attempt 1 at 5:52:42 PM
+412 info attempt registry request try #1 at 5:52:42 PM
+413 http fetch GET https://registry.npmjs.org/@google-cloud/firestore/-/firestore-0.13.1.tgz
+414 verbose request using bearer token for auth
+415 silly fetchAndShaCheck shasum 9da611ea08982f4b94206b3beb4cc9665f20c300
+416 verbose addTmpTarball /var/folders/6d/zh0sqwkn6wng96xk4t415fwm0000gn/T/npm-36855-4af95e29/registry.npmjs.org/node-forge/-/node-forge-0.7.1.tgz not in flight; adding
+417 verbose addTmpTarball already have metadata; skipping unpack for node-forge@0.7.1
+418 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+419 http 200 https://registry.npmjs.org/@firebase%2fdatabase
+420 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+420 verbose headers   server: 'AmazonS3',
+420 verbose headers   'last-modified': 'Wed, 28 Mar 2018 21:05:37 GMT',
+420 verbose headers   etag: 'W/"5abc03a1-46fb3"',
+420 verbose headers   'content-encoding': 'gzip',
+420 verbose headers   age: '2737',
+420 verbose headers   via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+420 verbose headers   'accept-ranges': 'bytes, bytes',
+420 verbose headers   'cache-control': 'max-age=0',
+420 verbose headers   'content-length': '19082',
+420 verbose headers   date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+420 verbose headers   connection: 'keep-alive',
+420 verbose headers   'x-served-by': 'cache-mia17630-MIA',
+420 verbose headers   'x-cache': 'MISS',
+420 verbose headers   'x-cache-hits': '0',
+420 verbose headers   'x-timer': 'S1522273962.571360,VS0,VE396',
+420 verbose headers   vary: 'Accept, Accept-Encoding' }
+421 silly get cb [ 200,
+421 silly get   { 'content-type': 'application/json; charset=UTF-8',
+421 silly get     server: 'AmazonS3',
+421 silly get     'last-modified': 'Wed, 28 Mar 2018 21:05:37 GMT',
+421 silly get     etag: 'W/"5abc03a1-46fb3"',
+421 silly get     'content-encoding': 'gzip',
+421 silly get     age: '2737',
+421 silly get     via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+421 silly get     'accept-ranges': 'bytes, bytes',
+421 silly get     'cache-control': 'max-age=0',
+421 silly get     'content-length': '19082',
+421 silly get     date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+421 silly get     connection: 'keep-alive',
+421 silly get     'x-served-by': 'cache-mia17630-MIA',
+421 silly get     'x-cache': 'MISS',
+421 silly get     'x-cache-hits': '0',
+421 silly get     'x-timer': 'S1522273962.571360,VS0,VE396',
+421 silly get     vary: 'Accept, Accept-Encoding' } ]
+422 verbose get saving @firebase/database to /Users/ChefZatoichi/.npm/registry.npmjs.org/_40firebase_252fdatabase/.cache.json
+423 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+424 http 200 https://registry.npmjs.org/@firebase%2fapp
+425 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+425 verbose headers   server: 'AmazonS3',
+425 verbose headers   'last-modified': 'Wed, 28 Mar 2018 21:04:37 GMT',
+425 verbose headers   etag: 'W/"5abc0365-3b9c6"',
+425 verbose headers   'content-encoding': 'gzip',
+425 verbose headers   age: '2801',
+425 verbose headers   via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+425 verbose headers   'accept-ranges': 'bytes, bytes',
+425 verbose headers   'cache-control': 'max-age=0',
+425 verbose headers   'content-length': '16904',
+425 verbose headers   date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+425 verbose headers   connection: 'keep-alive',
+425 verbose headers   'x-served-by': 'cache-mia17620-MIA',
+425 verbose headers   'x-cache': 'MISS',
+425 verbose headers   'x-cache-hits': '0',
+425 verbose headers   'x-timer': 'S1522273962.566467,VS0,VE404',
+425 verbose headers   vary: 'Accept, Accept-Encoding' }
+426 silly get cb [ 200,
+426 silly get   { 'content-type': 'application/json; charset=UTF-8',
+426 silly get     server: 'AmazonS3',
+426 silly get     'last-modified': 'Wed, 28 Mar 2018 21:04:37 GMT',
+426 silly get     etag: 'W/"5abc0365-3b9c6"',
+426 silly get     'content-encoding': 'gzip',
+426 silly get     age: '2801',
+426 silly get     via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+426 silly get     'accept-ranges': 'bytes, bytes',
+426 silly get     'cache-control': 'max-age=0',
+426 silly get     'content-length': '16904',
+426 silly get     date: 'Wed, 28 Mar 2018 21:52:41 GMT',
+426 silly get     connection: 'keep-alive',
+426 silly get     'x-served-by': 'cache-mia17620-MIA',
+426 silly get     'x-cache': 'MISS',
+426 silly get     'x-cache-hits': '0',
+426 silly get     'x-timer': 'S1522273962.566467,VS0,VE404',
+426 silly get     vary: 'Accept, Accept-Encoding' } ]
+427 verbose get saving @firebase/app to /Users/ChefZatoichi/.npm/registry.npmjs.org/_40firebase_252fapp/.cache.json
+428 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+429 silly resolveWithNewModule @firebase/database@0.2.1 checking installable status
+430 silly cache add args [ '@firebase/database@^0.2.0', null ]
+431 verbose cache add spec @firebase/database@^0.2.0
+432 silly cache add parsed spec Result {
+432 silly cache add   raw: '@firebase/database@^0.2.0',
+432 silly cache add   scope: '@firebase',
+432 silly cache add   escapedName: '@firebase%2fdatabase',
+432 silly cache add   name: '@firebase/database',
+432 silly cache add   rawSpec: '^0.2.0',
+432 silly cache add   spec: '>=0.2.0 <0.3.0',
+432 silly cache add   type: 'range' }
+433 silly addNamed @firebase/database@>=0.2.0 <0.3.0
+434 verbose addNamed ">=0.2.0 <0.3.0" is a valid semver range for @firebase/database
+435 silly addNameRange { name: '@firebase/database',
+435 silly addNameRange   range: '>=0.2.0 <0.3.0',
+435 silly addNameRange   hasData: false }
+436 silly mapToRegistry name @firebase/database
+437 silly mapToRegistry scope (from package name) @firebase
+438 verbose mapToRegistry no registry URL found in name for scope @firebase
+439 silly mapToRegistry using default registry
+440 silly mapToRegistry registry https://registry.npmjs.org/
+441 silly mapToRegistry data Result {
+441 silly mapToRegistry   raw: '@firebase/database',
+441 silly mapToRegistry   scope: '@firebase',
+441 silly mapToRegistry   escapedName: '@firebase%2fdatabase',
+441 silly mapToRegistry   name: '@firebase/database',
+441 silly mapToRegistry   rawSpec: '',
+441 silly mapToRegistry   spec: 'latest',
+441 silly mapToRegistry   type: 'tag' }
+442 silly mapToRegistry uri https://registry.npmjs.org/@firebase%2fdatabase
+443 verbose addNameRange registry:https://registry.npmjs.org/@firebase%2fdatabase not in flight; fetching
+444 http 304 https://registry.npmjs.org/@google-cloud%2fstorage
+445 verbose headers { server: 'AmazonS3',
+445 verbose headers   'last-modified': 'Tue, 13 Feb 2018 21:58:12 GMT',
+445 verbose headers   etag: 'W/"5a835f74-14b86"',
+445 verbose headers   age: '522819',
+445 verbose headers   via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+445 verbose headers   'cache-control': 'max-age=0',
+445 verbose headers   'accept-ranges': 'bytes',
+445 verbose headers   date: 'Wed, 28 Mar 2018 21:52:42 GMT',
+445 verbose headers   connection: 'keep-alive',
+445 verbose headers   'x-served-by': 'cache-mia17635-MIA',
+445 verbose headers   'x-cache': 'MISS',
+445 verbose headers   'x-cache-hits': '0',
+445 verbose headers   'x-timer': 'S1522273962.702669,VS0,VE376',
+445 verbose headers   vary: 'Accept, Accept-Encoding' }
+446 silly get cb [ 304,
+446 silly get   { server: 'AmazonS3',
+446 silly get     'last-modified': 'Tue, 13 Feb 2018 21:58:12 GMT',
+446 silly get     etag: 'W/"5a835f74-14b86"',
+446 silly get     age: '522819',
+446 silly get     via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+446 silly get     'cache-control': 'max-age=0',
+446 silly get     'accept-ranges': 'bytes',
+446 silly get     date: 'Wed, 28 Mar 2018 21:52:42 GMT',
+446 silly get     connection: 'keep-alive',
+446 silly get     'x-served-by': 'cache-mia17635-MIA',
+446 silly get     'x-cache': 'MISS',
+446 silly get     'x-cache-hits': '0',
+446 silly get     'x-timer': 'S1522273962.702669,VS0,VE376',
+446 silly get     vary: 'Accept, Accept-Encoding' } ]
+447 verbose etag https://registry.npmjs.org/@google-cloud%2fstorage from cache
+448 verbose get saving @google-cloud/storage to /Users/ChefZatoichi/.npm/registry.npmjs.org/_40google-cloud_252fstorage/.cache.json
+449 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+450 verbose get https://registry.npmjs.org/@firebase%2fdatabase not expired, no request
+451 silly addNameRange number 2 { name: '@firebase/database',
+451 silly addNameRange   range: '>=0.2.0 <0.3.0',
+451 silly addNameRange   hasData: true }
+452 silly addNameRange versions [ '@firebase/database',
+452 silly addNameRange   [ '0.1.0',
+452 silly addNameRange     '0.1.1',
+452 silly addNameRange     '0.1.2',
+452 silly addNameRange     '0.1.3',
+452 silly addNameRange     '0.1.4',
+452 silly addNameRange     '0.1.5',
+452 silly addNameRange     '0.1.6',
+452 silly addNameRange     '0.1.7-0',
+452 silly addNameRange     '0.1.7',
+452 silly addNameRange     '0.1.8',
+452 silly addNameRange     '0.1.8-canary.c647fe4',
+452 silly addNameRange     '0.1.8-canary.81d6b1e',
+452 silly addNameRange     '0.1.8-canary.fca1076',
+452 silly addNameRange     '0.1.8-canary.fcc77c2',
+452 silly addNameRange     '0.1.9-0',
+452 silly addNameRange     '0.1.8-canary.bcc8983',
+452 silly addNameRange     '0.1.8-canary.8f76c28',
+452 silly addNameRange     '0.1.8-canary.9fb3c4c',
+452 silly addNameRange     '0.1.9',
+452 silly addNameRange     '0.1.9-canary.631e1ad',
+452 silly addNameRange     '0.1.9-canary.49dcb25',
+452 silly addNameRange     '0.1.9-canary.2db58a0',
+452 silly addNameRange     '0.1.9-canary.a1e346f',
+452 silly addNameRange     '0.1.9-canary.453677f',
+452 silly addNameRange     '0.1.9-canary.7a611b6',
+452 silly addNameRange     '0.1.9-canary.fce4168',
+452 silly addNameRange     '0.1.9-canary.515eff7',
+452 silly addNameRange     '0.1.9-canary.f173ad0',
+452 silly addNameRange     '0.1.9-canary.2cacc75',
+452 silly addNameRange     '0.1.10-0',
+452 silly addNameRange     '0.1.9-canary.db389db',
+452 silly addNameRange     '0.1.10',
+452 silly addNameRange     '0.1.10-canary.2e147ff',
+452 silly addNameRange     '0.1.10-canary.b6b4e2f',
+452 silly addNameRange     '0.1.11-0',
+452 silly addNameRange     '0.1.10-canary.dbe5fff',
+452 silly addNameRange     '0.1.10-canary.e784110',
+452 silly addNameRange     '0.1.10-canary.3aec5ac',
+452 silly addNameRange     '0.1.11-1',
+452 silly addNameRange     '0.1.10-canary.3ee5bdf',
+452 silly addNameRange     '0.1.10-canary.0226ed2',
+452 silly addNameRange     '0.1.11-2',
+452 silly addNameRange     '0.1.10-canary.cde4e44',
+452 silly addNameRange     '0.1.11',
+452 silly addNameRange     '0.1.11-canary.9cda9c9',
+452 silly addNameRange     '0.1.11-canary.3d6289d',
+452 silly addNameRange     '0.1.11-canary.fbb2aab',
+452 silly addNameRange     '0.1.11-canary.dbed689',
+452 silly addNameRange     '0.1.11-canary.aba869c',
+452 silly addNameRange     '0.1.11-canary.0fa319e',
+452 silly addNameRange     '0.1.11-canary.a0583f7',
+452 silly addNameRange     '0.1.11-canary.03d224f',
+452 silly addNameRange     '0.2.0-0',
+452 silly addNameRange     '0.1.11-canary.121c167',
+452 silly addNameRange     '0.1.11-canary.7681d03',
+452 silly addNameRange     '0.2.0',
+452 silly addNameRange     '0.2.0-canary.6aed77a',
+452 silly addNameRange     '0.2.0-canary.69c9a97',
+452 silly addNameRange     '0.2.0-canary.786082d',
+452 silly addNameRange     '0.2.0-canary.0c5cbe0',
+452 silly addNameRange     '0.2.0-canary.bf7a221',
+452 silly addNameRange     '0.2.0-canary.b949d81',
+452 silly addNameRange     '0.2.0-canary.1b3ba41',
+452 silly addNameRange     '0.2.0-canary.df183a5',
+452 silly addNameRange     '0.2.1-0',
+452 silly addNameRange     '0.2.0-canary.d3ec2e0',
+452 silly addNameRange     '0.2.0-canary.9d00c6f',
+452 silly addNameRange     '0.2.0-canary.c25e7a1',
+452 silly addNameRange     '0.2.0-canary.908227c',
+452 silly addNameRange     '0.2.0-canary.d59b7249',
+452 silly addNameRange     '0.2.0-canary.d59b724',
+452 silly addNameRange     '0.2.1',
+452 silly addNameRange     '0.2.1-canary.563e048',
+452 silly addNameRange     '0.2.1-canary.84896ec',
+452 silly addNameRange     '0.2.1-canary.ab0faeb',
+452 silly addNameRange     '0.2.1-canary.8a10e7c',
+452 silly addNameRange     '0.2.1-canary.bb93e47',
+452 silly addNameRange     '0.2.1-canary.d90beab',
+452 silly addNameRange     '0.2.1-canary.faa54d8',
+452 silly addNameRange     '0.2.1-canary.a538b83',
+452 silly addNameRange     '0.2.1-canary.dd86fc7',
+452 silly addNameRange     '0.2.1-canary.3259004' ] ]
+453 silly addNamed @firebase/database@0.2.1
+454 verbose addNamed "0.2.1" is a plain semver version for @firebase/database
+455 silly resolveWithNewModule @firebase/app@0.1.10 checking installable status
+456 silly cache add args [ '@firebase/app@^0.1.10', null ]
+457 verbose cache add spec @firebase/app@^0.1.10
+458 silly cache add parsed spec Result {
+458 silly cache add   raw: '@firebase/app@^0.1.10',
+458 silly cache add   scope: '@firebase',
+458 silly cache add   escapedName: '@firebase%2fapp',
+458 silly cache add   name: '@firebase/app',
+458 silly cache add   rawSpec: '^0.1.10',
+458 silly cache add   spec: '>=0.1.10 <0.2.0',
+458 silly cache add   type: 'range' }
+459 silly addNamed @firebase/app@>=0.1.10 <0.2.0
+460 verbose addNamed ">=0.1.10 <0.2.0" is a valid semver range for @firebase/app
+461 silly addNameRange { name: '@firebase/app',
+461 silly addNameRange   range: '>=0.1.10 <0.2.0',
+461 silly addNameRange   hasData: false }
+462 silly mapToRegistry name @firebase/app
+463 silly mapToRegistry scope (from package name) @firebase
+464 verbose mapToRegistry no registry URL found in name for scope @firebase
+465 silly mapToRegistry using default registry
+466 silly mapToRegistry registry https://registry.npmjs.org/
+467 silly mapToRegistry data Result {
+467 silly mapToRegistry   raw: '@firebase/app',
+467 silly mapToRegistry   scope: '@firebase',
+467 silly mapToRegistry   escapedName: '@firebase%2fapp',
+467 silly mapToRegistry   name: '@firebase/app',
+467 silly mapToRegistry   rawSpec: '',
+467 silly mapToRegistry   spec: 'latest',
+467 silly mapToRegistry   type: 'tag' }
+468 silly mapToRegistry uri https://registry.npmjs.org/@firebase%2fapp
+469 verbose addNameRange registry:https://registry.npmjs.org/@firebase%2fapp not in flight; fetching
+470 silly mapToRegistry name @firebase/database
+471 silly mapToRegistry scope (from package name) @firebase
+472 verbose mapToRegistry no registry URL found in name for scope @firebase
+473 silly mapToRegistry using default registry
+474 silly mapToRegistry registry https://registry.npmjs.org/
+475 silly mapToRegistry data Result {
+475 silly mapToRegistry   raw: '@firebase/database',
+475 silly mapToRegistry   scope: '@firebase',
+475 silly mapToRegistry   escapedName: '@firebase%2fdatabase',
+475 silly mapToRegistry   name: '@firebase/database',
+475 silly mapToRegistry   rawSpec: '',
+475 silly mapToRegistry   spec: 'latest',
+475 silly mapToRegistry   type: 'tag' }
+476 silly mapToRegistry uri https://registry.npmjs.org/@firebase%2fdatabase
+477 verbose addRemoteTarball https://registry.npmjs.org/@firebase/database/-/database-0.2.1.tgz not in flight; adding
+478 verbose addRemoteTarball [ 'https://registry.npmjs.org/@firebase/database/-/database-0.2.1.tgz',
+478 verbose addRemoteTarball   'af4f3b80a7bccd4a561fdc76d8c1867243dd0665' ]
+479 verbose get https://registry.npmjs.org/@firebase%2fapp not expired, no request
+480 silly addNameRange number 2 { name: '@firebase/app',
+480 silly addNameRange   range: '>=0.1.10 <0.2.0',
+480 silly addNameRange   hasData: true }
+481 silly addNameRange versions [ '@firebase/app',
+481 silly addNameRange   [ '0.1.0',
+481 silly addNameRange     '0.1.1',
+481 silly addNameRange     '0.1.2',
+481 silly addNameRange     '0.1.3',
+481 silly addNameRange     '0.1.4',
+481 silly addNameRange     '0.1.5',
+481 silly addNameRange     '0.1.6-0',
+481 silly addNameRange     '0.1.6',
+481 silly addNameRange     '0.1.7',
+481 silly addNameRange     '0.1.7-canary.c647fe4',
+481 silly addNameRange     '0.1.7-canary.81d6b1e',
+481 silly addNameRange     '0.1.7-canary.fca1076',
+481 silly addNameRange     '0.1.7-canary.fcc77c2',
+481 silly addNameRange     '0.1.8-0',
+481 silly addNameRange     '0.1.7-canary.bcc8983',
+481 silly addNameRange     '0.1.7-canary.8f76c28',
+481 silly addNameRange     '0.1.7-canary.9fb3c4c',
+481 silly addNameRange     '0.1.8',
+481 silly addNameRange     '0.1.8-canary.631e1ad',
+481 silly addNameRange     '0.1.8-canary.49dcb25',
+481 silly addNameRange     '0.1.8-canary.2db58a0',
+481 silly addNameRange     '0.1.8-canary.a1e346f',
+481 silly addNameRange     '0.1.8-canary.453677f',
+481 silly addNameRange     '0.1.8-canary.7a611b6',
+481 silly addNameRange     '0.1.8-canary.fce4168',
+481 silly addNameRange     '0.1.8-canary.515eff7',
+481 silly addNameRange     '0.1.8-canary.f173ad0',
+481 silly addNameRange     '0.1.8-canary.2cacc75',
+481 silly addNameRange     '0.1.9-0',
+481 silly addNameRange     '0.1.8-canary.db389db',
+481 silly addNameRange     '0.1.9',
+481 silly addNameRange     '0.1.9-canary.2e147ff',
+481 silly addNameRange     '0.1.9-canary.b6b4e2f',
+481 silly addNameRange     '0.1.9-canary.dbe5fff',
+481 silly addNameRange     '0.1.9-canary.e784110',
+481 silly addNameRange     '0.1.9-canary.3aec5ac',
+481 silly addNameRange     '0.1.10-0',
+481 silly addNameRange     '0.1.9-canary.3ee5bdf',
+481 silly addNameRange     '0.1.9-canary.0226ed2',
+481 silly addNameRange     '0.1.10-1',
+481 silly addNameRange     '0.1.9-canary.cde4e44',
+481 silly addNameRange     '0.1.10',
+481 silly addNameRange     '0.1.10-canary.9cda9c9',
+481 silly addNameRange     '0.1.10-canary.3d6289d',
+481 silly addNameRange     '0.1.10-canary.fbb2aab',
+481 silly addNameRange     '0.1.10-canary.dbed689',
+481 silly addNameRange     '0.1.10-canary.aba869c',
+481 silly addNameRange     '0.1.10-canary.0fa319e',
+481 silly addNameRange     '0.1.10-canary.a0583f7',
+481 silly addNameRange     '0.1.10-canary.03d224f',
+481 silly addNameRange     '0.1.10-canary.121c167',
+481 silly addNameRange     '0.1.10-canary.7681d03',
+481 silly addNameRange     '0.1.10-canary.6aed77a',
+481 silly addNameRange     '0.1.10-canary.69c9a97',
+481 silly addNameRange     '0.1.10-canary.786082d',
+481 silly addNameRange     '0.1.10-canary.0c5cbe0',
+481 silly addNameRange     '0.1.10-canary.bf7a221',
+481 silly addNameRange     '0.1.10-canary.b949d81',
+481 silly addNameRange     '0.1.10-canary.1b3ba41',
+481 silly addNameRange     '0.1.10-canary.df183a5',
+481 silly addNameRange     '0.1.10-canary.d3ec2e0',
+481 silly addNameRange     '0.1.10-canary.9d00c6f',
+481 silly addNameRange     '0.1.10-canary.c25e7a1',
+481 silly addNameRange     '0.1.10-canary.908227c',
+481 silly addNameRange     '0.1.10-canary.d59b7249',
+481 silly addNameRange     '0.1.10-canary.d59b724',
+481 silly addNameRange     '0.1.10-canary.563e048',
+481 silly addNameRange     '0.1.10-canary.84896ec',
+481 silly addNameRange     '0.1.10-canary.ab0faeb',
+481 silly addNameRange     '0.1.10-canary.8a10e7c',
+481 silly addNameRange     '0.1.10-canary.bb93e47',
+481 silly addNameRange     '0.1.10-canary.d90beab',
+481 silly addNameRange     '0.1.10-canary.faa54d8',
+481 silly addNameRange     '0.1.10-canary.a538b83',
+481 silly addNameRange     '0.1.10-canary.dd86fc7',
+481 silly addNameRange     '0.1.10-canary.3259004' ] ]
+482 silly addNamed @firebase/app@0.1.10
+483 verbose addNamed "0.1.10" is a plain semver version for @firebase/app
+484 silly cache afterAdd node-forge@0.7.1
+485 verbose afterAdd /Users/ChefZatoichi/.npm/node-forge/0.7.1/package/package.json not in flight; writing
+486 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+487 silly mapToRegistry name @firebase/app
+488 silly mapToRegistry scope (from package name) @firebase
+489 verbose mapToRegistry no registry URL found in name for scope @firebase
+490 silly mapToRegistry using default registry
+491 silly mapToRegistry registry https://registry.npmjs.org/
+492 silly mapToRegistry data Result {
+492 silly mapToRegistry   raw: '@firebase/app',
+492 silly mapToRegistry   scope: '@firebase',
+492 silly mapToRegistry   escapedName: '@firebase%2fapp',
+492 silly mapToRegistry   name: '@firebase/app',
+492 silly mapToRegistry   rawSpec: '',
+492 silly mapToRegistry   spec: 'latest',
+492 silly mapToRegistry   type: 'tag' }
+493 silly mapToRegistry uri https://registry.npmjs.org/@firebase%2fapp
+494 verbose addRemoteTarball https://registry.npmjs.org/@firebase/app/-/app-0.1.10.tgz not in flight; adding
+495 verbose addRemoteTarball [ 'https://registry.npmjs.org/@firebase/app/-/app-0.1.10.tgz',
+495 verbose addRemoteTarball   'fc80c62dbe4d601cad1495bc095309adb9074f85' ]
+496 info retry fetch attempt 1 at 5:52:42 PM
+497 info attempt registry request try #1 at 5:52:42 PM
+498 http fetch GET https://registry.npmjs.org/@firebase/database/-/database-0.2.1.tgz
+499 verbose request using bearer token for auth
+500 silly resolveWithNewModule @google-cloud/storage@1.6.0 checking installable status
+501 silly cache add args [ '@google-cloud/storage@^1.6.0', null ]
+502 verbose cache add spec @google-cloud/storage@^1.6.0
+503 silly cache add parsed spec Result {
+503 silly cache add   raw: '@google-cloud/storage@^1.6.0',
+503 silly cache add   scope: '@google-cloud',
+503 silly cache add   escapedName: '@google-cloud%2fstorage',
+503 silly cache add   name: '@google-cloud/storage',
+503 silly cache add   rawSpec: '^1.6.0',
+503 silly cache add   spec: '>=1.6.0 <2.0.0',
+503 silly cache add   type: 'range' }
+504 silly addNamed @google-cloud/storage@>=1.6.0 <2.0.0
+505 verbose addNamed ">=1.6.0 <2.0.0" is a valid semver range for @google-cloud/storage
+506 silly addNameRange { name: '@google-cloud/storage',
+506 silly addNameRange   range: '>=1.6.0 <2.0.0',
+506 silly addNameRange   hasData: false }
+507 silly mapToRegistry name @google-cloud/storage
+508 silly mapToRegistry scope (from package name) @google-cloud
+509 verbose mapToRegistry no registry URL found in name for scope @google-cloud
+510 silly mapToRegistry using default registry
+511 silly mapToRegistry registry https://registry.npmjs.org/
+512 silly mapToRegistry data Result {
+512 silly mapToRegistry   raw: '@google-cloud/storage',
+512 silly mapToRegistry   scope: '@google-cloud',
+512 silly mapToRegistry   escapedName: '@google-cloud%2fstorage',
+512 silly mapToRegistry   name: '@google-cloud/storage',
+512 silly mapToRegistry   rawSpec: '',
+512 silly mapToRegistry   spec: 'latest',
+512 silly mapToRegistry   type: 'tag' }
+513 silly mapToRegistry uri https://registry.npmjs.org/@google-cloud%2fstorage
+514 verbose addNameRange registry:https://registry.npmjs.org/@google-cloud%2fstorage not in flight; fetching
+515 info retry fetch attempt 1 at 5:52:42 PM
+516 info attempt registry request try #1 at 5:52:42 PM
+517 http fetch GET https://registry.npmjs.org/@firebase/app/-/app-0.1.10.tgz
+518 verbose request using bearer token for auth
+519 verbose get https://registry.npmjs.org/@google-cloud%2fstorage not expired, no request
+520 silly addNameRange number 2 { name: '@google-cloud/storage',
+520 silly addNameRange   range: '>=1.6.0 <2.0.0',
+520 silly addNameRange   hasData: true }
+521 silly addNameRange versions [ '@google-cloud/storage',
+521 silly addNameRange   [ '0.1.0',
+521 silly addNameRange     '0.1.1',
+521 silly addNameRange     '0.2.0',
+521 silly addNameRange     '0.3.0',
+521 silly addNameRange     '0.4.0',
+521 silly addNameRange     '0.5.0',
+521 silly addNameRange     '0.6.0',
+521 silly addNameRange     '0.5.1',
+521 silly addNameRange     '0.5.2',
+521 silly addNameRange     '0.6.1',
+521 silly addNameRange     '0.7.0',
+521 silly addNameRange     '0.8.0',
+521 silly addNameRange     '1.0.0',
+521 silly addNameRange     '1.1.0',
+521 silly addNameRange     '1.1.1',
+521 silly addNameRange     '1.2.0',
+521 silly addNameRange     '1.2.1',
+521 silly addNameRange     '1.3.0',
+521 silly addNameRange     '1.3.1',
+521 silly addNameRange     '1.4.0',
+521 silly addNameRange     '1.5.0',
+521 silly addNameRange     '1.5.1',
+521 silly addNameRange     '1.5.2',
+521 silly addNameRange     '1.6.0' ] ]
+522 silly addNamed @google-cloud/storage@1.6.0
+523 verbose addNamed "1.6.0" is a plain semver version for @google-cloud/storage
+524 verbose afterAdd /Users/ChefZatoichi/.npm/node-forge/0.7.1/package/package.json written
+525 http 200 https://registry.npmjs.org/@types%2fnode
+526 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+526 verbose headers   server: 'AmazonS3',
+526 verbose headers   'last-modified': 'Wed, 28 Mar 2018 20:38:48 GMT',
+526 verbose headers   etag: 'W/"5abbfd58-68057"',
+526 verbose headers   'content-encoding': 'gzip',
+526 verbose headers   age: '4371',
+526 verbose headers   via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+526 verbose headers   'accept-ranges': 'bytes, bytes',
+526 verbose headers   'cache-control': 'max-age=0',
+526 verbose headers   'content-length': '53159',
+526 verbose headers   date: 'Wed, 28 Mar 2018 21:52:42 GMT',
+526 verbose headers   connection: 'keep-alive',
+526 verbose headers   'x-served-by': 'cache-mia17631-MIA',
+526 verbose headers   'x-cache': 'MISS',
+526 verbose headers   'x-cache-hits': '0',
+526 verbose headers   'x-timer': 'S1522273962.648780,VS0,VE359',
+526 verbose headers   vary: 'Accept, Accept-Encoding' }
+527 silly get cb [ 200,
+527 silly get   { 'content-type': 'application/json; charset=UTF-8',
+527 silly get     server: 'AmazonS3',
+527 silly get     'last-modified': 'Wed, 28 Mar 2018 20:38:48 GMT',
+527 silly get     etag: 'W/"5abbfd58-68057"',
+527 silly get     'content-encoding': 'gzip',
+527 silly get     age: '4371',
+527 silly get     via: '1.1 varnish (Varnish/5.2), 1.1 varnish',
+527 silly get     'accept-ranges': 'bytes, bytes',
+527 silly get     'cache-control': 'max-age=0',
+527 silly get     'content-length': '53159',
+527 silly get     date: 'Wed, 28 Mar 2018 21:52:42 GMT',
+527 silly get     connection: 'keep-alive',
+527 silly get     'x-served-by': 'cache-mia17631-MIA',
+527 silly get     'x-cache': 'MISS',
+527 silly get     'x-cache-hits': '0',
+527 silly get     'x-timer': 'S1522273962.648780,VS0,VE359',
+527 silly get     vary: 'Accept, Accept-Encoding' } ]
+528 verbose get saving @types/node to /Users/ChefZatoichi/.npm/registry.npmjs.org/_40types_252fnode/.cache.json
+529 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+530 silly resolveWithNewModule @types/node@8.10.1 checking installable status
+531 silly cache add args [ '@types/node@^8.0.53', null ]
+532 verbose cache add spec @types/node@^8.0.53
+533 silly cache add parsed spec Result {
+533 silly cache add   raw: '@types/node@^8.0.53',
+533 silly cache add   scope: '@types',
+533 silly cache add   escapedName: '@types%2fnode',
+533 silly cache add   name: '@types/node',
+533 silly cache add   rawSpec: '^8.0.53',
+533 silly cache add   spec: '>=8.0.53 <9.0.0',
+533 silly cache add   type: 'range' }
+534 silly addNamed @types/node@>=8.0.53 <9.0.0
+535 verbose addNamed ">=8.0.53 <9.0.0" is a valid semver range for @types/node
+536 silly addNameRange { name: '@types/node', range: '>=8.0.53 <9.0.0', hasData: false }
+537 silly mapToRegistry name @types/node
+538 silly mapToRegistry scope (from package name) @types
+539 verbose mapToRegistry no registry URL found in name for scope @types
+540 silly mapToRegistry using default registry
+541 silly mapToRegistry registry https://registry.npmjs.org/
+542 silly mapToRegistry data Result {
+542 silly mapToRegistry   raw: '@types/node',
+542 silly mapToRegistry   scope: '@types',
+542 silly mapToRegistry   escapedName: '@types%2fnode',
+542 silly mapToRegistry   name: '@types/node',
+542 silly mapToRegistry   rawSpec: '',
+542 silly mapToRegistry   spec: 'latest',
+542 silly mapToRegistry   type: 'tag' }
+543 silly mapToRegistry uri https://registry.npmjs.org/@types%2fnode
+544 verbose addNameRange registry:https://registry.npmjs.org/@types%2fnode not in flight; fetching
+545 verbose get https://registry.npmjs.org/@types%2fnode not expired, no request
+546 silly addNameRange number 2 { name: '@types/node', range: '>=8.0.53 <9.0.0', hasData: true }
+547 silly addNameRange versions [ '@types/node',
+547 silly addNameRange   [ '4.0.15-alpha',
+547 silly addNameRange     '4.0.16-alpha',
+547 silly addNameRange     '4.0.21-alpha',
+547 silly addNameRange     '4.0.22-alpha',
+547 silly addNameRange     '4.0.23-alpha',
+547 silly addNameRange     '4.0.24-alpha',
+547 silly addNameRange     '4.0.25-alpha',
+547 silly addNameRange     '4.0.26-alpha',
+547 silly addNameRange     '4.0.27-alpha',
+547 silly addNameRange     '4.0.28-alpha',
+547 silly addNameRange     '4.0.29',
+547 silly addNameRange     '4.0.30',
+547 silly addNameRange     '6.0.31',
+547 silly addNameRange     '6.0.32',
+547 silly addNameRange     '6.0.33',
+547 silly addNameRange     '6.0.34',
+547 silly addNameRange     '6.0.35',
+547 silly addNameRange     '6.0.36',
+547 silly addNameRange     '6.0.37',
+547 silly addNameRange     '6.0.38',
+547 silly addNameRange     '6.0.39',
+547 silly addNameRange     '6.0.40',
+547 silly addNameRange     '6.0.41',
+547 silly addNameRange     '6.0.42',
+547 silly addNameRange     '6.0.43',
+547 silly addNameRange     '6.0.44',
+547 silly addNameRange     '6.0.45',
+547 silly addNameRange     '6.0.46',
+547 silly addNameRange     '6.0.47',
+547 silly addNameRange     '6.0.48',
+547 silly addNameRange     '6.0.49',
+547 silly addNameRange     '6.0.50',
+547 silly addNameRange     '6.0.51',
+547 silly addNameRange     '0.0.0',
+547 silly addNameRange     '0.0.1',
+547 silly addNameRange     '0.0.2',
+547 silly addNameRange     '0.0.3',
+547 silly addNameRange     '6.0.52',
+547 silly addNameRange     '6.0.53',
+547 silly addNameRange     '6.0.54',
+547 silly addNameRange     '6.0.55',
+547 silly addNameRange     '6.0.56',
+547 silly addNameRange     '6.0.57',
+547 silly addNameRange     '6.0.58',
+547 silly addNameRange     '6.0.59',
+547 silly addNameRange     '4.2.0',
+547 silly addNameRange     '0.12.0',
+547 silly addNameRange     '7.0.0',
+547 silly addNameRange     '6.0.60',
+547 silly addNameRange     '7.0.1',
+547 silly addNameRange     '6.0.61',
+547 silly addNameRange     '7.0.2',
+547 silly addNameRange     '7.0.3',
+547 silly addNameRange     '7.0.4',
+547 silly addNameRange     '4.2.1',
+547 silly addNameRange     '6.0.62',
+547 silly addNameRange     '7.0.5',
+547 silly addNameRange     '6.0.63',
+547 silly addNameRange     '4.2.2',
+547 silly addNameRange     '0.12.1',
+547 silly addNameRange     '4.2.3',
+547 silly addNameRange     '6.0.64',
+547 silly addNameRange     '7.0.6',
+547 silly addNameRange     '6.0.65',
+547 silly addNameRange     '7.0.7',
+547 silly addNameRange     '7.0.8',
+547 silly addNameRange     '4.2.4',
+547 silly addNameRange     '0.12.2',
+547 silly addNameRange     '6.0.66',
+547 silly addNameRange     '7.0.9',
+547 silly addNameRange     '7.0.10',
+547 silly addNameRange     '7.0.11',
+547 silly addNameRange     '6.0.67',
+547 silly addNameRange     '6.0.68',
+547 silly addNameRange     '7.0.12',
+547 silly addNameRange     '4.2.5',
+547 silly addNameRange     '0.12.3',
+547 silly addNameRange     '6.0.69',
+547 silly addNameRange     '0.12.4',
+547 silly addNameRange     '4.2.6',
+547 silly addNameRange     '6.0.70',
+547 silly addNameRange     '7.0.13',
+547 silly addNameRange     '7.0.14',
+547 silly addNameRange     '6.0.71',
+547 silly addNameRange     '7.0.15',
+547 silly addNameRange     '4.2.7',
+547 silly addNameRange     '6.0.72',
+547 silly addNameRange     '7.0.16',
+547 silly addNameRange     '7.0.17',
+547 silly addNameRange     '7.0.18',
+547 silly addNameRange     '4.2.8',
+547 silly addNameRange     '6.0.73',
+547 silly addNameRange     '7.0.19',
+547 silly addNameRange     '7.0.20',
+547 silly addNameRange     '7.0.21',
+547 silly addNameRange     '7.0.22',
+547 silly addNameRange     '6.0.74',
+547 silly addNameRange     '7.0.23',
+547 silly addNameRange     '7.0.24',
+547 silly addNameRange     '6.0.75',
+547 silly addNameRange     ... 185 more items ] ]
+548 silly addNamed @types/node@8.10.1
+549 verbose addNamed "8.10.1" is a plain semver version for @types/node
+550 silly mapToRegistry name @types/node
+551 silly mapToRegistry scope (from package name) @types
+552 verbose mapToRegistry no registry URL found in name for scope @types
+553 silly mapToRegistry using default registry
+554 silly mapToRegistry registry https://registry.npmjs.org/
+555 silly mapToRegistry data Result {
+555 silly mapToRegistry   raw: '@types/node',
+555 silly mapToRegistry   scope: '@types',
+555 silly mapToRegistry   escapedName: '@types%2fnode',
+555 silly mapToRegistry   name: '@types/node',
+555 silly mapToRegistry   rawSpec: '',
+555 silly mapToRegistry   spec: 'latest',
+555 silly mapToRegistry   type: 'tag' }
+556 silly mapToRegistry uri https://registry.npmjs.org/@types%2fnode
+557 verbose addRemoteTarball https://registry.npmjs.org/@types/node/-/node-8.10.1.tgz not in flight; adding
+558 verbose addRemoteTarball [ 'https://registry.npmjs.org/@types/node/-/node-8.10.1.tgz',
+558 verbose addRemoteTarball   'aac98b810c50568054486f2bb8c486d824713be8' ]
+559 info retry fetch attempt 1 at 5:52:42 PM
+560 info attempt registry request try #1 at 5:52:42 PM
+561 http fetch GET https://registry.npmjs.org/@types/node/-/node-8.10.1.tgz
+562 verbose request using bearer token for auth
+563 http fetch 200 https://registry.npmjs.org/@types/google-cloud__storage/-/google-cloud__storage-1.1.7.tgz
+564 http fetch 200 https://registry.npmjs.org/@google-cloud/firestore/-/firestore-0.13.1.tgz
+565 silly fetchAndShaCheck shasum f4b568b163cce16314f32f954f5b7d5c9001fa86
+566 verbose addTmpTarball /var/folders/6d/zh0sqwkn6wng96xk4t415fwm0000gn/T/npm-36855-4af95e29/registry.npmjs.org/_40types/google-cloud__storage/-/google-cloud__storage-1.1.7.tgz not in flight; adding
+567 verbose addTmpTarball already have metadata; skipping unpack for @types/google-cloud__storage@1.1.7
+568 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+569 silly cache afterAdd @types/google-cloud__storage@1.1.7
+570 verbose afterAdd /Users/ChefZatoichi/.npm/@types/google-cloud__storage/1.1.7/package/package.json not in flight; writing
+571 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+572 verbose afterAdd /Users/ChefZatoichi/.npm/@types/google-cloud__storage/1.1.7/package/package.json written
+573 http fetch 200 https://registry.npmjs.org/@firebase/database/-/database-0.2.1.tgz
+574 http fetch 200 https://registry.npmjs.org/@firebase/app/-/app-0.1.10.tgz
+575 http fetch 200 https://registry.npmjs.org/@types/node/-/node-8.10.1.tgz
+576 silly fetchAndShaCheck shasum fc80c62dbe4d601cad1495bc095309adb9074f85
+577 verbose addTmpTarball /var/folders/6d/zh0sqwkn6wng96xk4t415fwm0000gn/T/npm-36855-4af95e29/registry.npmjs.org/_40firebase/app/-/app-0.1.10.tgz not in flight; adding
+578 verbose addTmpTarball already have metadata; skipping unpack for @firebase/app@0.1.10
+579 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+580 silly cache afterAdd @firebase/app@0.1.10
+581 verbose afterAdd /Users/ChefZatoichi/.npm/@firebase/app/0.1.10/package/package.json not in flight; writing
+582 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+583 verbose afterAdd /Users/ChefZatoichi/.npm/@firebase/app/0.1.10/package/package.json written
+584 silly fetchAndShaCheck shasum 40e376852d9aa19aee62deb0334ffc437ebd8d64
+585 verbose addTmpTarball /var/folders/6d/zh0sqwkn6wng96xk4t415fwm0000gn/T/npm-36855-4af95e29/registry.npmjs.org/_40google-cloud/firestore/-/firestore-0.13.1.tgz not in flight; adding
+586 verbose addTmpTarball already have metadata; skipping unpack for @google-cloud/firestore@0.13.1
+587 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+588 silly cache afterAdd @google-cloud/firestore@0.13.1
+589 verbose afterAdd /Users/ChefZatoichi/.npm/@google-cloud/firestore/0.13.1/package/package.json not in flight; writing
+590 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+591 verbose afterAdd /Users/ChefZatoichi/.npm/@google-cloud/firestore/0.13.1/package/package.json written
+592 silly fetchAndShaCheck shasum aac98b810c50568054486f2bb8c486d824713be8
+593 verbose addTmpTarball /var/folders/6d/zh0sqwkn6wng96xk4t415fwm0000gn/T/npm-36855-4af95e29/registry.npmjs.org/_40types/node/-/node-8.10.1.tgz not in flight; adding
+594 verbose addTmpTarball already have metadata; skipping unpack for @types/node@8.10.1
+595 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+596 silly cache afterAdd @types/node@8.10.1
+597 verbose afterAdd /Users/ChefZatoichi/.npm/@types/node/8.10.1/package/package.json not in flight; writing
+598 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+599 verbose afterAdd /Users/ChefZatoichi/.npm/@types/node/8.10.1/package/package.json written
+600 silly fetchAndShaCheck shasum af4f3b80a7bccd4a561fdc76d8c1867243dd0665
+601 verbose addTmpTarball /var/folders/6d/zh0sqwkn6wng96xk4t415fwm0000gn/T/npm-36855-4af95e29/registry.npmjs.org/_40firebase/database/-/database-0.2.1.tgz not in flight; adding
+602 verbose addTmpTarball already have metadata; skipping unpack for @firebase/database@0.2.1
+603 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+604 silly cache afterAdd @firebase/database@0.2.1
+605 verbose afterAdd /Users/ChefZatoichi/.npm/@firebase/database/0.2.1/package/package.json not in flight; writing
+606 verbose correctMkdir /Users/ChefZatoichi/.npm correctMkdir not in flight; initializing
+607 verbose afterAdd /Users/ChefZatoichi/.npm/@firebase/database/0.2.1/package/package.json written
+608 silly rollbackFailedOptional Starting
+609 silly rollbackFailedOptional Finishing
+610 silly runTopLevelLifecycles Finishing
+611 silly install printInstalled
+612 verbose stack Error: Invalid name: "@google-cloud/storage"
+612 verbose stack     at ensureValidName (/usr/local/lib/node_modules/npm/node_modules/read-package-json/node_modules/normalize-package-data/lib/fixer.js:281:15)
+612 verbose stack     at Object.fixNameField (/usr/local/lib/node_modules/npm/node_modules/read-package-json/node_modules/normalize-package-data/lib/fixer.js:196:5)
+612 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/node_modules/normalize-package-data/lib/normalize.js:29:38
+612 verbose stack     at Array.forEach (native)
+612 verbose stack     at normalize (/usr/local/lib/node_modules/npm/node_modules/read-package-json/node_modules/normalize-package-data/lib/normalize.js:28:15)
+612 verbose stack     at final (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:349:5)
+612 verbose stack     at then (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:124:5)
+612 verbose stack     at serverjs_ (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:177:29)
+612 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:172:5
+612 verbose stack     at f (/usr/local/lib/node_modules/npm/node_modules/once/once.js:25:25)
+613 verbose cwd /Users/ChefZatoichi/Documents/Portfolio/TournantScheduling/functions
+614 error Darwin 17.4.0
+615 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install"
+616 error node v6.11.3
+617 error npm  v3.10.10
+618 error Invalid name: "@google-cloud/storage"
+619 error If you need help, you may report this error at:
+619 error     <https://github.com/npm/npm/issues>
+620 verbose exit [ 1, true ]

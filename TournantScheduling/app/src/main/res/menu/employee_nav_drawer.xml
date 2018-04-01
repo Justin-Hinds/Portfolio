@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:title="@string/home"
+            android:icon="@drawable/ic_home"/>
+        <item
+            android:id="@+id/availability"
+            android:title="@string/availability"
+            android:icon="@drawable/ic_availability"/>
+        <item
+            android:id="@+id/request_time_off"
+            android:title="@string/request_time_off"
+            android:icon="@drawable/ic_time_off"/>
+        <item
+            android:id="@+id/messages"
+            android:icon="@drawable/ic_messages"
+            android:title="@string/messages" />
+
+
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings"
+            android:icon="@drawable/ic_settings"/>
+        <item
+            android:id="@+id/logout"
+            android:title="@string/logout"
+            android:icon="@drawable/ic_logout"/>
+    </group>
+</menu>

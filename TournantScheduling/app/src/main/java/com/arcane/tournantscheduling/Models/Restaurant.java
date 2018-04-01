@@ -12,8 +12,8 @@ public class Restaurant implements Parcelable{
     String state;
     String address;
     String city;
-    int zip;
-    long phone;
+    public int zip;
+    public long phone;
     Date created;
     String id;
     HashMap<String,Object> staff;
