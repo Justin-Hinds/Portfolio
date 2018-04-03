@@ -60,10 +60,11 @@
     <string name="scheduled_time">Scheduled Time:</string>
 
     <string-array name="availability_options">
+        <item name="Available">Available</item>
         <item name="None">None</item>
         <item name="Mornings">Mornings</item>
         <item name="Nights">Nights</item>
-        <item name="Available">Available</item>
+
     </string-array>
 
     <string-array name="state_list">

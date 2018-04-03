@@ -1,0 +1,5 @@
+keytool error: java.lang.Exception: Keystore file does not exist: /Users/ChefZatoichi/.keystore
+java.lang.Exception: Keystore file does not exist: /Users/ChefZatoichi/.keystore
+	at sun.security.tools.keytool.Main.doCommands(Main.java:742)
+	at sun.security.tools.keytool.Main.run(Main.java:340)
+	at sun.security.tools.keytool.Main.main(Main.java:333)

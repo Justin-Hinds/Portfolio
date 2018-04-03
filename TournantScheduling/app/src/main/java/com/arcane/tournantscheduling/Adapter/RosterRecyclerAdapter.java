@@ -55,6 +55,9 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.staffName.setText(mDataset.get(position).getName());
+        if(fragTag.equals(RosterFrag.TAG)){
+            holder.checkBox.setVisibility(View.GONE);
+        }
         if(!RosterFrag.isInActionMode){
             holder.checkBox.setVisibility(View.GONE);
         }else{
@@ -80,9 +83,10 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
             userArrayList = data;
             staffName = itemView.findViewById(R.id.textview_staff_name);
             checkBox = itemView.findViewById(R.id.checkBox);
+            Log.d("TAG", fragTag);
             checkBox.setOnClickListener(view -> {
                 if(checkBox.isChecked()) {
-                    if (!mSecondDataset.contains(mDataset.get(getAdapterPosition()))) {
+                        if (!mSecondDataset.contains(mDataset.get(getAdapterPosition()))) {
                         mSecondDataset.add(mDataset.get(getAdapterPosition()));
                     }
                     if (mSecondDataset != null) {

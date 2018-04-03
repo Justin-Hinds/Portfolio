@@ -3,6 +3,7 @@ package com.arcane.tournantscheduling.Frags;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,8 @@ public class AvailabilityFrag extends Fragment implements AdapterView.OnItemSele
         View root = inflater.inflate(R.layout.fragment_availability,container,false);
         dataManager = new DataManager(getActivity());
         mAuth = FirebaseAuth.getInstance();
+        rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
+        currentUser = rosterViewModel.getCurrentUser();
         setUpSpinners(root);
 
         Button changeButton = root.findViewById(R.id.button_change_availability);
@@ -70,8 +73,7 @@ public class AvailabilityFrag extends Fragment implements AdapterView.OnItemSele
     @Override
     public void onStart() {
         super.onStart();
-        rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
-        currentUser = rosterViewModel.getCurrentUser();
+
     }
 
     private void setUpSpinners(View view){
@@ -83,24 +85,46 @@ public class AvailabilityFrag extends Fragment implements AdapterView.OnItemSele
          saturdaySpinner = view.findViewById(R.id.spinner_saturday);
          sundaySpinner = view.findViewById(R.id.spinner_sunday);
 
+
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1,
                 getActivity().getResources().getStringArray(R.array.availability_options));
 
         mondaySpinner.setAdapter(spinnerAdapter);
         mondaySpinner.setOnItemSelectedListener(this);
+
         tuesdaySpinner.setAdapter(spinnerAdapter);
         tuesdaySpinner.setOnItemSelectedListener(this);
+
         wednesdaySpinner.setAdapter(spinnerAdapter);
         wednesdaySpinner.setOnItemSelectedListener(this);
+
         thursdaySpinner.setAdapter(spinnerAdapter);
-        tuesdaySpinner.setOnItemSelectedListener(this);
+        thursdaySpinner.setOnItemSelectedListener(this);
+
         fridaySpinner.setAdapter(spinnerAdapter);
         fridaySpinner.setOnItemSelectedListener(this);
+
         saturdaySpinner.setAdapter(spinnerAdapter);
         saturdaySpinner.setOnItemSelectedListener(this);
+
         sundaySpinner.setAdapter(spinnerAdapter);
         sundaySpinner.setOnItemSelectedListener(this);
+
+        if(currentUser.getAvailability() != null){
+            Log.d("AVAILABILITY", currentUser.getAvailability().getMonday() + "");
+            mondaySpinner.setSelection(currentUser.getAvailability().getMonday());
+            tuesdaySpinner.setSelection(currentUser.getAvailability().getTuesday());
+            wednesdaySpinner.setSelection(currentUser.getAvailability().getWednesday());
+            thursdaySpinner.setSelection(currentUser.getAvailability().getThursday());
+            fridaySpinner.setSelection(currentUser.getAvailability().getFriday());
+            saturdaySpinner.setSelection(currentUser.getAvailability().getSaturday());
+            sundaySpinner.setSelection(currentUser.getAvailability().getSunday());
+
+        }else {
+            Log.d("USER", "Null");
+
+        }
     }
 
     private void setAvailability(){

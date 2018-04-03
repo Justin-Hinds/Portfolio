@@ -4,18 +4,31 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.icu.text.SimpleDateFormat;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.arcane.tournantscheduling.Models.Staff;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class TimeOffViewModel extends ViewModel {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     String startDate;
     String endDate;
+    Staff currentUser;
+
     MutableLiveData<String> liveStartDate;
     MutableLiveData<String> liveEndDate;
 
@@ -32,17 +45,49 @@ public class TimeOffViewModel extends ViewModel {
         }
         return liveEndDate;
     }
-    private static ArrayList<Date> getTimeOffRequest(String dateString1, String dateString2)
-    {
-        ArrayList<Date> dates = new ArrayList<Date>();
-        DateFormat df1 =DateFormat.getDateInstance();//new java.text.SimpleDateFormat("yyyy-MM-dd");
+
+    void sendTimeOffRequest(ArrayList<String> dateStrings){
+        Map<String,Object> daysOff = new HashMap<>();
+
+        for(String date : dateStrings){
+            daysOff.put(date,true);
+        }
+        Log.d("CURRENT USER", currentUser.getName());
+
+        Map<String,Object> offDaysList = new HashMap<>();
+        offDaysList.put(dateStrings.get(0),daysOff);
+        db.collection("Restaurants").document(currentUser.getRestaurantID())
+                .collection("Users").document(currentUser.getId()).collection("TimeOff")
+                .document(dateStrings.get(0)).set(offDaysList)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("Days Off", dateStrings.get(0));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("FAIL", e.getMessage());
+            }
+        });
+
+
+    }
+    public  ArrayList<String> getTimeOffRequest(String dateString1, String dateString2) {
+
+        ArrayList<Date> dates = new ArrayList<>();
+        ArrayList<String> dateStrings = new ArrayList<>();
+        DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy",Locale.getDefault());
 
         Date date1 = null;
         Date date2 = null;
 
         try {
             date1 = df1 .parse(dateString1);
+            Log.d("Date 1",date1.toString());
             date2 = df1 .parse(dateString2);
+            Log.d("Date 2",date2.toString());
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -57,9 +102,19 @@ public class TimeOffViewModel extends ViewModel {
         while(!cal1.after(cal2))
         {
             dates.add(cal1.getTime());
+            dateStrings.add(df1.format(cal1.getTime()));
             cal1.add(Calendar.DATE, 1);
         }
-        return dates;
+
+        for(Date date:dates){
+            Log.d("DATE", df1.format(date));
+        }
+        if(currentUser != null){
+            sendTimeOffRequest(dateStrings);
+        }else {
+            Log.d("CURRENT USER", "NULL");
+        }
+        return dateStrings;
     }
 
 
@@ -95,5 +150,9 @@ public class TimeOffViewModel extends ViewModel {
 
     public void setLiveEndDate(MutableLiveData<String> liveEndDate) {
         this.liveEndDate = liveEndDate;
+    }
+
+    public void setCurrentUser(Staff currentUser) {
+        this.currentUser = currentUser;
     }
 }

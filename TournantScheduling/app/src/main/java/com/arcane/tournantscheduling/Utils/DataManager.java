@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -220,8 +221,17 @@ public class DataManager {
         });
     }
     public void updateUserAvailability(Staff currentUser, Availability availability){
+        Map<String,Object> availableMap = new HashMap<>();
+        availableMap.put("monday",availability.getMonday());
+        availableMap.put("tuesday",availability.getTuesday());
+        availableMap.put("wednesday",availability.getWednesday());
+        availableMap.put("thursday",availability.getThursday());
+        availableMap.put("friday",availability.getFriday());
+        availableMap.put("saturday",availability.getSaturday());
+        availableMap.put("sunday",availability.getSunday());
+
         db.collection("Restaurants").document(currentUser.getRestaurantID())
-                .collection("Users").document(currentUser.getId()).update("availability",availability)
+                .collection("Users").document(currentUser.getId()).update("availability",availableMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -241,6 +251,7 @@ public class DataManager {
         final DocumentReference refManager =  restaurantRef.collection("Users").document(scheduledEmployee.getId());
 
         scheduledEmployee.setRestaurantID(boss.getRestaurantID());
+        Map<String,Object> restVals = new HashMap<>();
         Map<String,Object> values = new HashMap<>();
         values.put("date",day.getDate());
         values.put("hour",day.getHour());
@@ -260,37 +271,25 @@ public class DataManager {
                 Log.w(TAG, "Error writing document", e);
             }
         });
+        restVals.put(scheduledEmployee.getId(),true);
+        restaurantRef.collection("Days").document(day.date).collection(day.getDate()).document(scheduledEmployee.getId());
+        restaurantRef.update( "days."+ day.getDate(),restVals).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully written!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error writing document", e);
+            }
+        });
     }
     //Checks user for login/creation submission
     public Staff userCheck(final ImageView imageView, final View view) {
         final Staff[] currentDishUser = new Staff[0];
 
 
-//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot child : dataSnapshot.getChildren()) {
-//                    Staff staff = child.getValue(Staff.class);
-//                    Log.d("SNAP: ", child.getValue().toString());
-//                    String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//                    if (user.equals(staff != null ? staff.getId() : null)) {
-//                        currentDishUser[0] = staff;
-//                        if (currentDishUser[0].getId().equals(user)) {
-//                            mContext.startActivity(new Intent(mContext, MainActivity.class));
-//                            return;
-//                        }
-//                    }
-//                }
-//                if(imageView != null || view != null){
-//                    addManager(mAuth.getCurrentUser(),imageView, view);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
         return currentDishUser[0];
     }
 
@@ -303,7 +302,5 @@ public class DataManager {
         }
         return true;
     }
-
-
 
 }

@@ -63,17 +63,17 @@ public class MessagesViewModel extends ViewModel {
             @Override
             public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
                 if (e == null) {
-                    Log.w("Messages VIEW MODEL ", "Listen failed.", e);
                     for(DocumentSnapshot documentSnapshot : querySnapshot){
                         if(documentSnapshot.get("sender") != null){
                             Message message = documentSnapshot.toObject(Message.class);
-                            Log.d("SENT", documentSnapshot.get("sender").toString());
+                            //Log.d("SENT", documentSnapshot.get("sender").toString());
                             if (!messageArrayList.contains(message.getReceiver())){
                                 messageArrayList.add(message.getReceiver());
                             }
                         }
                     }
                 }else {
+                    Log.w("Messages VIEW MODEL ", "Listen failed.", e);
 
                 }
 

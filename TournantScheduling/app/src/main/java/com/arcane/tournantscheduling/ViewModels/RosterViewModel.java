@@ -11,7 +11,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -43,20 +45,36 @@ public class RosterViewModel extends ViewModel {
     private void loadUsers() {
         final ArrayList<Staff> staffArrayList = new ArrayList<>();
         db.collection("Restaurants").document(currentUser.getRestaurantID()).collection("Users")
-                .get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        for(DocumentSnapshot document : task.getResult()){
-                            //Log.d("NAME", document.get("name").toString());
-                            Staff staff = document.toObject(Staff.class);
-                            if(staff.getDays() != null){
-                                //Log.d("DAYS",staff.getDays().toString());
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
+                        if(querySnapshot != null){
+                            for(DocumentSnapshot document : querySnapshot){
+                                Log.d("NAME", document.get("name").toString());
+                                Staff staff = document.toObject(Staff.class);
+                                if(staff.getDays() != null){
+                                    //Log.d("DAYS",staff.getDays().toString());
+                                }
+                                staffArrayList.add(staff);
+                                users.postValue(staffArrayList);
                             }
-                            staffArrayList.add(staff);
-                            users.postValue(staffArrayList);
                         }
                     }
-                   // bundle.putSerializable(ARRAYLIST_SCHEDULE,staffArrayList);
                 });
+//                .get().addOnCompleteListener(task -> {
+//                    if(task.isSuccessful()){
+//                        for(DocumentSnapshot document : task.getResult()){
+//                            Log.d("NAME", document.get("name").toString());
+//                            Staff staff = document.toObject(Staff.class);
+//                            if(staff.getDays() != null){
+//                                //Log.d("DAYS",staff.getDays().toString());
+//                            }
+//                            staffArrayList.add(staff);
+//                            users.postValue(staffArrayList);
+//                        }
+//                    }
+                   // bundle.putSerializable(ARRAYLIST_SCHEDULE,staffArrayList);
+//                });
     }
 
     private Staff getUser(){
@@ -67,12 +85,12 @@ public class RosterViewModel extends ViewModel {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot document : task.getResult()) {
                         db.collection("Restaurants").document(document.getId()).collection("Users")
-                                .whereEqualTo("id",mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                .whereEqualTo("id",mAuth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task2) {
-                                if (task2.isSuccessful()) {
-                                    for( DocumentSnapshot document2 : task2.getResult()){
-                                        Log.d(TAG, document2.getId() + " => " + document2.getData());
+                            public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
+                                if (querySnapshot != null) {
+                                    for( DocumentSnapshot document2 : querySnapshot){
+                                        Log.d("CURRENT USER", document2.getId() + " => " + document2.getData());
                                         currentUser = document2.toObject(Staff.class);
                                         staff[0] = document2.toObject(Staff.class);
 
@@ -80,10 +98,28 @@ public class RosterViewModel extends ViewModel {
 
                                     }
                                 } else {
-                                    Log.d(TAG, "Error getting documents: ", task2.getException());
+                                    Log.d(TAG, "Error getting documents: ");
                                 }
                             }
+
                         });
+//                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+//                                if (task2.isSuccessful()) {
+//                                    for( DocumentSnapshot document2 : task2.getResult()){
+//                                        Log.d("CURRENT USER", document2.getId() + " => " + document2.getData());
+//                                        currentUser = document2.toObject(Staff.class);
+//                                        staff[0] = document2.toObject(Staff.class);
+//
+//                                        loadUsers();
+//
+//                                    }
+//                                } else {
+//                                    Log.d(TAG, "Error getting documents: ", task2.getException());
+//                                }
+//                            }
+//                        });
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());

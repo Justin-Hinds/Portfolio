@@ -4,10 +4,13 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.arcane.tournantscheduling.Models.Day;
 import com.arcane.tournantscheduling.Models.Staff;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -15,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
@@ -25,7 +29,9 @@ public class ScheduleViewModel extends ViewModel {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private MutableLiveData<ArrayList<Day>> liveSchedule;
     private ArrayList<Day> dayArrayList;
+    private Day scheduledDay;
     private String weekDay;
+    String postSectionDay;
 
     public ScheduleViewModel(){
         Log.d(" SCHEDULE VIEW MODEL", "CONSTRUCTOR");
@@ -74,6 +80,33 @@ public class ScheduleViewModel extends ViewModel {
         return days;
     }
 
+    public Day getselecteddDay(String dateString) {
+        final Day[] pickedDay = new Day[1];
+        db.collection("Restaurants").document(currentUser.getRestaurantID())
+                .collection("Users").document(currentUser.getId()).collection("Days")
+                .document(dateString).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                pickedDay[0] = documentSnapshot.toObject(Day.class);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("GET SCHEDULED DAY","FAILED");
+            }
+        });
+
+        return pickedDay[0];
+    }
+
+    public void setScheduledDay(Day scheduledDay) {
+        this.scheduledDay = scheduledDay;
+    }
+
+    public Day getScheduledDay() {
+        return scheduledDay;
+    }
+
     public void setCurrentUser(Staff currentUser) {
         this.currentUser = currentUser;
     }
@@ -87,6 +120,15 @@ public class ScheduleViewModel extends ViewModel {
     }
 
     public void setWeekDay(String weekDay) {
+       // Log.d("WEEKDAY","SET");
         this.weekDay = weekDay;
+    }
+
+    public String getPostSectionDay() {
+        return postSectionDay;
+    }
+
+    public void setPostSectionDay(String postSectionDay) {
+        this.postSectionDay = postSectionDay;
     }
 }

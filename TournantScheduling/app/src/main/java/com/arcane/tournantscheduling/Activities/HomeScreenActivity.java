@@ -82,6 +82,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     private ArrayList<Day> dayArrayList;
     private DrawerLayout mDrawerLayout;
     private HomeScreenFrag homeFrag;
+    boolean navDrawerIsSet = false;
     FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment fragment;
     Bundle bundle;
@@ -135,18 +136,21 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         dayArrayList = new ArrayList<>();
         homeFrag = HomeScreenFrag.newInstance();
         model = ViewModelProviders.of(this).get(RosterViewModel.class);
-         timeOffViewModel = ViewModelProviders.of(this).get(TimeOffViewModel.class);
+        timeOffViewModel = ViewModelProviders.of(this).get(TimeOffViewModel.class);
         scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
         model.getUsers().observe(this, users -> {
             for(Staff user : users){
                 if(Objects.equals(user.getId(), mFireUser.getUid())){
                     currentUser = user;
+                    if(!navDrawerIsSet){
                     setUpNavDrawer(user);
-                    //messagesViewModel.setCurrentUser(user);
+                    }
+                    navDrawerIsSet = true;
+                    timeOffViewModel.setCurrentUser(user);
                     setDeviceToken();
                     fragmentManager
                             .beginTransaction()
-                            .add(homeFrag,HomeScreenFrag.TAG)
+//                            .add(homeFrag,HomeScreenFrag.TAG)
                             .replace(R.id.home_view,homeFrag, HomeScreenFrag.TAG)
                             .addToBackStack(HomeScreenFrag.TAG).commit();
                     progressBar.setVisibility(View.GONE);
@@ -195,6 +199,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     public void onSectionSelected(String section, String date, long newDateNumber) {
         toolbar.getMenu().clear();
         newDate = date;
+        scheduleViewModel.setPostSectionDay(date);
         RosterFrag.isInActionMode=true;
         ScheduleRosterFrag frag = ScheduleRosterFrag.newInstance();
         fragmentManager
@@ -393,6 +398,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
     @Override
     public void onScheduleSelected(Day day) {
+        scheduleViewModel.setScheduledDay(day);
         DayScheduleFrag frag = DayScheduleFrag.newInstance();
         fragmentManager.beginTransaction().replace(R.id.home_view,frag)
                 .addToBackStack(DayScheduleFrag.TAG).commit();
@@ -401,14 +407,14 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if(startDate == null){
-            startDate = (month+1) + "/" + dayOfMonth + "/" + year;
+            startDate = (month+1) + "-" + dayOfMonth + "-" + year;
             timeOffViewModel.setStartDate(startDate);
-            Log.d("DATE PICKER PICKED START", (month+1) + "/" + dayOfMonth + "/" + year);
+            Log.d("DATE PICKER START", (month+1) + "-" + dayOfMonth + "-" + year);
         }else{
-            endDate = (month+1) + "/" + dayOfMonth + "/" + year;
+            endDate = (month+1) + "-" + dayOfMonth + "-" + year;
             timeOffViewModel.setEndDate(endDate);
             startDate = null;
-        Log.d("DATE PICKER PICKED END", (month+1) + "/" + dayOfMonth + "/" + year);
+        Log.d("DATE PICKER PICKED END", (month+1) + "-" + dayOfMonth + "-" + year);
         }
     }
 }

@@ -21,7 +21,8 @@ public class Staff implements Parcelable {
     boolean manager;
     Map<String,Object> week;
     Map<String, Object> days;
-    Map<String, Object> availability;
+    Availability availability;
+//    Map<String, Object> availability;
     public Staff(){}
     protected Staff(Parcel in) {
         name = in.readString();
@@ -150,11 +151,11 @@ public class Staff implements Parcelable {
 
 
 
-    public Map<String, Object> getAvailability() {
+    public Availability getAvailability() {
         return availability;
     }
 
-    public void setAvailability(Map<String, Object> availability) {
+    public void setAvailability(Availability availability) {
         this.availability = availability;
     }
 

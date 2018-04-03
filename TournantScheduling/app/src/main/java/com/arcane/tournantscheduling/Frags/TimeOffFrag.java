@@ -16,6 +16,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.arcane.tournantscheduling.R;
+import com.arcane.tournantscheduling.Utils.DataManager;
+import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 import com.arcane.tournantscheduling.ViewModels.TimeOffViewModel;
 
 
@@ -27,6 +29,7 @@ public class TimeOffFrag extends Fragment {
     public static final String TAG = "TIME_OFF_FRAG";
     EditText editTextStartDate;
     EditText editTextEndDate;
+    EditText editTextReason;
     Button requestButton;
       public static TimeOffFrag newInstance() {
         return new TimeOffFrag();
@@ -37,10 +40,12 @@ public class TimeOffFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_time_off,container,false);
+        RosterViewModel rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         TimeOffViewModel timeOffViewModel = ViewModelProviders.of(getActivity()).get(TimeOffViewModel.class);
+        timeOffViewModel.setCurrentUser(rosterViewModel.getCurrentUser());
         editTextStartDate = root.findViewById(R.id.editText_start_date);
-        editTextEndDate.clearFocus();
         editTextEndDate = root.findViewById(R.id.editText_end_date);
+        editTextReason = root.findViewById(R.id.editText_reason);
         requestButton = root.findViewById(R.id.button_request);
         timeOffViewModel.getStartTimeOff().observe(getActivity(), new Observer<String>() {
             @Override
@@ -75,6 +80,13 @@ public class TimeOffFrag extends Fragment {
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String start = timeOffViewModel.getStartDate();
+                String end = timeOffViewModel.getEndDate();
+                String reason = DataManager.stringValidate(editTextReason.getText().toString());
+                timeOffViewModel.getTimeOffRequest(start,end);
+                if(DataManager.stringValidate(reason) != null){
+                    if()
+                }
 
             }
         });

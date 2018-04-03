@@ -3,6 +3,7 @@ package com.arcane.tournantscheduling.Models;
 
 
 public class Availability {
+
     int monday;
     int tuesday;
     int wednesday;
@@ -10,7 +11,9 @@ public class Availability {
     int friday;
     int saturday;
     int sunday;
+    public Availability(){
 
+    }
     public int getMonday() {
         return monday;
     }

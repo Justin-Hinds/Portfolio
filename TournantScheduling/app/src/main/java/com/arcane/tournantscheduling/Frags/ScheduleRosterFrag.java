@@ -17,6 +17,7 @@ import com.arcane.tournantscheduling.Adapter.RosterRecyclerAdapter;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
 import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
+import com.arcane.tournantscheduling.ViewModels.ScheduleViewModel;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class ScheduleRosterFrag extends Fragment {
     private RosterRecyclerAdapter rosterRecyclerAdapter;
     private ArrayList<Staff> myDataset;
     private RosterViewModel viewModel;
+    private ScheduleViewModel scheduleViewModel;
+    private String weekDay;
     private RosterRecyclerAdapter.OnStaffSelectedListener mListener;
     public static final String TAG = "SCHEDULE_ROSTER_FRAG";
     public static ScheduleRosterFrag newInstance() {
@@ -38,12 +41,20 @@ public class ScheduleRosterFrag extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_schedule_roster, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
+        scheduleViewModel = ViewModelProviders.of(getActivity()).get(ScheduleViewModel.class);
+        weekDay = scheduleViewModel.getWeekDay();
         RecyclerView mRecyclerView = root.findViewById(R.id.roster_rec_view);
         rosterRecyclerAdapter = new RosterRecyclerAdapter(myDataset,getContext(),TAG);
         viewModel.getUsers().observe(getActivity(), new Observer<ArrayList<Staff>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Staff> staff) {
-                rosterRecyclerAdapter.update(staff);
+                ArrayList<Staff> newList = new ArrayList<>();
+                for(Staff user : staff){
+                    if(isAvailability(user,weekDay)){
+                        newList.add(user);
+                    }
+                }
+                rosterRecyclerAdapter.update(newList);
             }
         });
         myDataset = viewModel.getUsers().getValue();
@@ -72,5 +83,45 @@ public class ScheduleRosterFrag extends Fragment {
             throw new ClassCastException("Containing activity must " +
                     "implement OnPersonInteractionListener");
         }
+    }
+    private boolean isAvailability(Staff user, String weekDay){
+        switch (weekDay){
+            case "monday":
+                if(user.getAvailability().getMonday() == 1){
+                    return false;
+                }
+                break;
+            case "Tuesday":
+                if(user.getAvailability().getTuesday() == 1){
+                    return false;
+                }
+                break;
+            case "Wednesday":
+                if(user.getAvailability().getWednesday() == 1){
+                    return false;
+                }
+                break;
+            case "Thursday":
+                if(user.getAvailability().getThursday() == 1){
+                    return false;
+                }
+                break;
+            case "Friday":
+                if(user.getAvailability().getFriday() == 1){
+                    return false;
+                }
+                break;
+            case "Saturday":
+                if(user.getAvailability().getSaturday() == 1){
+                    return false;
+                }
+                break;
+            case "Sunday":
+                if(user.getAvailability().getSunday() == 1){
+                    return false;
+                }
+                break;
+        }
+        return true;
     }
 }

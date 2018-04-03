@@ -1,6 +1,7 @@
 package com.arcane.tournantscheduling.Frags;
 
 
+import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -93,22 +94,22 @@ public class CreateStaffFrag extends Fragment {
 
     private String autoGeneratePassword(){
         String nameText = DataManager.stringValidate(employeeName.getText().toString());
-        String passcode;
+        String passCode;
         if(DataManager.stringValidate(phone.getText().toString()) != null && nameText != null) {
             String[] separated = nameText.split(" ");
             Log.d("LENGTH ", separated.length + "");
             if (separated.length > 1) {
                 Character s = separated[0].toUpperCase().charAt(0);
                 String s2 = separated[1];
-                passcode = s + s2;
+                passCode = s + s2;
                 String phoneText = DataManager.stringValidate(phone.getText().toString());
                 Pattern p = Pattern.compile("(\\d{4})$");
                 Matcher m = p.matcher(phoneText);
                 if (m.find()) {
                     Log.d("Last four ", m.group(m.groupCount()));
-                    passcode = passcode + m.group(m.groupCount());
-                    Log.d("PASSCODE ", passcode);
-                    return passcode;
+                    passCode = passCode + m.group(m.groupCount());
+                    Log.d("PASSCODE ", passCode);
+                    return passCode;
                 }
             }else {
                 Toast.makeText(getContext(),"Add a last name",Toast.LENGTH_SHORT).show();
@@ -130,6 +131,7 @@ public class CreateStaffFrag extends Fragment {
                             String ex = task.getException().toString();
                             Toast.makeText(getContext(), "Registration Failed"+ex,
                                     Toast.LENGTH_LONG).show();
+                            getFragmentManager().popBackStack();
                         }
                         else {
                             Toast.makeText(getContext(), "Registration successful",
@@ -138,14 +140,26 @@ public class CreateStaffFrag extends Fragment {
                             if(manager != null){
 
                             }
-                            employee.setId(mAuth2.getUid());
+                            employee.setId(mAuth2.getCurrentUser().getUid());
                             dataMan.addEmployee(user,employee,manager);
                             mAuth2.signOut();
+                            clearForm();
                         }
 
 
                     }
                 });
+    }
+    private void clearForm(){
+        email.setText("");
+        password.setText("");
+        confirmPassword.setText("");
+        employeeName.setText("");
+        address.setText("");
+        city.setText("");
+        zip.setText("");
+        phone.setText("");
+        state.setSelection(0);
     }
     private void setupUi(View view){
         email = view.findViewById(R.id.editText_email);
@@ -164,12 +178,11 @@ public class CreateStaffFrag extends Fragment {
         state.setAdapter(spinnerAdapter);
     }
     private void getUser(){
-
         db.collection("Restaurants").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (DocumentSnapshot document : task.getResult()) {
                     db.collection("Restaurants").document(document.getId()).collection("Users")
-                            .whereEqualTo("id",mAuth1.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            .whereEqualTo("id",mAuth1.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task2) {
                             if (task2.isSuccessful()) {
