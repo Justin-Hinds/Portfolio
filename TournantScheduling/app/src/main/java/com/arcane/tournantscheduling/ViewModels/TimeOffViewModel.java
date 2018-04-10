@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.arcane.tournantscheduling.Models.Staff;
+import com.arcane.tournantscheduling.Models.TimeOff;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,23 +47,25 @@ public class TimeOffViewModel extends ViewModel {
         return liveEndDate;
     }
 
-    void sendTimeOffRequest(ArrayList<String> dateStrings){
+    void sendTimeOffRequest(TimeOff timeOff){
         Map<String,Object> daysOff = new HashMap<>();
 
-        for(String date : dateStrings){
-            daysOff.put(date,true);
-        }
+//        for(String date : timeOff.getDates()){
+//            daysOff.put(date,true);
+//        }
+        daysOff.put("dates", timeOff.getDates());
+        daysOff.put("reason", timeOff.getReason());
         Log.d("CURRENT USER", currentUser.getName());
 
         Map<String,Object> offDaysList = new HashMap<>();
-        offDaysList.put(dateStrings.get(0),daysOff);
+        offDaysList.put(timeOff.getDates().get(0),daysOff);
         db.collection("Restaurants").document(currentUser.getRestaurantID())
                 .collection("Users").document(currentUser.getId()).collection("TimeOff")
-                .document(dateStrings.get(0)).set(offDaysList)
+                .document(timeOff.getDates().get(0)).set(timeOff)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("Days Off", dateStrings.get(0));
+                        Log.d("Days Off", timeOff.getDates().get(0));
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -70,10 +73,11 @@ public class TimeOffViewModel extends ViewModel {
                 Log.d("FAIL", e.getMessage());
             }
         });
-
+        db.collection("Restaurants").document(currentUser.getRestaurantID())
+                .collection("Users").document(currentUser.getId()).update("timeOff." +timeOff.getDates().get(0),daysOff);
 
     }
-    public  ArrayList<String> getTimeOffRequest(String dateString1, String dateString2) {
+    public  ArrayList<String> getTimeOffRequest(String dateString1, String dateString2, String reason) {
 
         ArrayList<Date> dates = new ArrayList<>();
         ArrayList<String> dateStrings = new ArrayList<>();
@@ -110,7 +114,10 @@ public class TimeOffViewModel extends ViewModel {
             Log.d("DATE", df1.format(date));
         }
         if(currentUser != null){
-            sendTimeOffRequest(dateStrings);
+            TimeOff timeOff = new TimeOff();
+            timeOff.setDates(dateStrings);
+            timeOff.setReason(reason);
+            sendTimeOffRequest(timeOff);
         }else {
             Log.d("CURRENT USER", "NULL");
         }

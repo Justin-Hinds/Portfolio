@@ -1,9 +1,12 @@
 package com.arcane.tournantscheduling.Activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,9 +15,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,6 +32,7 @@ import com.arcane.tournantscheduling.Frags.DayScheduleFrag;
 import com.arcane.tournantscheduling.Frags.HomeScreenFrag;
 import com.arcane.tournantscheduling.Frags.MessageViewFrag;
 import com.arcane.tournantscheduling.Frags.MessagesFrag;
+import com.arcane.tournantscheduling.Models.TimeOff;
 import com.arcane.tournantscheduling.Utils.DataManager;
 import com.arcane.tournantscheduling.Models.Day;
 import com.arcane.tournantscheduling.Models.Staff;
@@ -101,7 +108,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     long dateNumber;
     Boolean inTime = true;
     ArrayList<Staff> staffArrayList = new ArrayList<>();
-
+    Boolean mTablet;
+    ViewGroup tabletViewGroup;
     TextView inTextview;
     TextView outTextview;
 
@@ -113,7 +121,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         // Check if user is signed in (non-null) and update UI accordingly.
          mFireUser = mAuth.getCurrentUser();
         updateUI(mFireUser);
-        //getUser();
     }
 
     private void updateUI(FirebaseUser firebaseUser) {
@@ -122,6 +129,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
             finish();
         }
        mFireUser = mAuth.getCurrentUser();
+
     }
 
     @Override
@@ -138,6 +146,15 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         model = ViewModelProviders.of(this).get(RosterViewModel.class);
         timeOffViewModel = ViewModelProviders.of(this).get(TimeOffViewModel.class);
         scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
+
+        tabletViewGroup = findViewById(R.id.detail_view);
+        mTablet = (tabletViewGroup != null);
+        if(mTablet){
+//            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            mDrawerLayout.setScrimColor(Color.TRANSPARENT);
+        }
         model.getUsers().observe(this, users -> {
             for(Staff user : users){
                 if(Objects.equals(user.getId(), mFireUser.getUid())){
@@ -150,7 +167,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                     setDeviceToken();
                     fragmentManager
                             .beginTransaction()
-//                            .add(homeFrag,HomeScreenFrag.TAG)
                             .replace(R.id.home_view,homeFrag, HomeScreenFrag.TAG)
                             .addToBackStack(HomeScreenFrag.TAG).commit();
                     progressBar.setVisibility(View.GONE);
@@ -161,7 +177,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         });
         mAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
 
     }
 
@@ -324,7 +339,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                             fragmentManager
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
-                                    .addToBackStack(HomeScreenFrag.TAG).commit();
+                                    .addToBackStack(TimeOffFrag.TAG).commit();
                             break;
                         case R.id.settings:
                             Log.d("MENU ITEM: ", menuItem.toString());
@@ -391,7 +406,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     @Override
     public void onBackStackChanged() {
         for (int i = fragmentManager.getBackStackEntryCount() - 1; i>=0; i--){
-       // Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
+//        Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
         }
 
     }
@@ -417,4 +432,12 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         Log.d("DATE PICKER PICKED END", (month+1) + "-" + dayOfMonth + "-" + year);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        DataManager.hideKeyboard(this);
+    }
+
+
 }

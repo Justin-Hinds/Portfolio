@@ -139,7 +139,7 @@
         app:layout_constraintStart_toStartOf="parent" />
     <Spinner
         android:id="@+id/spinner_state"
-        android:layout_width="111dp"
+        android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="@dimen/start_end_margin"

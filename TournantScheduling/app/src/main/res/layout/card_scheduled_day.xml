@@ -9,15 +9,16 @@
     android:elevation="@dimen/cardview_default_elevation">
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/vertical_space_content_areas"
+    android:paddingTop="@dimen/vertical_space_content_areas">
 
     <TextView
         android:id="@+id/textView_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:text="@string/month"
         app:layout_constraintEnd_toEndOf="@+id/textView_weekday"
         app:layout_constraintStart_toStartOf="@+id/textView_weekday"

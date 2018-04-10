@@ -1,9 +1,11 @@
 package com.arcane.tournantscheduling.Frags;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.arcane.tournantscheduling.Models.TimeOff;
 import com.arcane.tournantscheduling.R;
 import com.arcane.tournantscheduling.Utils.DataManager;
 import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
@@ -83,11 +87,13 @@ public class TimeOffFrag extends Fragment {
                 String start = timeOffViewModel.getStartDate();
                 String end = timeOffViewModel.getEndDate();
                 String reason = DataManager.stringValidate(editTextReason.getText().toString());
-                timeOffViewModel.getTimeOffRequest(start,end);
-                if(DataManager.stringValidate(reason) != null){
-                    if()
+                if(DataManager.stringValidate(reason) != null) {
+                    TimeOff timeOff = new TimeOff();
+                    timeOffViewModel.getTimeOffRequest(start, end, reason);
+                    HomeScreenFrag frag = HomeScreenFrag.newInstance();
+                    getActivity().getSupportFragmentManager().popBackStack(HomeScreenFrag.TAG,0);
+                    DataManager.hideKeyboard(getActivity());
                 }
-
             }
         });
 

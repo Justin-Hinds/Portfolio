@@ -29,7 +29,6 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
     private OnStaffSelectedListener mListener;
     public RosterRecyclerAdapter(ArrayList myData, Context context, String tag) {
         mContext = context;
-        Log.d("REC CONTEXT", context.getPackageCodePath());
         //noinspection unchecked
         fragTag = tag;
         mDataset = myData;
@@ -57,7 +56,10 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
         holder.staffName.setText(mDataset.get(position).getName());
         if(fragTag.equals(RosterFrag.TAG)){
             holder.checkBox.setVisibility(View.GONE);
+        }else if(fragTag.equals(ScheduleRosterFrag.TAG)){
+            holder.checkBox.setVisibility(View.VISIBLE);
         }
+
         if(!RosterFrag.isInActionMode){
             holder.checkBox.setVisibility(View.GONE);
         }else{

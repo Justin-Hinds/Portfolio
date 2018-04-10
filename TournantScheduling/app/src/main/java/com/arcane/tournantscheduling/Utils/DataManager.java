@@ -1,11 +1,13 @@
 
 package com.arcane.tournantscheduling.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -13,8 +15,10 @@ import com.arcane.tournantscheduling.Models.Availability;
 import com.arcane.tournantscheduling.Models.Day;
 import com.arcane.tournantscheduling.Models.Restaurant;
 import com.arcane.tournantscheduling.Models.Staff;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +26,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -175,6 +184,16 @@ public class DataManager {
         final String id = user.getUid();
         final Staff staff = new Staff();
 
+        Availability availability = new Availability();
+        availability.setMonday(0);
+        availability.setTuesday(0);
+        availability.setWednesday(0);
+        availability.setThursday(0);
+        availability.setFriday(0);
+        availability.setSaturday(0);
+        availability.setSunday(0);
+
+        employee.setAvailability(availability);
         restaurant.setId(restaurantRef.getId());
         employee.setRestaurantID(restaurantRef.getId());
         restaurantRef.set(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -182,7 +201,12 @@ public class DataManager {
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "DocumentSnapshot successfully written!");
 
-                refManager.set(employee).addOnSuccessListener(new OnSuccessListener<Void>() {
+                refManager.set(employee).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -206,9 +230,22 @@ public class DataManager {
         Log.d("BOSS RESTAURANT", boss.getRestaurantID());
         final DocumentReference restaurantRef = db.collection("Restaurants").document(boss.getRestaurantID());
         final DocumentReference refManager =  restaurantRef.collection("Users").document(user.getUid());
+        Availability availability = new Availability();
+        availability.setMonday(0);
+        availability.setTuesday(0);
+        availability.setWednesday(0);
+        availability.setThursday(0);
+        availability.setFriday(0);
+        availability.setSaturday(0);
+        availability.setSunday(0);
 
         employee.setRestaurantID(boss.getRestaurantID());
-        refManager.set(employee).addOnSuccessListener(new OnSuccessListener<Void>() {
+        refManager.set(employee).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                updateUserAvailability(employee,availability);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -253,14 +290,14 @@ public class DataManager {
         scheduledEmployee.setRestaurantID(boss.getRestaurantID());
         Map<String,Object> restVals = new HashMap<>();
         Map<String,Object> values = new HashMap<>();
-        values.put("date",day.getDate());
+        values.put("date",getDateString(day.getDate()));
         values.put("hour",day.getHour());
         values.put("min", day.getMin());
         values.put("outHour",day.getHourOut());
         values.put("minOut",day.getMinOut());
         values.put("month",day.getMonth());
         refManager.collection("Days").document(day.date).set(day);
-        refManager.update( "days."+ day.getDate(),values).addOnSuccessListener(new OnSuccessListener<Void>() {
+        refManager.update( "days."+getDateString(day.getDate()),values).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -272,8 +309,8 @@ public class DataManager {
             }
         });
         restVals.put(scheduledEmployee.getId(),true);
-        restaurantRef.collection("Days").document(day.date).collection(day.getDate()).document(scheduledEmployee.getId());
-        restaurantRef.update( "days."+ day.getDate(),restVals).addOnSuccessListener(new OnSuccessListener<Void>() {
+        restaurantRef.collection("Days").document(getDateString(day.date)).collection(getDateString(day.getDate())).document(scheduledEmployee.getId());
+        restaurantRef.update( "days."+ getDateString( day.getDate()),restVals).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -302,5 +339,27 @@ public class DataManager {
         }
         return true;
     }
+    public static String getDateString(String date){
+        DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+        Date date1 = null;
+        try {
+            date1 = df1.parse(date);
+        return df1.format(date1);
 
+
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager) activity
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View currentFocusedView = activity.getCurrentFocus();
+        if (currentFocusedView != null) {
+            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 }

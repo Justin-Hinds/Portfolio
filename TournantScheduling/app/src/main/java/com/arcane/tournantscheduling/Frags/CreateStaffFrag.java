@@ -131,7 +131,6 @@ public class CreateStaffFrag extends Fragment {
                             String ex = task.getException().toString();
                             Toast.makeText(getContext(), "Registration Failed"+ex,
                                     Toast.LENGTH_LONG).show();
-                            getFragmentManager().popBackStack();
                         }
                         else {
                             Toast.makeText(getContext(), "Registration successful",
@@ -144,6 +143,7 @@ public class CreateStaffFrag extends Fragment {
                             dataMan.addEmployee(user,employee,manager);
                             mAuth2.signOut();
                             clearForm();
+//                            DataManager.hideKeyboard(getActivity());
                         }
 
 

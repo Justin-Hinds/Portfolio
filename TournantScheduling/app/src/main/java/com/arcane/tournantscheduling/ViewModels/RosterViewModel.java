@@ -55,8 +55,12 @@ public class RosterViewModel extends ViewModel {
                                 if(staff.getDays() != null){
                                     //Log.d("DAYS",staff.getDays().toString());
                                 }
+                                if(!staffArrayList.contains(staff)){
                                 staffArrayList.add(staff);
-                                users.postValue(staffArrayList);
+                                users.setValue(staffArrayList);
+                                Log.d("LOAD USERS", " => " + staffArrayList.size());
+
+                                }
                             }
                         }
                     }
@@ -77,7 +81,7 @@ public class RosterViewModel extends ViewModel {
 //                });
     }
 
-    private Staff getUser(){
+    public Staff getUser(){
         final Staff[] staff = new Staff[1];
         db.collection("Restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -90,7 +94,7 @@ public class RosterViewModel extends ViewModel {
                             public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
                                 if (querySnapshot != null) {
                                     for( DocumentSnapshot document2 : querySnapshot){
-                                        Log.d("CURRENT USER", document2.getId() + " => " + document2.getData());
+//                                        Log.d("CURRENT USER", document2.getId() + " => " + document2.getData());
                                         currentUser = document2.toObject(Staff.class);
                                         staff[0] = document2.toObject(Staff.class);
 

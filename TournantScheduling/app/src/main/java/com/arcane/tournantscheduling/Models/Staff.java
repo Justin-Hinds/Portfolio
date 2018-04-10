@@ -2,6 +2,7 @@ package com.arcane.tournantscheduling.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class Staff implements Parcelable {
     Map<String,Object> week;
     Map<String, Object> days;
     Availability availability;
-//    Map<String, Object> availability;
+    Map<String, Object> timeOff;
     public Staff(){}
     protected Staff(Parcel in) {
         name = in.readString();
@@ -149,7 +150,13 @@ public class Staff implements Parcelable {
         return 0;
     }
 
+    public Map<String, Object> getTimeOff() {
+        return timeOff;
+    }
 
+    public void setTimeOff(Map<String, Object> timeOff) {
+        this.timeOff = timeOff;
+    }
 
     public Availability getAvailability() {
         return availability;
@@ -175,7 +182,7 @@ public class Staff implements Parcelable {
     @Override
     public boolean equals(Object obj) {
         Staff newStaff = (Staff) obj;
-        if(newStaff.getId() == id){
+        if(newStaff.getId().equals(id)){
             return true;
         }
         return false;

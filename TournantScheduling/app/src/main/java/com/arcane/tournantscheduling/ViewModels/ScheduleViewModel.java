@@ -9,8 +9,11 @@ import android.util.Log;
 
 import com.arcane.tournantscheduling.Models.Day;
 import com.arcane.tournantscheduling.Models.Staff;
+import com.arcane.tournantscheduling.Models.TimeOff;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -98,6 +101,26 @@ public class ScheduleViewModel extends ViewModel {
 
         return pickedDay[0];
     }
+    public ArrayList<Staff> timeOffCheck(Staff user){
+        ArrayList<Staff> availableStaff = new ArrayList<>();
+
+            Log.d("TimeOff", user.getTimeOff().toString());
+
+//        db.collection("Restaurants")
+//                .document(currentUser.getRestaurantID()).collection("Users")
+//                .document(currentUser.getId()).collection("TimeOff").get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        for(DocumentSnapshot doc : task.getResult()){
+//
+//                        Log.d("TIME OFF", doc.toObject(TimeOff.class).getDates().get(0));
+//                        }
+//                    }
+//                });
+        return availableStaff;
+    }
+
 
     public void setScheduledDay(Day scheduledDay) {
         this.scheduledDay = scheduledDay;

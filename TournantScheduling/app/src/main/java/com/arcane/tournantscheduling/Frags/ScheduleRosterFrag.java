@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,14 @@ import com.arcane.tournantscheduling.R;
 import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 import com.arcane.tournantscheduling.ViewModels.ScheduleViewModel;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class ScheduleRosterFrag extends Fragment {
@@ -50,8 +58,30 @@ public class ScheduleRosterFrag extends Fragment {
             public void onChanged(@Nullable ArrayList<Staff> staff) {
                 ArrayList<Staff> newList = new ArrayList<>();
                 for(Staff user : staff){
+                    Log.d("USER", user.getName());
+                    if(user.getAvailability() != null){
                     if(isAvailability(user,weekDay)){
+                        String day = scheduleViewModel.getPostSectionDay();
+                        DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+                        Calendar cal1 = Calendar.getInstance();
+
+                        try {
+                        Date date1;
+                        date1 = df1 .parse(day);
+                        cal1.setTime(date1);
+                        String newDay = df1.format(cal1.getTime());
+                        Map<String, Object>  timeOff = (Map<String, Object>) user.getTimeOff().get(newDay);
+                        Log.d("Date 1",newDay);
+                       // Log.d("TIME OFF", timeOff.get("dates").toString());
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                       // Log.d("Day", scheduleViewModel.getPostSectionDay());
+                        if(!newList.contains(user)){
                         newList.add(user);
+                        }
+                        }
                     }
                 }
                 rosterRecyclerAdapter.update(newList);

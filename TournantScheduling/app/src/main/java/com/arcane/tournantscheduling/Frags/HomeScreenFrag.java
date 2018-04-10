@@ -44,7 +44,6 @@ public class HomeScreenFrag  extends Fragment {
         scheduleViewModel.getSchedule(currentUser).observe(getActivity(), days -> {
             mDataset = days;
             mAdapter.update(days);
-
         });
     }
 

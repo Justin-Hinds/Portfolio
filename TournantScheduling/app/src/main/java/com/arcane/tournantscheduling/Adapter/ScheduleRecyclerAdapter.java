@@ -48,6 +48,7 @@ public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecycl
         holder.day.setText(separated[1]);
         String scheduledTime = day.getHour() + ":" + day.getMin() + " - " + day.getHourOut() + ":" + day.getMinOut();
         holder.time.setText( scheduledTime);
+        holder.dayOfWeek.setText(day.getDayOfWeek());
         //Log.d("LENGTH ", separated.length + "");
     }
 
