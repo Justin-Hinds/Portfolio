@@ -1,6 +1,8 @@
 package com.arcane.tournantscheduling.Frags;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -89,6 +91,16 @@ public class CreateAccountSecondFrag extends Fragment {
                    }
                 }else {
                     Log.d("NO MATCH:", "Passwords do not match");
+                    progressBar.setVisibility(View.GONE);
+                    AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                            .setTitle("Passwords do not match")
+                            .setMessage("Please make sure both passwords are correct")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
                     return;
                 }
 

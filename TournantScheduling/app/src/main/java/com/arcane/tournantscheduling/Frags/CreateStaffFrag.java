@@ -1,7 +1,9 @@
 package com.arcane.tournantscheduling.Frags;
 
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModel;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -82,6 +84,7 @@ public class CreateStaffFrag extends Fragment {
                 if(DataManager.stringValidate(email.getText().toString()) != null){
                     final String emailString = email.getText().toString();
                     setUpEmployee();
+                    DataManager.hideKeyboard(getActivity());
                     Log.d("EMPLOYEE:", employee.getName());
                     createAccount(emailString);
                 }
@@ -133,16 +136,24 @@ public class CreateStaffFrag extends Fragment {
                                     Toast.LENGTH_LONG).show();
                         }
                         else {
-                            Toast.makeText(getContext(), "Registration successful",
-                                    Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(), "Registration successful",
+//                                    Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth2.getCurrentUser();
-                            if(manager != null){
 
-                            }
                             employee.setId(mAuth2.getCurrentUser().getUid());
                             dataMan.addEmployee(user,employee,manager);
                             mAuth2.signOut();
-                            clearForm();
+                            AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                                    .setTitle("Registration Successful")
+                                    .setMessage("Please note that " + employeeName.getText().toString()+ "'s " + "password is "
+                                            + password +". " + "Instruct them to change this immediately." )
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            clearForm();
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
 //                            DataManager.hideKeyboard(getActivity());
                         }
 
@@ -152,8 +163,6 @@ public class CreateStaffFrag extends Fragment {
     }
     private void clearForm(){
         email.setText("");
-        password.setText("");
-        confirmPassword.setText("");
         employeeName.setText("");
         address.setText("");
         city.setText("");

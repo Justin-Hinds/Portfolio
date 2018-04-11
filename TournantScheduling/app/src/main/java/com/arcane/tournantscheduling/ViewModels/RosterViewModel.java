@@ -57,7 +57,7 @@ public class RosterViewModel extends ViewModel {
                                 }
                                 if(!staffArrayList.contains(staff)){
                                 staffArrayList.add(staff);
-                                users.setValue(staffArrayList);
+                                users.postValue(staffArrayList);
                                 Log.d("LOAD USERS", " => " + staffArrayList.size());
 
                                 }

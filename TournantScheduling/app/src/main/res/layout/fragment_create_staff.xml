@@ -66,7 +66,7 @@
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:ems="10"
         android:hint="@string/city"
-        android:inputType="textPersonName"
+        android:inputType="textCapWords"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toEndOf="@id/textview_city"
         app:layout_constraintTop_toBottomOf="@+id/editText_address" />

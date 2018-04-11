@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.arcane.tournantscheduling.Adapter.ScheduleRecyclerAdapter;
 import com.arcane.tournantscheduling.Models.Staff;
@@ -56,6 +57,7 @@ public class HomeScreenFrag  extends Fragment {
         mDataset = new ArrayList();
         RosterViewModel rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         currentUser = rosterViewModel.getCurrentUser();
+        TextView textView = root.findViewById(R.id.no_schedule);
 
         RecyclerView mRecyclerView =  root.findViewById(R.id.schedule_rec_view);
         // use this setting to improve performance if you know that changes
@@ -69,7 +71,11 @@ public class HomeScreenFrag  extends Fragment {
         mAdapter.setOnDaySelectedListener(mListener);
 
         mRecyclerView.setAdapter(mAdapter);
-
+        if(mDataset.isEmpty()){
+            textView.setVisibility(View.VISIBLE);
+        }else {
+            textView.setVisibility(View.GONE);
+        }
 
         return root;
     }

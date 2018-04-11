@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arcane.tournantscheduling.Activities.HomeScreenActivity;
@@ -44,8 +45,24 @@ public class LoginFrag extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         Button emailSignIn = root.findViewById(R.id.button_login);
         Button createAccount = root.findViewById(R.id.button_create_account);
+        TextView forgotPassword = root.findViewById(R.id.textView_forgot_password);
+
         datman = new DataManager(getActivity());
 
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                mAuth.sendPasswordResetEmail(emailAddress)
+//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<Void> task) {
+//                                if (task.isSuccessful()) {
+//                                    Log.d(TAG, "Email sent.");
+//                                }
+//                            }
+//                        });
+            }
+        });
         createAccount.setOnClickListener(view -> {
             CreateAccountFrag frag = CreateAccountFrag.newInstance();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.login_view,frag).commit();
@@ -65,29 +82,10 @@ public class LoginFrag extends Fragment {
         return root;
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-//        mListener = null;
-    }
+
+
 private void handleEmailSignIn(String email, String password){
     mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -108,22 +106,8 @@ private void handleEmailSignIn(String email, String password){
                        // updateUI(null);
                     }
 
-                    // ...
                 }
             });
-}
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
+    }
+
 }

@@ -64,8 +64,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:text="@string/forgot_password"
+        android:clickable="true"
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_create_account" />
+        app:layout_constraintTop_toBottomOf="@+id/button_create_account"
+        android:focusable="true" />
 </android.support.constraint.ConstraintLayout>

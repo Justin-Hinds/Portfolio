@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -56,10 +57,19 @@ public class ScheduleRosterFrag extends Fragment {
         viewModel.getUsers().observe(getActivity(), new Observer<ArrayList<Staff>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Staff> staff) {
+                ArrayList<Staff> staffArrayList = staff;
                 ArrayList<Staff> newList = new ArrayList<>();
-                for(Staff user : staff){
-                    Log.d("USER", user.getName());
+                assert staff != null;
+                Iterator<Staff> iterator = staffArrayList.iterator();
+
+                while (iterator.hasNext()){
+
+//                }
+//                for(Staff user : staff){
+                    Staff user = iterator.next();
+                    Log.d("USER",user.getName());
                     if(user.getAvailability() != null){
+                        Log.d("AVAILABILITY", user.getAvailability().getSaturday() + weekDay);
                     if(isAvailability(user,weekDay)){
                         String day = scheduleViewModel.getPostSectionDay();
                         DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
@@ -70,18 +80,19 @@ public class ScheduleRosterFrag extends Fragment {
                         date1 = df1 .parse(day);
                         cal1.setTime(date1);
                         String newDay = df1.format(cal1.getTime());
-                        Map<String, Object>  timeOff = (Map<String, Object>) user.getTimeOff().get(newDay);
+                       // Map<String, Object>  timeOff = (Map<String, Object>) user.getTimeOff().get(newDay);
                         Log.d("Date 1",newDay);
-                       // Log.d("TIME OFF", timeOff.get("dates").toString());
+                        // Log.d("TIME OFF", timeOff.get("dates").toString());
 
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                       // Log.d("Day", scheduleViewModel.getPostSectionDay());
                         if(!newList.contains(user)){
                         newList.add(user);
-                        }
-                        }
+                            }
+                        }else{
+                        iterator.remove();
+                     }
                     }
                 }
                 rosterRecyclerAdapter.update(newList);

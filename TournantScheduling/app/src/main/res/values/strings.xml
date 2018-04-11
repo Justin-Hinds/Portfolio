@@ -58,6 +58,7 @@
     <string name="type_message">Type message</string>
     <string name="others_working">Others Working:</string>
     <string name="scheduled_time">Scheduled Time:</string>
+    <string name="no_schedule_posted">No Schedule Posted</string>
 
     <string-array name="availability_options">
         <item name="Available">Available</item>

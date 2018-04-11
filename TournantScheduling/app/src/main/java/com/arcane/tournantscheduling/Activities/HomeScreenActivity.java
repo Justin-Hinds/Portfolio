@@ -1,10 +1,12 @@
 package com.arcane.tournantscheduling.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
@@ -40,6 +42,7 @@ import com.arcane.tournantscheduling.R;
 import com.arcane.tournantscheduling.Frags.RosterFrag;
 import com.arcane.tournantscheduling.Adapter.RosterRecyclerAdapter;
 import com.arcane.tournantscheduling.Adapter.RosterScheduleRecAdapter;
+import com.arcane.tournantscheduling.Utils.NetworkUtils;
 import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 import com.arcane.tournantscheduling.Adapter.ScheduleRecyclerAdapter;
 import com.arcane.tournantscheduling.Frags.ScheduleRosterFrag;
@@ -143,6 +146,20 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         fragmentManager.addOnBackStackChangedListener(this);
         dayArrayList = new ArrayList<>();
         homeFrag = HomeScreenFrag.newInstance();
+
+        if(!NetworkUtils.isConnected(this)){
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("No Network")
+                    .setMessage("Please make sure you're connected to the internet.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+            return;
+        }
+
         model = ViewModelProviders.of(this).get(RosterViewModel.class);
         timeOffViewModel = ViewModelProviders.of(this).get(TimeOffViewModel.class);
         scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
