@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class CreateStaffFrag extends Fragment {
     EditText password;
     EditText confirmPassword;
     Button createAccount;
+    ProgressBar progressBar;
     Staff employee;
     Staff manager;
     public static CreateStaffFrag newInstance() {
@@ -68,7 +70,7 @@ public class CreateStaffFrag extends Fragment {
         setupUi(root);
         getUser();
         mAuth1 = FirebaseAuth.getInstance();
-
+        progressBar = root.findViewById(R.id.progressBar);
         FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
                 .setDatabaseUrl(getString(R.string.database_url))
                 .setApiKey(getString(R.string.web_api_key))
@@ -82,10 +84,12 @@ public class CreateStaffFrag extends Fragment {
             @Override
             public void onClick(View view) {
                 if(DataManager.stringValidate(email.getText().toString()) != null){
+                    progressBar.setVisibility(View.VISIBLE);
                     final String emailString = email.getText().toString();
                     setUpEmployee();
                     DataManager.hideKeyboard(getActivity());
                     Log.d("EMPLOYEE:", employee.getName());
+
                     createAccount(emailString);
                 }
 
@@ -143,6 +147,7 @@ public class CreateStaffFrag extends Fragment {
                             employee.setId(mAuth2.getCurrentUser().getUid());
                             dataMan.addEmployee(user,employee,manager);
                             mAuth2.signOut();
+                            progressBar.setVisibility(View.GONE);
                             AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                                     .setTitle("Registration Successful")
                                     .setMessage("Please note that " + employeeName.getText().toString()+ "'s " + "password is "

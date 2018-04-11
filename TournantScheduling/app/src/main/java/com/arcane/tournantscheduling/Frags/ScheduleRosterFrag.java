@@ -64,8 +64,6 @@ public class ScheduleRosterFrag extends Fragment {
 
                 while (iterator.hasNext()){
 
-//                }
-//                for(Staff user : staff){
                     Staff user = iterator.next();
                     Log.d("USER",user.getName());
                     if(user.getAvailability() != null){
@@ -80,9 +78,13 @@ public class ScheduleRosterFrag extends Fragment {
                         date1 = df1 .parse(day);
                         cal1.setTime(date1);
                         String newDay = df1.format(cal1.getTime());
-                       // Map<String, Object>  timeOff = (Map<String, Object>) user.getTimeOff().get(newDay);
-                        Log.d("Date 1",newDay);
-                        // Log.d("TIME OFF", timeOff.get("dates").toString());
+                        Log.d("Date ",newDay);
+                        //Log.d("MAP ",user.getTimeOff().toString());
+
+                        if(user.getTimeOff() != null){
+                        Map<String, Object>  timeOff = (Map<String, Object>) user.getTimeOff().get(newDay);
+                        Log.d("TIME OFF", user.getTimeOff().get("dates").toString());
+                        }
 
                         } catch (ParseException e) {
                             e.printStackTrace();
