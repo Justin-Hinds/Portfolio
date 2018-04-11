@@ -54,20 +54,20 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.staffName.setText(mDataset.get(position).getName());
-        if(fragTag.equals(RosterFrag.TAG)){
+        if(fragTag.equals(RosterFrag.TAG)|| fragTag.equals(MessagesFrag.TAG)){
             holder.checkBox.setVisibility(View.GONE);
         }else if(fragTag.equals(ScheduleRosterFrag.TAG)){
             holder.checkBox.setVisibility(View.VISIBLE);
         }
 
-        if(!RosterFrag.isInActionMode){
-            holder.checkBox.setVisibility(View.GONE);
-        }else{
-            if(RosterFrag.inSchedulingMode) {
-                holder.checkBox.setVisibility(View.VISIBLE);
-                holder.checkBox.setChecked(false);
-            }
-        }
+//        if(!RosterFrag.isInActionMode){
+//            holder.checkBox.setVisibility(View.GONE);
+//        }else{
+//            if(RosterFrag.inSchedulingMode) {
+//                holder.checkBox.setVisibility(View.VISIBLE);
+//                holder.checkBox.setChecked(false);
+//            }
+//        }
     }
 
     @Override

@@ -291,10 +291,12 @@ public class DataManager {
         Map<String,Object> restVals = new HashMap<>();
         Map<String,Object> values = new HashMap<>();
         values.put("date",getDateString(day.getDate()));
-        values.put("hour",day.getHour());
-        values.put("min", day.getMin());
-        values.put("outHour",day.getHourOut());
-        values.put("minOut",day.getMinOut());
+        values.put("inTime",day.getInTime());
+        values.put("outTime",day.getOutTime());
+//        values.put("hour",day.getHour());
+//        values.put("min", day.getMin());
+//        values.put("outHour",day.getHourOut());
+//        values.put("minOut",day.getMinOut());
         values.put("month",day.getMonth());
         refManager.collection("Days").document(day.date).set(day);
         refManager.update( "days."+getDateString(day.getDate()),values).addOnSuccessListener(new OnSuccessListener<Void>() {

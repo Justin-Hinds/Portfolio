@@ -69,7 +69,7 @@ public class ScheduleViewModel extends ViewModel {
                     Log.d("SCHEDULED DAY", "HIT");
 
                     for (DocumentSnapshot doc : values ) {
-                        if (doc.get("hour") != null) {
+                        if (doc.get("inTime") != null) {
                             Day newDay = doc.toObject(Day.class);
                             days.add(doc.toObject(Day.class));
                             Log.d("SCHEDULED DAY", doc.getData().toString());

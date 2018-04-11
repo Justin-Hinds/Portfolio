@@ -111,11 +111,7 @@ public class MessagesViewModel extends ViewModel {
                                 System.out.print(staff + " ");
                             }
                         }
-//                        for(int i = 0; i<staffList.size(); i++){
-//                            if(staffList.get(i).getId().equals(userIdList.get(i))){
-//                                userArrayList.add(staffList.get(i));
-//                            }
-//                        }
+
                     }
                     Log.d("USER LIST MESSAGES", userArrayList.size() + "");
                     liveMessages.postValue(userArrayList);

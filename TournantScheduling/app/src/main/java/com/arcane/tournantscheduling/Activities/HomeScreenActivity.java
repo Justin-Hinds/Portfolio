@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -108,6 +111,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     String newDate;
     String startDate;
     String endDate;
+    String inScheduledTime;
+    String outScheduledTime;
     long dateNumber;
     Boolean inTime = true;
     ArrayList<Staff> staffArrayList = new ArrayList<>();
@@ -282,24 +287,43 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
+        String newTimeString;
+        Calendar calendar = Calendar.getInstance();
+        java.text.SimpleDateFormat frmTime = new java.text.SimpleDateFormat("hh:mm",Locale.getDefault());
+        Log.d("NAME TIME",timePicker.getId() + "");
         if(inTime) {
             scheduledHour = timePicker.getCurrentHour();
             scheduledMinute = timePicker.getCurrentMinute();
+            calendar.set(Calendar.HOUR_OF_DAY,timePicker.getCurrentHour());
+            calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+            newTimeString = frmTime.format(calendar.getTime());
+            Log.d("TIME", newTimeString);
+
             double hour =  scheduledHour;
             double minute = scheduledMinute;
             String timeString = String.valueOf(scheduledHour) + " : " + String.valueOf(scheduledMinute);
-            //Log.d("SET TIME", timeString);
-            inTextview.setText(timeString);
+            inScheduledTime = newTimeString;
+            if(inTextview != null){
+            inTextview.setText(newTimeString);
             inTime = false;
+            }else {
+
+            }
         }else{
             outHour = timePicker.getCurrentHour();
             outMin = timePicker.getCurrentMinute();
             String timeString = String.valueOf(outHour) + " : " + String.valueOf(outMin);
-            outTextview.setText(timeString);
-           // Log.d("SET TIME", timeString);
+            calendar.set(Calendar.HOUR_OF_DAY,timePicker.getCurrentHour());
+            calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+            newTimeString = frmTime.format(calendar.getTime());
+            outScheduledTime = newTimeString;
+            if(outTextview != null){
+            outTextview.setText(newTimeString);
             setScheduledDay();
+            }
             inTime = true;
         }
     }
@@ -309,16 +333,14 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         java.text.SimpleDateFormat month_date = new java.text.SimpleDateFormat("MMMM", Locale.getDefault());
         java.text.SimpleDateFormat weekDay = new java.text.SimpleDateFormat("EE",Locale.getDefault());
 
-            Date date = new Date(dateNumber);
-        //Log.d("WEEKDAY", scheduleViewModel.getWeekDay());
-
         String month_name = month_date.format(calendar.getTime());
-        Day newDay = new Day(newDate,String.valueOf(scheduledHour),
-                String.valueOf(scheduledMinute),month_name,
-                String.valueOf(outHour),
-                String.valueOf(outMin),
-                scheduleViewModel.getWeekDay());
+//        Day newDay = new Day(newDate,String.valueOf(scheduledHour),
+//                String.valueOf(scheduledMinute),month_name,
+//                String.valueOf(outHour),
+//                String.valueOf(outMin),
+//                scheduleViewModel.getWeekDay());
 
+        Day newDay = new Day(inScheduledTime,outScheduledTime,newDate,month_name,scheduleViewModel.getWeekDay());
         Map<String,Day> dayHashMap = new HashMap<>();
         dayHashMap.put(newDate, newDay);
         dataManager.updateUserDay(scheduledUser, currentUser, newDay);
@@ -423,7 +445,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     @Override
     public void onBackStackChanged() {
         for (int i = fragmentManager.getBackStackEntryCount() - 1; i>=0; i--){
-//        Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
+        Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
         }
 
     }
@@ -453,6 +475,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+       // fragmentManager.popBackStack(HomeScreenFrag.TAG,0);
+        RosterFrag.isInActionMode = false;
         DataManager.hideKeyboard(this);
     }
 

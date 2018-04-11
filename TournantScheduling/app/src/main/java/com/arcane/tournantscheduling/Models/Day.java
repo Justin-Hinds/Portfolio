@@ -6,33 +6,41 @@ import android.os.Parcelable;
 
 public class Day implements Parcelable{
     public String date;
-    String hour;
-    String min;
-    String hourOut;
-    String minOut;
+    String inTime;
+    String outTime;
+//    String hour;
+//    String min;
+//    String hourOut;
+//    String minOut;
     String month;
     String dayOfWeek;
 
     public Day(){
 
     }
-
-    public Day(String sDate, String sHour, String sMin, String sMonth, String sHourOut, String sMinOut,String weekday){
+    public Day(String in, String out, String sDate, String sMonth, String weekday){
         date = sDate;
-        hour = sHour;
-        min = sMin;
-        hourOut = sHourOut;
-        minOut = sMinOut;
+        inTime = in;
+        outTime = out;
         month = sMonth;
         dayOfWeek = weekday;
     }
+//    public Day(String sDate, String sHour, String sMin, String sMonth, String sHourOut, String sMinOut,String weekday){
+//        date = sDate;
+//        hour = sHour;
+//        min = sMin;
+//        hourOut = sHourOut;
+//        minOut = sMinOut;
+//        month = sMonth;
+//        dayOfWeek = weekday;
+//    }
 
     protected Day(Parcel in) {
         date = in.readString();
-        hour = in.readString();
-        min = in.readString();
-        hourOut = in.readString();
-        minOut = in.readString();
+//        hour = in.readString();
+//        min = in.readString();
+//        hourOut = in.readString();
+//        minOut = in.readString();
         month = in.readString();
     }
 
@@ -56,37 +64,37 @@ public class Day implements Parcelable{
         this.date = date;
     }
 
-    public String getHour() {
-        return hour;
-    }
-
-    public void setHour(String hour) {
-        this.hour = hour;
-    }
-
-    public String getMin() {
-        return min;
-    }
-
-    public String getHourOut() {
-        return hourOut;
-    }
-
-    public void setHourOut(String hourOut) {
-        this.hourOut = hourOut;
-    }
-
-    public String getMinOut() {
-        return minOut;
-    }
-
-    public void setMinOut(String minOut) {
-        this.minOut = minOut;
-    }
-
-    public void setMin(String min) {
-        this.min = min;
-    }
+//    public String getHour() {
+//        return hour;
+//    }
+//
+//    public void setHour(String hour) {
+//        this.hour = hour;
+//    }
+//
+//    public String getMin() {
+//        return min;
+//    }
+//
+//    public String getHourOut() {
+//        return hourOut;
+//    }
+//
+//    public void setHourOut(String hourOut) {
+//        this.hourOut = hourOut;
+//    }
+//
+//    public String getMinOut() {
+//        return minOut;
+//    }
+//
+//    public void setMinOut(String minOut) {
+//        this.minOut = minOut;
+//    }
+//
+//    public void setMin(String min) {
+//        this.min = min;
+//    }
 
     public String getMonth() {
         return month;
@@ -98,6 +106,22 @@ public class Day implements Parcelable{
 
     public String getDayOfWeek() {
         return dayOfWeek;
+    }
+
+    public String getInTime() {
+        return inTime;
+    }
+
+    public void setInTime(String inTime) {
+        this.inTime = inTime;
+    }
+
+    public String getOutTime() {
+        return outTime;
+    }
+
+    public void setOutTime(String outTime) {
+        this.outTime = outTime;
     }
 
     public void setDayOfWeek(String dayOfWeek) {
@@ -112,10 +136,10 @@ public class Day implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(date);
-        parcel.writeString(hour);
-        parcel.writeString(min);
-        parcel.writeString(hourOut);
-        parcel.writeString(minOut);
+//        parcel.writeString(hour);
+//        parcel.writeString(min);
+//        parcel.writeString(hourOut);
+//        parcel.writeString(minOut);
         parcel.writeString(month);
     }
 }

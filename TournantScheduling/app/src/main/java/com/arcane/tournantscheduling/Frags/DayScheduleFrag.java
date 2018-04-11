@@ -39,7 +39,7 @@ public class DayScheduleFrag extends Fragment {
         RosterViewModel rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         Day day = scheduleViewModel.getScheduledDay();
         if(day != null){
-            String timeString = day.getHour() + " : " + day.getMin() + " - " + day.getHourOut() + " : " + day.getMinOut();
+            String timeString = day.getInTime() + " - " + day.getOutTime();
             TextView timeTextview = root.findViewById(R.id.textView_scheduled_time);
             ArrayList<Staff> usersList = rosterViewModel.getUsers().getValue();
             ArrayList<Staff> workingList = new ArrayList<>();

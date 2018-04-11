@@ -92,10 +92,11 @@ public class ScheduleRosterFrag extends Fragment {
                             }
                         }else{
                         iterator.remove();
+
                      }
                     }
                 }
-                rosterRecyclerAdapter.update(newList);
+                rosterRecyclerAdapter.update(staffArrayList);
             }
         });
         myDataset = viewModel.getUsers().getValue();
