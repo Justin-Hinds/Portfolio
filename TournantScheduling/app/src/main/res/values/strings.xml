@@ -59,6 +59,8 @@
     <string name="others_working">Others Working:</string>
     <string name="scheduled_time">Scheduled Time:</string>
     <string name="no_schedule_posted">No Schedule Posted</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="send_email">Send Email</string>
 
     <string-array name="availability_options">
         <item name="Available">Available</item>

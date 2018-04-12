@@ -34,6 +34,8 @@ public class MessageViewFrag extends Fragment {
     EditText messageText;
     Staff currentUser;
     Staff chatBuddy;
+    RecyclerView mRecyclerView;
+    RecyclerView.LayoutManager mLayoutManager;
     ArrayList<Message> mDataset;
     MessageViewRecyclerAdapter mAdapter;
     public static MessageViewFrag newInstance() {
@@ -68,16 +70,21 @@ public class MessageViewFrag extends Fragment {
         ImageButton sendButton = root.findViewById(R.id.send_button);
          messageText = root.findViewById(R.id.editText_message);
 
-        RecyclerView mRecyclerView =  root.findViewById(R.id.rec_view);
+         mRecyclerView = root.findViewById(R.id.rec_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
         // use a linear layout manager
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter
         mRecyclerView.setAdapter(mAdapter);
-
+        mRecyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom) scrollToBottom();
+            }
+        });
 
 
         sendButton.setOnClickListener(v -> {
@@ -93,7 +100,10 @@ public class MessageViewFrag extends Fragment {
         });
         return root;
     }
-
+    private void scrollToBottom() {
+        mLayoutManager.smoothScrollToPosition(mRecyclerView, null, mAdapter.getItemCount());
+        Log.i("SCROLL TO: ", mAdapter.getItemCount() + "");
+    }
     private void sendText(Message message) {
 
         db.collection("Restaurants").document(currentUser.getRestaurantID()).collection("Messages").add(message);

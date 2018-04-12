@@ -83,7 +83,9 @@ public class ScheduleRosterFrag extends Fragment {
 
                         if(user.getTimeOff() != null){
                         Map<String, Object>  timeOff = (Map<String, Object>) user.getTimeOff().get(newDay);
-                        Log.d("TIME OFF", user.getTimeOff().get("dates").toString());
+                        Object[] objects = user.getTimeOff().values().toArray();
+                        Map<String,Object> datesMap = (Map<String, Object>) objects[0];
+                        Log.d("TIME OFF", user.getTimeOff().values().toString());
                         }
 
                         } catch (ParseException e) {

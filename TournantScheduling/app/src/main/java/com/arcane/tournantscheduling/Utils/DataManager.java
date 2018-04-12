@@ -42,11 +42,9 @@ import static android.content.ContentValues.TAG;
 
 
 public class DataManager {
-    private Context mContext = null;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    public DataManager(Context context) {
-        mContext = context;
+    public DataManager() {
     }
 
     public static String stringValidate(String s) {
@@ -135,7 +133,6 @@ public class DataManager {
             return s;
         }else {
             Log.d("PASSWORD ", s);
-//            Log.d("MATCH ", matcher.matches())
             Toast.makeText(context, "Password must contain  6 characters, 1 upper case letter and at least 1 number ", Toast.LENGTH_LONG).show();
 
             return null;
@@ -146,38 +143,10 @@ public class DataManager {
         final DocumentReference restaurantRef = db.collection("Restaurants").document();
         final DocumentReference refManager =  restaurantRef.collection("Users").document(user.getUid());
 
-//        WriteBatch batch = db.batch();
-//        restaurantRef.set(restaurant);
-//        refManager.set(manager);
-//        batch.commit();
+
         Log.d("REF ", restaurantRef.getId());
         addManager(user,manager,restaurant);
-//        restaurant.setId(restaurantRef.getId());
-//        manager.setRestaurantID(restaurantRef.getId());
-//       restaurantRef.set(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
-//           @Override
-//           public void onSuccess(Void aVoid) {
-//               Log.d(TAG, "DocumentSnapshot successfully written!");
-//
-//               refManager.set(manager).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                   @Override
-//                   public void onSuccess(Void aVoid) {
-//                       Log.d(TAG, "DocumentSnapshot successfully written!");
-//
-//                   }
-//               }).addOnFailureListener(new OnFailureListener() {
-//                   @Override
-//                   public void onFailure(@NonNull Exception e) {
-//                       Log.w(TAG, "Error writing document", e);
-//                   }
-//               });
-//           }
-//       }).addOnFailureListener(new OnFailureListener() {
-//           @Override
-//           public void onFailure(@NonNull Exception e) {
-//               Log.w(TAG, "Error writing document", e);
-//           }
-//       });
+
     }
     //Function for adding new manager to database
     public void addManager(FirebaseUser user, final Staff employee, Restaurant restaurant) {
@@ -356,6 +325,7 @@ public class DataManager {
         }
         return null;
     }
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity
                 .getSystemService(Context.INPUT_METHOD_SERVICE);

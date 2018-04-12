@@ -62,7 +62,7 @@ public class CreateAccountSecondFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
-        dataMan = new DataManager(getActivity());
+        dataMan = new DataManager();
         final View root = inflater.inflate(R.layout.fragment_create_account_second, container, false);
         progressBar = root.findViewById(R.id.progress_bar);
         setupUi(root);

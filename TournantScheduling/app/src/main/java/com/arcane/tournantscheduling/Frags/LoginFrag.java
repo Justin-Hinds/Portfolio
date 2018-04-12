@@ -1,5 +1,6 @@
 package com.arcane.tournantscheduling.Frags;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,20 +48,33 @@ public class LoginFrag extends Fragment {
         Button createAccount = root.findViewById(R.id.button_create_account);
         TextView forgotPassword = root.findViewById(R.id.textView_forgot_password);
 
-        datman = new DataManager(getActivity());
+        datman = new DataManager();
 
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mAuth.sendPasswordResetEmail(emailAddress)
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    Log.d(TAG, "Email sent.");
-//                                }
-//                            }
-//                        });
+                View view = getLayoutInflater().inflate(R.layout.dialog_forgot_password_layout, null);
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setView(view).show();
+                EditText email = view.findViewById(R.id.editText_email);
+                Button resetPassword = view.findViewById(R.id.button_reset);
+                resetPassword.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(DataManager.stringValidate(email.getText().toString()) != null){
+                            mAuth.sendPasswordResetEmail(email.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getContext(),"Email sent.",Toast.LENGTH_SHORT).show();
+                                    alertDialog.dismiss();
+                                }
+                            }
+                        });
+                        }
+                    }
+                });
+                // alertDialog.setView(view);
             }
         });
         createAccount.setOnClickListener(view -> {

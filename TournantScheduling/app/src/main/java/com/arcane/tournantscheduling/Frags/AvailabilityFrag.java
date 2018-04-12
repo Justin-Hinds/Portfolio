@@ -54,7 +54,7 @@ public class AvailabilityFrag extends Fragment implements AdapterView.OnItemSele
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_availability,container,false);
-        dataManager = new DataManager(getActivity());
+        dataManager = new DataManager();
         mAuth = FirebaseAuth.getInstance();
         rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         currentUser = rosterViewModel.getCurrentUser();

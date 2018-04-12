@@ -66,7 +66,7 @@ public class CreateStaffFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_create_staff, container, false);
-        dataMan = new DataManager(getContext());
+        dataMan = new DataManager();
         setupUi(root);
         getUser();
         mAuth1 = FirebaseAuth.getInstance();

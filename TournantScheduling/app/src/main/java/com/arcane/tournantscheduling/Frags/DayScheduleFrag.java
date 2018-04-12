@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.arcane.tournantscheduling.Models.Day;
@@ -38,41 +41,35 @@ public class DayScheduleFrag extends Fragment {
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(getActivity()).get(ScheduleViewModel.class);
         RosterViewModel rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         Day day = scheduleViewModel.getScheduledDay();
+        ArrayList<Staff> usersList = rosterViewModel.getUsers().getValue();
+        ArrayList<String> workingList = new ArrayList<>();
         if(day != null){
             String timeString = day.getInTime() + " - " + day.getOutTime();
             TextView timeTextview = root.findViewById(R.id.textView_scheduled_time);
-            ArrayList<Staff> usersList = rosterViewModel.getUsers().getValue();
-            ArrayList<Staff> workingList = new ArrayList<>();
 
             Iterator<Staff> iterator = usersList.iterator();
+
             while (iterator.hasNext()){
                 Staff currentStaff = iterator.next();
                 if(currentStaff.getDays() != null){
-                    if(currentStaff.getDays().get(day.getDate()) != null){
-                        Map <String, Object> dates = new HashMap<>();
-                        workingList.add(currentStaff);
+                    Log.d("DATES ", currentStaff.getDays().toString());
+
+                    if(currentStaff.getDays().get(DataManager.getDateString(day.getDate())) != null){
+                        Map <String, Object> dates = currentStaff.getDays();
+                        Log.d("dates ",day.getDate());
+                        workingList.add(currentStaff.getName());
                         iterator.remove();
-                        Log.d("dates ", dates.values().toString());
                     }
                 }
             }
+
+            ListView listView = root.findViewById(R.id.working_listview);
+            ListAdapter listAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,workingList);
+            listView.setAdapter(listAdapter);
             Log.d("WORKING LIST", workingList.toString());
             Log.d("OFF LIST", usersList.toString());
-
-
-//            for (Staff user : usersList){
-//                if(user.getDays() != null){
-//                    if(user.getDays().get(day.getDate()) != null){
-//                        Map <String, Object> dates = new HashMap<>();
-//                       dates = (Map<String, Object>) user.getDays().get(day.getDate());
-//                       workingList.add(user);
-//                       //usersList.remove(user);
-//                        Log.d("dates ", dates.values().toString());
-//                    }
-//                Log.d("User Days ", user.getDays().toString());
-//                }
-//            }
             Log.d("Day Is ", DataManager.getDateString(day.getDate()));
+
 
             timeTextview.setText(timeString);
         }else {

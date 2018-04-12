@@ -147,7 +147,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         progressBar = findViewById(R.id.progressBar);
-        dataManager = new DataManager(this);
+        dataManager = new DataManager();
         fragmentManager.addOnBackStackChangedListener(this);
         dayArrayList = new ArrayList<>();
         homeFrag = HomeScreenFrag.newInstance();
@@ -445,7 +445,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     @Override
     public void onBackStackChanged() {
         for (int i = fragmentManager.getBackStackEntryCount() - 1; i>=0; i--){
-        Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
+//        Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
         }
 
     }
