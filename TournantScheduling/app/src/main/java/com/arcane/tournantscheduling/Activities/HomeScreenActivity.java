@@ -15,7 +15,9 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +36,8 @@ import android.widget.TimePicker;
 import com.arcane.tournantscheduling.Frags.AvailabilityFrag;
 import com.arcane.tournantscheduling.Frags.CreateScheduleFrag;
 import com.arcane.tournantscheduling.Frags.DayScheduleFrag;
+import com.arcane.tournantscheduling.Frags.EmployeeProfileEditFrag;
+import com.arcane.tournantscheduling.Frags.EmployeeProfileFrag;
 import com.arcane.tournantscheduling.Frags.HomeScreenFrag;
 import com.arcane.tournantscheduling.Frags.MessageViewFrag;
 import com.arcane.tournantscheduling.Frags.MessagesFrag;
@@ -117,6 +121,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     Boolean inTime = true;
     ArrayList<Staff> staffArrayList = new ArrayList<>();
     Boolean mTablet;
+    Boolean mlaunched = false;
     ViewGroup tabletViewGroup;
     TextView inTextview;
     TextView outTextview;
@@ -127,16 +132,22 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-         mFireUser = mAuth.getCurrentUser();
-        updateUI(mFireUser);
+        if(NetworkUtils.isConnected(this)) {
+            mFireUser = mAuth.getCurrentUser();
+            updateUI(mFireUser);
+        }
     }
 
     private void updateUI(FirebaseUser firebaseUser) {
+        if(NetworkUtils.isConnected(this)){
         if (firebaseUser == null){
             startActivity(new Intent(this,LoginActivity.class));
             finish();
         }
        mFireUser = mAuth.getCurrentUser();
+        }else {
+
+        }
 
     }
 
@@ -146,6 +157,10 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         setContentView(R.layout.activity_home_screen);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        //actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
         progressBar = findViewById(R.id.progressBar);
         dataManager = new DataManager();
         fragmentManager.addOnBackStackChangedListener(this);
@@ -159,6 +174,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(HomeScreenActivity.this,LoginActivity.class));
+                            finish();
                             dialog.dismiss();
                         }
                     }).show();
@@ -177,7 +194,10 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 //            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
             mDrawerLayout.setScrimColor(Color.TRANSPARENT);
         }
+
         model.getUsers().observe(this, users -> {
+            Log.d("ROSTER ", users.size() + "");
+
             for(Staff user : users){
                 if(Objects.equals(user.getId(), mFireUser.getUid())){
                     currentUser = user;
@@ -187,10 +207,13 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                     navDrawerIsSet = true;
                     timeOffViewModel.setCurrentUser(user);
                     setDeviceToken();
+                    if(!mlaunched){
                     fragmentManager
                             .beginTransaction()
                             .replace(R.id.home_view,homeFrag, HomeScreenFrag.TAG)
                             .addToBackStack(HomeScreenFrag.TAG).commit();
+                    }
+                    mlaunched = true;
                     progressBar.setVisibility(View.GONE);
                    // Log.d("VIEW MODEL current user", user.getName() );
                 }
@@ -199,6 +222,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         });
         mAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
     }
 
@@ -211,6 +235,40 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.schedule_done:
+                fragmentManager.popBackStack(SectionFrag.TAG,0);
+                break;
+            case R.id.done:
+                Bundle scheduleBundle = new Bundle();
+                scheduleBundle.putBoolean(SCHEDULE_MODE,true);
+                scheduleBundle.putSerializable(ARRAYLIST_SCHEDULE,staffArrayList);
+                Log.d("STAFF MEMBERS", staffArrayList.size() + "");
+                //scheduleBundle.putBoolean(ACTION_MODE, false);
+                RosterFrag frag = RosterFrag.newInstance();
+                frag.setArguments(scheduleBundle);
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.home_view,frag)
+                        .addToBackStack(RosterFrag.TAG).commit();
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.menu_schedule);
+                break;
+            case android.R.id.home:
+                if(!mTablet){
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                DataManager.hideKeyboard(this );
+                }
+                break;
+            case R.id.update:
+                EmployeeProfileEditFrag editFrag = EmployeeProfileEditFrag.newInstance();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.home_view,editFrag)
+                        .addToBackStack(EmployeeProfileEditFrag.TAG).commit();
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.menu_employee_edit);
+
+        }
         if(item.getItemId() == R.id.schedule_done){
             fragmentManager.popBackStack(SectionFrag.TAG,0);
         }
@@ -266,7 +324,13 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
     @Override
     public void OnStaffSelected(Staff staff) {
-
+        model.setSelectedUser(staff);
+        EmployeeProfileFrag frag = EmployeeProfileFrag.newInstance();
+        fragmentManager.beginTransaction()
+                .replace(R.id.home_view,frag)
+                .addToBackStack(EmployeeProfileFrag.TAG).commit();
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.menu_employee_info);
     }
 
     @Override
@@ -301,30 +365,51 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
             calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
             newTimeString = frmTime.format(calendar.getTime());
             Log.d("TIME", newTimeString);
-
-            double hour =  scheduledHour;
-            double minute = scheduledMinute;
+            if(DataManager.hourlyAvailable(scheduledHour,scheduledUser,scheduleViewModel.getWeekDay())){
             String timeString = String.valueOf(scheduledHour) + " : " + String.valueOf(scheduledMinute);
             inScheduledTime = newTimeString;
             if(inTextview != null){
             inTextview.setText(newTimeString);
             inTime = false;
-            }else {
-
             }
+            }else {
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        .setTitle("Scheduling Error")
+                        .setMessage("This staff member is not available for this time. ")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+
         }else{
             outHour = timePicker.getCurrentHour();
             outMin = timePicker.getCurrentMinute();
             String timeString = String.valueOf(outHour) + " : " + String.valueOf(outMin);
             calendar.set(Calendar.HOUR_OF_DAY,timePicker.getCurrentHour());
             calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
-            newTimeString = frmTime.format(calendar.getTime());
-            outScheduledTime = newTimeString;
-            if(outTextview != null){
-            outTextview.setText(newTimeString);
-            setScheduledDay();
+            if(DataManager.hourlyAvailable(outHour,scheduledUser,scheduleViewModel.getWeekDay())){
+                newTimeString = frmTime.format(calendar.getTime());
+                outScheduledTime = newTimeString;
+                if(outTextview != null){
+                    outTextview.setText(newTimeString);
+                    setScheduledDay();
+                }
+                inTime = true;
+            }else {
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        .setTitle("Scheduling Error")
+                        .setMessage("This staff member is not available for this time. ")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
             }
-            inTime = true;
+
         }
     }
 
@@ -434,7 +519,9 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                     }
                     return true;
                 });
+
     }
+
     private void setDeviceToken(){
         Map<String, Object> token = new HashMap<>();
         token.put(currentUser.getId(), FirebaseInstanceId.getInstance().getToken());
@@ -442,6 +529,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
     }
+
     @Override
     public void onBackStackChanged() {
         for (int i = fragmentManager.getBackStackEntryCount() - 1; i>=0; i--){

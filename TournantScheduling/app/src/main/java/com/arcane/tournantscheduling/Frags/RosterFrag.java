@@ -62,9 +62,12 @@ public class RosterFrag extends Fragment {
         viewModel.getUsers().observe(getActivity(), new Observer<ArrayList<Staff>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Staff> staff) {
+                Log.d("ROSTER RosterFrag", staff.size() + "");
+
                 mAdapter.update(staff);
             }
         });
+        mAdapter.setOnStaffSelectedListener(mListener);
         scheduleRecAdapter = new RosterScheduleRecAdapter(myDataset,getContext());
         Bundle bundle = getArguments();
         if(bundle != null){
@@ -112,7 +115,10 @@ public class RosterFrag extends Fragment {
 //                    .setAction("Action", null).show();
 //            }else {
             CreateStaffFrag frag = CreateStaffFrag.newInstance();
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_view,frag).commit();
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.home_view,frag)
+                    .addToBackStack(TAG).commit();
 //            }
         });
         return root;

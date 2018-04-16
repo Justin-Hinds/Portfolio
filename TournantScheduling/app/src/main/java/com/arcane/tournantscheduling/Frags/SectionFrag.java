@@ -62,7 +62,6 @@ public class SectionFrag extends Fragment {
         mAdapter.setOnSectionSelectedListener(mListener);
         mRecyclerView.setAdapter(mAdapter);
 
-
         return root;
     }
     private void getListenerFromContext(Context context) {

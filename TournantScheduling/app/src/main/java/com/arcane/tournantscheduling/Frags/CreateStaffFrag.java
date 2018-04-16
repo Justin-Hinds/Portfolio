@@ -222,6 +222,8 @@ public class CreateStaffFrag extends Fragment {
         String nameText = DataManager.stringValidate(employeeName.getText().toString());
         String addressText = DataManager.stringValidate(address.getText().toString());
         String cityText = DataManager.stringValidate(city.getText().toString());
+        String emailText = DataManager.stringValidate(email.getText().toString());
+
         employee = new Staff();
         if(DataManager.stringValidate(zip.getText().toString()) != null){
             int zipText = Integer.parseInt(DataManager.stringValidate(zip.getText().toString()));
@@ -239,6 +241,7 @@ public class CreateStaffFrag extends Fragment {
         employee.setAddress(addressText);
         employee.setCity(cityText);
         employee.setState(stateText);
+        employee.setEmail(emailText);
         employee.setManager(false);
         employee.setCreated(new Date());
     }

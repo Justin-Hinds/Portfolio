@@ -25,6 +25,8 @@ import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 public class MessageViewFrag extends Fragment {
@@ -62,6 +64,7 @@ public class MessageViewFrag extends Fragment {
             public void onChanged(@Nullable ArrayList<Message> messages) {
                 if(messages != null){
                     Log.d("LIVE MESSAGES", messages.size()+"");
+                    Collections.sort(messages);
                     mAdapter.update(messages);
                 }
             }

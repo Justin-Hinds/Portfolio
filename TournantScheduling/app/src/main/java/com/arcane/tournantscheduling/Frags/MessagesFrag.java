@@ -24,6 +24,7 @@ import com.arcane.tournantscheduling.ViewModels.MessagesViewModel;
 import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class MessagesFrag extends Fragment {
@@ -91,22 +92,15 @@ public class MessagesFrag extends Fragment {
         super.onStart();
         MessagesViewModel messagesViewModel = ViewModelProviders.of(getActivity()).get(MessagesViewModel.class);
          rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
-        ArrayList<Staff> staffArrayList = rosterViewModel.getUsers().getValue();
+        ArrayList<Staff> staffArrayList = new ArrayList<>(rosterViewModel.getUsers().getValue());
         messagesViewModel.setCurrentUser(rosterViewModel.getCurrentUser());
        messagesViewModel.getMessages(staffArrayList).observe(getActivity(), new Observer<ArrayList<Staff>>() {
            @Override
            public void onChanged(@Nullable ArrayList<Staff> staff1) {
                assert staff1 != null;
-               for(Staff staffMember : staff1){
-                   assert staffArrayList != null;
-                   for(Staff staff : staffArrayList){
-//                       if(staff.getId().equals(staffMember.getSender()) || staff.getId().equals(staffMember.getReceiver())){
-//                           if(!mDataset.contains(staff)){
-//                               mDataset.add(staff);
-//                           }
-//                       }
-                   }
-               }
+               ArrayList arrayList = new ArrayList(staff1);
+               Iterator iterator = arrayList.iterator();
+
             mAdapter.update(staff1);
            }
        });

@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Tournant Scheduling</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="web_api_key">AIzaSyBH8oX2s6zWXWGBdY9j1ayv5bCDn43FEdc</string>
     <string name="tournant_id">tournant-b7e7f</string>
@@ -61,15 +59,23 @@
     <string name="no_schedule_posted">No Schedule Posted</string>
     <string name="reset_password">Reset Password</string>
     <string name="send_email">Send Email</string>
+    <string name="update">Update</string>
+    <string name="update_employee_info">Update Employee Info</string>
+    <string name="section">Section</string>
+    <string name="manager">Manager</string>
 
     <string-array name="availability_options">
         <item name="Available">Available</item>
         <item name="None">None</item>
         <item name="Mornings">Mornings</item>
         <item name="Nights">Nights</item>
-
     </string-array>
 
+    <string-array name="section_strings">
+        <item name="Floor">Floor</item>
+        <item name= "Bar">Bar</item>
+        <item name= "Kitchen">Kitchen</item>
+    </string-array>
     <string-array name="state_list">
         <item>AL</item>
         <item>AR</item>

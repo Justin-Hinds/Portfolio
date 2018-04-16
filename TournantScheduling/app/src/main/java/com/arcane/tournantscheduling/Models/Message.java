@@ -1,8 +1,9 @@
 package com.arcane.tournantscheduling.Models;
 
 
+import android.support.annotation.NonNull;
 
-public class Message {
+public class Message implements Comparable<Message>{
 
     private String message;
     private String sender;
@@ -53,5 +54,20 @@ public class Message {
             return true;
         }
         return false;
+    }
+
+
+    @Override
+    public int compareTo(@NonNull Message nextMessage) {
+        long current = this.getTime();
+        long next = nextMessage.getTime();
+
+        if(current < next){
+            return -1;
+        }
+        if(current > next){
+            return 1;
+        }
+        return 0;
     }
 }

@@ -18,7 +18,7 @@ import com.arcane.tournantscheduling.Models.Restaurant;
 import java.util.Date;
 
 
-public class CreateAccountFrag extends Fragment {
+public class  CreateAccountFrag extends Fragment {
     public static final String TAG = "CREATE_ACCOUNT_FRAG";
 
     Spinner state;

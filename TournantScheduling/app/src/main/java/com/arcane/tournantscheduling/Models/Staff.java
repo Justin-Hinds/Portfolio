@@ -16,6 +16,7 @@ public class Staff implements Parcelable {
     String address;
     String city;
     String state;
+    String email;
     public int zip;
     Date created;
     long phone;
@@ -143,6 +144,14 @@ public class Staff implements Parcelable {
 
     public void setRestaurantID(String restaurantID) {
         this.restaurantID = restaurantID;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

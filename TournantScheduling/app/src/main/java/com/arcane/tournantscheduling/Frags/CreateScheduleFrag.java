@@ -15,9 +15,7 @@ import com.arcane.tournantscheduling.ViewModels.ScheduleViewModel;
 import java.util.Calendar;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class CreateScheduleFrag extends Fragment {
     public static final String TAG = "CREATE_SCHEDULE_FRAG";
     public static final String SCHEDULE_DATE = "SCHEDULE_DATE";

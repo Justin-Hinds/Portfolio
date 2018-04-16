@@ -133,6 +133,7 @@ public class CreateAccountSecondFrag extends Fragment {
         String nameText = DataManager.stringValidate(managerName.getText().toString());
         String addressText = DataManager.stringValidate(address.getText().toString());
         String cityText = DataManager.stringValidate(city.getText().toString());
+        String emailText = DataManager.stringValidate(email.getText().toString());
         manager = new Staff();
         if(DataManager.stringValidate(zip.getText().toString()) != null){
         int zipText = Integer.parseInt(DataManager.stringValidate(zip.getText().toString()));
@@ -146,7 +147,7 @@ public class CreateAccountSecondFrag extends Fragment {
         manager.setName(nameText);
         manager.setAddress(addressText);
         manager.setCity(cityText);
-        //manager.setPhone(phoneText);
+        manager.setEmail(emailText);
         manager.setState(stateText);
         manager.setManager(true);
         manager.setCreated(new Date());

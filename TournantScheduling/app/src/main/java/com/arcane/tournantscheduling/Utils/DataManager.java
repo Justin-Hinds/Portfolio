@@ -2,7 +2,9 @@
 package com.arcane.tournantscheduling.Utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneNumberUtils;
@@ -305,9 +307,27 @@ public class DataManager {
 
     public static boolean loginValidate(String email, String password, Context context){
         if(stringValidate(email) == null){
+            AlertDialog alertDialog = new AlertDialog.Builder(context)
+                    .setTitle("Empty Field")
+                    .setMessage("Please make sure email is filled in")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
             return false;
         }
         if(passwordValidate(password,context) == null){
+            AlertDialog alertDialog = new AlertDialog.Builder(context)
+                    .setTitle("Invalid password")
+                    .setMessage("Please make sure your password ha upper and lower case letters and at least one numerical value.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
             return false;
         }
         return true;
@@ -324,6 +344,68 @@ public class DataManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean hourlyAvailable(int hour, Staff user, String weekDay){
+        switch (weekDay){
+            case "monday":
+                if(user.getAvailability().getMonday() == 2 && hour > 5){
+                    return false;
+                }
+                if(user.getAvailability().getMonday() == 3 && hour < 5){
+                    return false;
+                }
+                break;
+            case "Tuesday":
+                if(user.getAvailability().getTuesday() == 2 && hour > 5){
+                    return false;
+                }
+                if(user.getAvailability().getTuesday() == 3 && hour < 5){
+                    return false;
+                }
+                break;
+            case "Wednesday":
+                if(user.getAvailability().getWednesday() == 2 && hour > 5){
+                    return false;
+                }
+                if(user.getAvailability().getWednesday() == 3 && hour < 5){
+                    return false;
+                }
+                break;
+            case "Thursday":
+                if(user.getAvailability().getThursday() == 2 && hour > 5){
+                    return false;
+                }
+                if(user.getAvailability().getThursday() == 3 && hour < 5){
+                    return false;
+                }
+                break;
+            case "Friday":
+                if(user.getAvailability().getFriday() == 2 && hour > 5){
+                    return false;
+                }
+                if(user.getAvailability().getFriday() == 3 && hour < 5){
+                    return false;
+                }
+                break;
+            case "Saturday":
+                if(user.getAvailability().getSaturday() == 2 && hour > 5){
+                    return false;
+                }
+                if(user.getAvailability().getSaturday() == 3 && hour < 5){
+                    return false;
+                }
+                break;
+            case "Sunday":
+                if(user.getAvailability().getSunday() == 2 && hour > 5){
+                    return false;
+                }
+                if(user.getAvailability().getSunday() == 3 && hour < 5){
+                    return false;
+                }
+                break;
+        }
+        return true;
     }
 
     public static void hideKeyboard(Activity activity) {

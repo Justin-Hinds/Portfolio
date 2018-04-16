@@ -54,10 +54,12 @@ public class ScheduleRosterFrag extends Fragment {
         weekDay = scheduleViewModel.getWeekDay();
         RecyclerView mRecyclerView = root.findViewById(R.id.roster_rec_view);
         rosterRecyclerAdapter = new RosterRecyclerAdapter(myDataset,getContext(),TAG);
+        myDataset = new ArrayList<>(viewModel.getUsers().getValue());
+        availabilityCheck();
         viewModel.getUsers().observe(getActivity(), new Observer<ArrayList<Staff>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Staff> staff) {
-                ArrayList<Staff> staffArrayList = staff;
+                ArrayList<Staff> staffArrayList = new ArrayList<>(staff);
                 ArrayList<Staff> newList = new ArrayList<>();
                 assert staff != null;
                 Iterator<Staff> iterator = staffArrayList.iterator();
@@ -100,10 +102,9 @@ public class ScheduleRosterFrag extends Fragment {
                      }
                     }
                 }
-                rosterRecyclerAdapter.update(staffArrayList);
+                rosterRecyclerAdapter.update(newList);
             }
         });
-        myDataset = viewModel.getUsers().getValue();
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -129,6 +130,53 @@ public class ScheduleRosterFrag extends Fragment {
             throw new ClassCastException("Containing activity must " +
                     "implement OnPersonInteractionListener");
         }
+    }
+    private void availabilityCheck(){
+
+        // ArrayList<Staff> staffArrayList = new ArrayList<>(staff);
+        ArrayList<Staff> newList = new ArrayList<>();
+        //assert staff != null;
+        Iterator<Staff> iterator = myDataset.iterator();
+
+        while (iterator.hasNext()) {
+
+            Staff user = iterator.next();
+            if (user.getAvailability() != null) {
+                Log.d("AVAILABILITY", isAvailability(user,weekDay) + "");
+                if (isAvailability(user, weekDay)) {
+            Log.d("USER", user.getName());
+                    String day = scheduleViewModel.getPostSectionDay();
+                    DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+                    Calendar cal1 = Calendar.getInstance();
+
+                    try {
+                        Date date1;
+                        date1 = df1.parse(day);
+                        cal1.setTime(date1);
+                        String newDay = df1.format(cal1.getTime());
+                        Log.d("Date ", newDay);
+                        //Log.d("MAP ",user.getTimeOff().toString());
+
+                        if (user.getTimeOff() != null) {
+                            Map<String, Object> timeOff = (Map<String, Object>) user.getTimeOff().get(newDay);
+                            Object[] objects = user.getTimeOff().values().toArray();
+                            Map<String, Object> datesMap = (Map<String, Object>) objects[0];
+                            Log.d("TIME OFF", user.getTimeOff().values().toString());
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if (!newList.contains(user)) {
+                        newList.add(user);
+                    }
+                } else {
+                    iterator.remove();
+
+                }
+            }
+        }
+        rosterRecyclerAdapter.update(myDataset);
     }
     private boolean isAvailability(Staff user, String weekDay){
         switch (weekDay){

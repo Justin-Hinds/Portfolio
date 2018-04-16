@@ -4,6 +4,8 @@ package com.arcane.tournantscheduling.Frags;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.arcane.tournantscheduling.Adapter.RosterRecyclerAdapter;
 import com.arcane.tournantscheduling.Models.Day;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
@@ -28,10 +31,11 @@ import java.util.Map;
 
 public class DayScheduleFrag extends Fragment {
     public static final String TAG = "DAY_SCHEDULE_FRAG";
-
     public static DayScheduleFrag newInstance() {
         return new DayScheduleFrag();
     }
+
+    RosterRecyclerAdapter mAdapter;
 
 
     @Override
@@ -41,7 +45,9 @@ public class DayScheduleFrag extends Fragment {
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(getActivity()).get(ScheduleViewModel.class);
         RosterViewModel rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         Day day = scheduleViewModel.getScheduledDay();
-        ArrayList<Staff> usersList = rosterViewModel.getUsers().getValue();
+        ArrayList<Staff> usersList = new ArrayList<>(rosterViewModel.getUsers().getValue());
+        Log.d("ROSTER DaySchedule", usersList.size() + "");
+
         ArrayList<String> workingList = new ArrayList<>();
         if(day != null){
             String timeString = day.getInTime() + " - " + day.getOutTime();
@@ -69,12 +75,24 @@ public class DayScheduleFrag extends Fragment {
             Log.d("WORKING LIST", workingList.toString());
             Log.d("OFF LIST", usersList.toString());
             Log.d("Day Is ", DataManager.getDateString(day.getDate()));
-
-
             timeTextview.setText(timeString);
         }else {
             Log.d("Day Is ", "NULL");
         }
+
+
+
+        RecyclerView mRecyclerView = root.findViewById(R.id.rec_view);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        // specify an adapter
+
+        mAdapter = new RosterRecyclerAdapter(usersList, getContext(),TAG);
+        mRecyclerView.setAdapter(mAdapter);
 
         return root;
     }

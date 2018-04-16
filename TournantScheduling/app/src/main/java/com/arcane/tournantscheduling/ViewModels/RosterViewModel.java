@@ -26,13 +26,13 @@ public class RosterViewModel extends ViewModel {
     private FirebaseAuth mAuth;
     private Staff currentUser;
     private Staff chatBuddy;
+    private Staff selectedUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private MutableLiveData<ArrayList<Staff>> users;
 
 
     public RosterViewModel(){
         getUser();
-        Log.d("ROSTER VIEW MODEL ", "CONSTRUCTOR");
     }
     public LiveData<ArrayList<Staff>> getUsers() {
         mAuth = FirebaseAuth.getInstance();
@@ -161,5 +161,13 @@ public class RosterViewModel extends ViewModel {
 
     public void setChatBuddy(Staff chatBuddy) {
         this.chatBuddy = chatBuddy;
+    }
+
+    public Staff getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(Staff selectedUser) {
+        this.selectedUser = selectedUser;
     }
 }

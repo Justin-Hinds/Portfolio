@@ -109,7 +109,8 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
                 mListener.OnNewChatSelected(mDataset.get(getAdapterPosition()));
             }
             if(fragTag.equals(RosterFrag.TAG)){
-                Log.d("TAG", fragTag);
+                Log.d("SIZE", mDataset.size() + "");
+                mListener.OnStaffSelected(mDataset.get(getAdapterPosition()));
             }
             if (fragTag.equals(ScheduleRosterFrag.TAG)) {
 
