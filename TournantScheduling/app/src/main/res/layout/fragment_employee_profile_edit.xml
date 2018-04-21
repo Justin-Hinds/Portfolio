@@ -151,7 +151,7 @@
         app:layout_constraintTop_toTopOf="@+id/editText_city" />
 
     <Button
-        android:id="@+id/button_create_account"
+        android:id="@+id/button_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_space_content_areas"

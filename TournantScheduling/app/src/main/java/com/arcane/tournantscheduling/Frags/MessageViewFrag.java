@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,20 +51,24 @@ public class MessageViewFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_message_view, container, false);
-        mDataset = new ArrayList<>();
-
-        mAdapter = new MessageViewRecyclerAdapter(mDataset);
         rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         currentUser = rosterViewModel.getCurrentUser();
         chatBuddy = rosterViewModel.getChatBuddy();
         MessagesViewModel messagesViewModel = ViewModelProviders.of(getActivity()).get(MessagesViewModel.class);
         messagesViewModel.setCurrentUser(currentUser);
         messagesViewModel.setChatBuddy(chatBuddy);
+//        mDataset = new ArrayList<>(messagesViewModel.getLiveChat(chatBuddy).getValue());
+//        Collections.sort(mDataset);
+        mDataset = new ArrayList<>();
+        mAdapter = new MessageViewRecyclerAdapter(mDataset);
         messagesViewModel.getLiveChat(rosterViewModel.getChatBuddy()).observe(getActivity(), new Observer<ArrayList<Message>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Message> messages) {
                 if(messages != null){
                     Log.d("LIVE MESSAGES", messages.size()+"");
+                    for (Message message : messages){
+                        Log.d("Participants", message.getSender() + " ->" + message.getReceiver());
+                    }
                     Collections.sort(messages);
                     mAdapter.update(messages);
                 }
@@ -100,6 +105,7 @@ public class MessageViewFrag extends Fragment {
                 message.setMessage(messageText.getText().toString());
                 sendText(message);
             }
+            scrollToBottom();
         });
         return root;
     }

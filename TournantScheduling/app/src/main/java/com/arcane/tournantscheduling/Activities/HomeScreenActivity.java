@@ -196,8 +196,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         }
 
         model.getUsers().observe(this, users -> {
-            Log.d("ROSTER ", users.size() + "");
-
             for(Staff user : users){
                 if(Objects.equals(user.getId(), mFireUser.getUid())){
                     currentUser = user;
@@ -243,8 +241,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                 Bundle scheduleBundle = new Bundle();
                 scheduleBundle.putBoolean(SCHEDULE_MODE,true);
                 scheduleBundle.putSerializable(ARRAYLIST_SCHEDULE,staffArrayList);
-                Log.d("STAFF MEMBERS", staffArrayList.size() + "");
-                //scheduleBundle.putBoolean(ACTION_MODE, false);
                 RosterFrag frag = RosterFrag.newInstance();
                 frag.setArguments(scheduleBundle);
                 fragmentManager
@@ -267,6 +263,25 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                         .addToBackStack(EmployeeProfileEditFrag.TAG).commit();
                 toolbar.getMenu().clear();
                 toolbar.inflateMenu(R.menu.menu_employee_edit);
+                break;
+            case R.id.delete:
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        .setTitle("Delete Employee")
+                        .setMessage("Are you sure you want to delete this employee?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                 model.deleteUser(model.getSelectedUser());
+                                dialog.dismiss();
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
+                break;
 
         }
         if(item.getItemId() == R.id.schedule_done){
@@ -276,8 +291,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
             Bundle scheduleBundle = new Bundle();
             scheduleBundle.putBoolean(SCHEDULE_MODE,true);
             scheduleBundle.putSerializable(ARRAYLIST_SCHEDULE,staffArrayList);
-            Log.d("STAFF MEMBERS", staffArrayList.size() + "");
-            //scheduleBundle.putBoolean(ACTION_MODE, false);
             RosterFrag frag = RosterFrag.newInstance();
             frag.setArguments(scheduleBundle);
             fragmentManager
@@ -357,14 +370,12 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         String newTimeString;
         Calendar calendar = Calendar.getInstance();
         java.text.SimpleDateFormat frmTime = new java.text.SimpleDateFormat("hh:mm",Locale.getDefault());
-        Log.d("NAME TIME",timePicker.getId() + "");
         if(inTime) {
             scheduledHour = timePicker.getCurrentHour();
             scheduledMinute = timePicker.getCurrentMinute();
             calendar.set(Calendar.HOUR_OF_DAY,timePicker.getCurrentHour());
             calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
             newTimeString = frmTime.format(calendar.getTime());
-            Log.d("TIME", newTimeString);
             if(DataManager.hourlyAvailable(scheduledHour,scheduledUser,scheduleViewModel.getWeekDay())){
             String timeString = String.valueOf(scheduledHour) + " : " + String.valueOf(scheduledMinute);
             inScheduledTime = newTimeString;
@@ -450,7 +461,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
                     switch (menuItem.getItemId()){
                         case R.id.availability:
-                            Log.d("MENU ITEM: ", menuItem.toString());
                             fragment = AvailabilityFrag.newInstance();
                             fragmentManager
                                     .beginTransaction()
@@ -458,7 +468,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .addToBackStack(AvailabilityFrag.TAG).commit();
                             break;
                         case R.id.request_time_off:
-                            Log.d("MENU ITEM: ", menuItem.toString());
                             fragment = TimeOffFrag.newInstance();
                             fragmentManager
                                     .beginTransaction()
@@ -466,7 +475,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .addToBackStack(TimeOffFrag.TAG).commit();
                             break;
                         case R.id.settings:
-                            Log.d("MENU ITEM: ", menuItem.toString());
                             fragment = SettingsFragment.newInstance();
                             fragmentManager
                                     .beginTransaction()
@@ -474,7 +482,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .addToBackStack(SettingsFragment.TAG).commit();
                             break;
                         case R.id.create_schedule:
-                            Log.d("MENU ITEM: ", menuItem.toString());
                             fragment = CreateScheduleFrag.newInstance();
                             fragmentManager
                                     .beginTransaction()
@@ -482,7 +489,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .addToBackStack(CreateScheduleFrag.TAG).commit();
                             break;
                         case R.id.messages:
-                            Log.d("MENU ITEM: ", menuItem.toString());
                             fragment = MessagesFrag.newInstance();
                             fragmentManager
                                     .beginTransaction()
@@ -490,7 +496,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .addToBackStack(MessagesFrag.TAG).commit();
                             break;
                         case R.id.home:
-                            Log.d("MENU ITEM: ", menuItem.toString());
 //                                Bundle scheduleBundle = new Bundle();
 //                                scheduleBundle.putSerializable(DAYS_SCHEDULE,dayArrayList);
                             fragment = fragmentManager.findFragmentByTag(HomeScreenFrag.TAG);
@@ -501,7 +506,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .addToBackStack(HomeScreenFrag.TAG).commit();
                             break;
                         case R.id.create_manage_staff:
-                            Log.d("UserName ", currentUser.getName());
                             fragment = RosterFrag.newInstance();
                             fragment.setArguments(bundle);
                             fragmentManager
@@ -512,7 +516,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
                             break;
                         case R.id.logout:
-                            Log.d("MENU ITEM: ", menuItem.toString());
                             mAuth.getInstance().signOut();
                             updateUI(mAuth.getCurrentUser());
                             break;
@@ -551,12 +554,12 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         if(startDate == null){
             startDate = (month+1) + "-" + dayOfMonth + "-" + year;
             timeOffViewModel.setStartDate(startDate);
-            Log.d("DATE PICKER START", (month+1) + "-" + dayOfMonth + "-" + year);
+//            Log.d("DATE PICKER START", (month+1) + "-" + dayOfMonth + "-" + year);
         }else{
             endDate = (month+1) + "-" + dayOfMonth + "-" + year;
             timeOffViewModel.setEndDate(endDate);
             startDate = null;
-        Log.d("DATE PICKER PICKED END", (month+1) + "-" + dayOfMonth + "-" + year);
+//        Log.d("DATE PICKER PICKED END", (month+1) + "-" + dayOfMonth + "-" + year);
         }
     }
 

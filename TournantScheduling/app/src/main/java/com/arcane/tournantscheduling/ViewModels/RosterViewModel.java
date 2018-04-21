@@ -10,11 +10,13 @@ import com.arcane.tournantscheduling.Models.Staff;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 
@@ -107,23 +109,6 @@ public class RosterViewModel extends ViewModel {
                             }
 
                         });
-//                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<QuerySnapshot> task2) {
-//                                if (task2.isSuccessful()) {
-//                                    for( DocumentSnapshot document2 : task2.getResult()){
-//                                        Log.d("CURRENT USER", document2.getId() + " => " + document2.getData());
-//                                        currentUser = document2.toObject(Staff.class);
-//                                        staff[0] = document2.toObject(Staff.class);
-//
-//                                        loadUsers();
-//
-//                                    }
-//                                } else {
-//                                    Log.d(TAG, "Error getting documents: ", task2.getException());
-//                                }
-//                            }
-//                        });
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -132,6 +117,19 @@ public class RosterViewModel extends ViewModel {
 
         });
         return staff[0];
+    }
+
+    public void updateUserProfile(Staff user){
+        DocumentReference reference = db.collection("Restaurants").document(user.getRestaurantID())
+                .collection("Users").document(user.getId());
+
+        reference.set(user, SetOptions.merge());
+
+    }
+    public void deleteUser(Staff user){
+        DocumentReference reference = db.collection("Restaurants").document(user.getRestaurantID())
+                .collection("Users").document(user.getId());
+        reference.delete();
     }
 
     public FirebaseAuth getmAuth() {

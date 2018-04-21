@@ -33,7 +33,9 @@ public class MessagesViewModel extends ViewModel {
         //Log.d("Messages VIEW MODEL ", "CONSTRUCTOR");
     }
     public LiveData<ArrayList<Staff>> getMessages(ArrayList<Staff> users){
+        //TODO: Clean this function up
         staffList = users;
+        liveMessages = null;
         if(liveMessages == null){
             liveMessages = new MutableLiveData<>();
             if(currentUser != null && staffList != null){
@@ -46,11 +48,13 @@ public class MessagesViewModel extends ViewModel {
         return liveMessages;
     }
     public LiveData<ArrayList<Message>> getLiveChat(Staff buddy){
+        //TODO: Clean this function up
+        liveChat = null;
         if(liveChat == null){
             liveChat = new MutableLiveData<>();
 
             getBuddyMessages(buddy, getChatMessages(buddy));
-            //Log.d("LIVECHAT", transcript.size() + "");
+            Log.d("BUDDY", buddy.getName());
             return liveChat;
         }
         return liveChat;
@@ -113,7 +117,7 @@ public class MessagesViewModel extends ViewModel {
                         }
 
                     }
-                    Log.d("USER LIST MESSAGES", userArrayList.size() + "");
+                    Log.d("USER LIST MESSAGES", userArrayList.toString());
                     liveMessages.postValue(userArrayList);
                 }else {
                     Log.d("ERROR", "Something went wrong");

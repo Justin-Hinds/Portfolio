@@ -56,10 +56,8 @@ public class LoginFrag extends Fragment implements GoogleApiClient.OnConnectionF
     private static final int PICK_IMAGE_REQUEST = 1;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference ref = database.getReference("Users");
-    private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
-    private Uri profileImageUri;
     private ImageView imageView;
     private DishUser currentDishUser;
     private ProgressBar progressBar;

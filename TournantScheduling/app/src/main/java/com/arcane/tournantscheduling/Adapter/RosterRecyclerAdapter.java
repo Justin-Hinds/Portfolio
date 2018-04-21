@@ -60,14 +60,6 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
             holder.checkBox.setVisibility(View.VISIBLE);
         }
 
-//        if(!RosterFrag.isInActionMode){
-//            holder.checkBox.setVisibility(View.GONE);
-//        }else{
-//            if(RosterFrag.inSchedulingMode) {
-//                holder.checkBox.setVisibility(View.VISIBLE);
-//                holder.checkBox.setChecked(false);
-//            }
-//        }
     }
 
     @Override
@@ -85,7 +77,7 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
             userArrayList = data;
             staffName = itemView.findViewById(R.id.textview_staff_name);
             checkBox = itemView.findViewById(R.id.checkBox);
-            Log.d("TAG", fragTag);
+//            Log.d("TAG", fragTag);
             checkBox.setOnClickListener(view -> {
                 if(checkBox.isChecked()) {
                         if (!mSecondDataset.contains(mDataset.get(getAdapterPosition()))) {
@@ -109,7 +101,7 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
                 mListener.OnNewChatSelected(mDataset.get(getAdapterPosition()));
             }
             if(fragTag.equals(RosterFrag.TAG)){
-                Log.d("SIZE", mDataset.size() + "");
+//                Log.d("SIZE", mDataset.size() + "");
                 mListener.OnStaffSelected(mDataset.get(getAdapterPosition()));
             }
             if (fragTag.equals(ScheduleRosterFrag.TAG)) {

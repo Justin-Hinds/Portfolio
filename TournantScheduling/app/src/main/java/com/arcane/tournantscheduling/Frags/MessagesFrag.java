@@ -61,18 +61,17 @@ public class MessagesFrag extends Fragment {
         fab.setOnClickListener(view -> {
 
                 Log.d("FAB ", "");
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                ArrayList<Staff> staffArrayList = rosterViewModel.getUsers().getValue();
+//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                ArrayList<Staff> staffArrayList = new ArrayList<>(rosterViewModel.getUsers().getValue());
                 Staff currentUser = rosterViewModel.getCurrentUser();
                 assert staffArrayList != null;
-                Log.d("BEFORE", staffArrayList.size() + "");
+//                Log.d("BEFORE", staffArrayList.size() + "");
                 for (int i = 0; i < staffArrayList.size(); i++){
                     if(staffArrayList.get(i).getId().equals(currentUser.getId())){
                         staffArrayList.remove(i);
                     }
                 }
-                Log.d("AFTER", staffArrayList.size() + "");
+//                Log.d("AFTER", staffArrayList.size() + "");
 
             mAdapter.update(staffArrayList);
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_view,frag).commit();

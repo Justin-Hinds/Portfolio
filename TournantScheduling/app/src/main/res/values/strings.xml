@@ -63,6 +63,7 @@
     <string name="update_employee_info">Update Employee Info</string>
     <string name="section">Section</string>
     <string name="manager">Manager</string>
+    <string name="delete">Delete</string>
 
     <string-array name="availability_options">
         <item name="Available">Available</item>
