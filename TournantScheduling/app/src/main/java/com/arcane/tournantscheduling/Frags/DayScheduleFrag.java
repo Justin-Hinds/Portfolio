@@ -2,6 +2,7 @@ package com.arcane.tournantscheduling.Frags;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,7 +37,13 @@ public class DayScheduleFrag extends Fragment {
     }
 
     RosterRecyclerAdapter mAdapter;
+    RosterRecyclerAdapter.OnStaffSelectedListener mListener;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        getListenerFromContext(context);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,9 +99,20 @@ public class DayScheduleFrag extends Fragment {
         // specify an adapter
 
         mAdapter = new RosterRecyclerAdapter(usersList, getContext(),TAG);
+        mAdapter.setOnStaffSelectedListener(mListener);
         mRecyclerView.setAdapter(mAdapter);
 
         return root;
+    }
+
+    private void getListenerFromContext(Context context) {
+        if (context instanceof RosterRecyclerAdapter.OnStaffSelectedListener) {
+            mListener = (RosterRecyclerAdapter.OnStaffSelectedListener) context;
+        } else {
+            throw new ClassCastException("Containing activity must " +
+                    "implement OnPersonInteractionListener");
+        }
+
     }
 
 }

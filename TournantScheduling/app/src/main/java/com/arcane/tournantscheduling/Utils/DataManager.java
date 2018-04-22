@@ -297,13 +297,6 @@ public class DataManager {
             }
         });
     }
-    //Checks user for login/creation submission
-    public Staff userCheck(final ImageView imageView, final View view) {
-        final Staff[] currentDishUser = new Staff[0];
-
-
-        return currentDishUser[0];
-    }
 
     public static boolean loginValidate(String email, String password, Context context){
         if(stringValidate(email) == null){
@@ -347,60 +340,61 @@ public class DataManager {
     }
 
     public static boolean hourlyAvailable(int hour, Staff user, String weekDay){
+        int cutOff = 17;
         switch (weekDay){
             case "monday":
-                if(user.getAvailability().getMonday() == 2 && hour > 5){
+                if(user.getAvailability().getMonday() == 2 && hour > cutOff){
                     return false;
                 }
-                if(user.getAvailability().getMonday() == 3 && hour < 5){
+                if(user.getAvailability().getMonday() == 3 && hour < cutOff){
                     return false;
                 }
                 break;
             case "Tuesday":
-                if(user.getAvailability().getTuesday() == 2 && hour > 5){
+                if(user.getAvailability().getTuesday() == 2 && hour > cutOff){
                     return false;
                 }
-                if(user.getAvailability().getTuesday() == 3 && hour < 5){
+                if(user.getAvailability().getTuesday() == 3 && hour < cutOff){
                     return false;
                 }
                 break;
             case "Wednesday":
-                if(user.getAvailability().getWednesday() == 2 && hour > 5){
+                if(user.getAvailability().getWednesday() == 2 && hour > cutOff){
                     return false;
                 }
-                if(user.getAvailability().getWednesday() == 3 && hour < 5){
+                if(user.getAvailability().getWednesday() == 3 && hour < cutOff){
                     return false;
                 }
                 break;
             case "Thursday":
-                if(user.getAvailability().getThursday() == 2 && hour > 5){
+                if(user.getAvailability().getThursday() == 2 && hour > cutOff){
                     return false;
                 }
-                if(user.getAvailability().getThursday() == 3 && hour < 5){
+                if(user.getAvailability().getThursday() == 3 && hour < cutOff){
                     return false;
                 }
                 break;
             case "Friday":
-                if(user.getAvailability().getFriday() == 2 && hour > 5){
+                if(user.getAvailability().getFriday() == 2 && hour > cutOff){
                     return false;
                 }
-                if(user.getAvailability().getFriday() == 3 && hour < 5){
+                if(user.getAvailability().getFriday() == 3 && hour < cutOff){
                     return false;
                 }
                 break;
             case "Saturday":
-                if(user.getAvailability().getSaturday() == 2 && hour > 5){
+                if(user.getAvailability().getSaturday() == 2 && hour > cutOff){
                     return false;
                 }
-                if(user.getAvailability().getSaturday() == 3 && hour < 5){
+                if(user.getAvailability().getSaturday() == 3 && hour < cutOff){
                     return false;
                 }
                 break;
             case "Sunday":
-                if(user.getAvailability().getSunday() == 2 && hour > 5){
+                if(user.getAvailability().getSunday() == 2 && hour > cutOff){
                     return false;
                 }
-                if(user.getAvailability().getSunday() == 3 && hour < 5){
+                if(user.getAvailability().getSunday() == 3 && hour < cutOff){
                     return false;
                 }
                 break;

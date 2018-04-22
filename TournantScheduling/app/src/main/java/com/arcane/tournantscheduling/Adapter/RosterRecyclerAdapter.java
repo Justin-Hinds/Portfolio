@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.arcane.tournantscheduling.Frags.DayScheduleFrag;
 import com.arcane.tournantscheduling.Frags.MessagesFrag;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
@@ -54,11 +55,17 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.staffName.setText(mDataset.get(position).getName());
-        if(fragTag.equals(RosterFrag.TAG)|| fragTag.equals(MessagesFrag.TAG)){
-            holder.checkBox.setVisibility(View.GONE);
-        }else if(fragTag.equals(ScheduleRosterFrag.TAG)){
+
+        if(fragTag.equals(ScheduleRosterFrag.TAG)){
             holder.checkBox.setVisibility(View.VISIBLE);
+        }else {
+            holder.checkBox.setVisibility(View.GONE);
         }
+//        if(fragTag.equals(RosterFrag.TAG)|| fragTag.equals(MessagesFrag.TAG)){
+//            holder.checkBox.setVisibility(View.GONE);
+//        }else if(fragTag.equals(ScheduleRosterFrag.TAG)){
+//            holder.checkBox.setVisibility(View.VISIBLE);
+//        }
 
     }
 
@@ -95,7 +102,7 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
 
         @Override
         public void onClick(View view) {
-            if(fragTag.equals(MessagesFrag.TAG)){
+            if(fragTag.equals(MessagesFrag.TAG ) || fragTag.equals(DayScheduleFrag.TAG)){
 //                Log.d("TAG", fragTag);
 //                Log.d("POSITION", mDataset.get(getAdapterPosition()).getName());
                 mListener.OnNewChatSelected(mDataset.get(getAdapterPosition()));

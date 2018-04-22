@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.arcane.tournantscheduling.Models.Staff;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -129,7 +131,18 @@ public class RosterViewModel extends ViewModel {
     public void deleteUser(Staff user){
         DocumentReference reference = db.collection("Restaurants").document(user.getRestaurantID())
                 .collection("Users").document(user.getId());
-        reference.delete();
+        reference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("User"," DELETED");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("User"," DELETION FAILED");
+
+            }
+        });
     }
 
     public FirebaseAuth getmAuth() {

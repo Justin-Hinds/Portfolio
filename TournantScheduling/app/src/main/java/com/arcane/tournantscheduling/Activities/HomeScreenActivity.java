@@ -272,6 +272,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                  model.deleteUser(model.getSelectedUser());
+                                 model.getUsers();
+                                 fragmentManager.popBackStack(HomeScreenFrag.TAG,0);
                                 dialog.dismiss();
                             }
                         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -284,22 +286,22 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                 break;
 
         }
-        if(item.getItemId() == R.id.schedule_done){
-            fragmentManager.popBackStack(SectionFrag.TAG,0);
-        }
-        if(item.getItemId() == R.id.done){
-            Bundle scheduleBundle = new Bundle();
-            scheduleBundle.putBoolean(SCHEDULE_MODE,true);
-            scheduleBundle.putSerializable(ARRAYLIST_SCHEDULE,staffArrayList);
-            RosterFrag frag = RosterFrag.newInstance();
-            frag.setArguments(scheduleBundle);
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.home_view,frag)
-                    .addToBackStack(RosterFrag.TAG).commit();
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_schedule);
-        }
+//        if(item.getItemId() == R.id.schedule_done){
+//            fragmentManager.popBackStack(SectionFrag.TAG,0);
+//        }
+//        if(item.getItemId() == R.id.done){
+//            Bundle scheduleBundle = new Bundle();
+//            scheduleBundle.putBoolean(SCHEDULE_MODE,true);
+//            scheduleBundle.putSerializable(ARRAYLIST_SCHEDULE,staffArrayList);
+//            RosterFrag frag = RosterFrag.newInstance();
+//            frag.setArguments(scheduleBundle);
+//            fragmentManager
+//                    .beginTransaction()
+//                    .replace(R.id.home_view,frag)
+//                    .addToBackStack(RosterFrag.TAG).commit();
+//            toolbar.getMenu().clear();
+//            toolbar.inflateMenu(R.menu.menu_schedule);
+//        }
         return true;
     }
 
@@ -401,6 +403,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
             String timeString = String.valueOf(outHour) + " : " + String.valueOf(outMin);
             calendar.set(Calendar.HOUR_OF_DAY,timePicker.getCurrentHour());
             calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+
             if(DataManager.hourlyAvailable(outHour,scheduledUser,scheduleViewModel.getWeekDay())){
                 newTimeString = frmTime.format(calendar.getTime());
                 outScheduledTime = newTimeString;
