@@ -90,7 +90,7 @@ public class TimeOffFrag extends Fragment {
                 if(DataManager.stringValidate(reason) != null) {
                     TimeOff timeOff = new TimeOff();
                     timeOffViewModel.getTimeOffRequest(start, end, reason);
-                    HomeScreenFrag frag = HomeScreenFrag.newInstance();
+                   // HomeScreenFrag frag = HomeScreenFrag.newInstance();
                     getActivity().getSupportFragmentManager().popBackStack(HomeScreenFrag.TAG,0);
                     DataManager.hideKeyboard(getActivity());
                 }

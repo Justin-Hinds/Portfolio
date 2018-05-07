@@ -17,8 +17,10 @@ import android.view.ViewGroup;
 import com.arcane.tournantscheduling.Adapter.RosterRecyclerAdapter;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
+import com.arcane.tournantscheduling.Utils.DataManager;
 import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 import com.arcane.tournantscheduling.ViewModels.ScheduleViewModel;
+import com.arcane.tournantscheduling.ViewModels.TimeOffViewModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -36,6 +38,7 @@ public class ScheduleRosterFrag extends Fragment {
     private ArrayList<Staff> myDataset;
     private RosterViewModel viewModel;
     private ScheduleViewModel scheduleViewModel;
+    private TimeOffViewModel timeOffViewModel;
     private String weekDay;
     private RosterRecyclerAdapter.OnStaffSelectedListener mListener;
     public static final String TAG = "SCHEDULE_ROSTER_FRAG";
@@ -50,6 +53,7 @@ public class ScheduleRosterFrag extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_schedule_roster, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
+        timeOffViewModel = ViewModelProviders.of(getActivity()).get(TimeOffViewModel.class);
         scheduleViewModel = ViewModelProviders.of(getActivity()).get(ScheduleViewModel.class);
         weekDay = scheduleViewModel.getWeekDay();
         RecyclerView mRecyclerView = root.findViewById(R.id.roster_rec_view);
@@ -67,9 +71,9 @@ public class ScheduleRosterFrag extends Fragment {
                 while (iterator.hasNext()){
 
                     Staff user = iterator.next();
-                    Log.d("USER",user.getName());
+                    //Log.d("USER",user.getName());
                     if(user.getAvailability() != null){
-                        Log.d("AVAILABILITY", user.getAvailability().getSaturday() + weekDay);
+                       // Log.d("AVAILABILITY", user.getAvailability().getSaturday() + weekDay);
                     if(isAvailability(user,weekDay)){
                         String day = scheduleViewModel.getPostSectionDay();
                         DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
@@ -80,14 +84,17 @@ public class ScheduleRosterFrag extends Fragment {
                         date1 = df1 .parse(day);
                         cal1.setTime(date1);
                         String newDay = df1.format(cal1.getTime());
-                        Log.d("Date ",newDay);
-                        //Log.d("MAP ",user.getTimeOff().toString());
+                    TimeOffViewModel.isOff(newDay, user);
+                      //  Log.d("Date ",newDay);
+                            if(user.getTimeOff() != null){
+                        Log.d("MAP ",user.getTimeOff().values().toString());
+                        ArrayList timeOffArraylist = new ArrayList(user.getTimeOff().values());
+                        Log.d("LIST", timeOffArraylist.toString());
+                            }
 
-                        if(user.getTimeOff() != null){
-                        Map<String, Object>  timeOff = (Map<String, Object>) user.getTimeOff().get(newDay);
-                        Object[] objects = user.getTimeOff().values().toArray();
-                        Map<String,Object> datesMap = (Map<String, Object>) objects[0];
-                        Log.d("TIME OFF", user.getTimeOff().values().toString());
+                        if(TimeOffViewModel.getOffTime()){
+                            Log.d("OFF TODAY", user.getName());
+                            iterator.remove();
                         }
 
                         } catch (ParseException e) {
@@ -156,13 +163,11 @@ public class ScheduleRosterFrag extends Fragment {
                         String newDay = df1.format(cal1.getTime());
                         Log.d("Date ", newDay);
                         //Log.d("MAP ",user.getTimeOff().toString());
-
-                        if (user.getTimeOff() != null) {
-                            Map<String, Object> timeOff = (Map<String, Object>) user.getTimeOff().get(newDay);
-                            Object[] objects = user.getTimeOff().values().toArray();
-                            Map<String, Object> datesMap = (Map<String, Object>) objects[0];
-                            Log.d("TIME OFF", user.getTimeOff().values().toString());
-                        }
+//
+//                        if (TimeOffViewModel.isOff(newDay,user)) {
+//                            Log.d("Off Today", user.getName());
+//                            iterator.remove();
+//                        }
 
                     } catch (ParseException e) {
                         e.printStackTrace();

@@ -3,7 +3,6 @@ package com.arcane.tournantscheduling.ViewModels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.icu.text.SimpleDateFormat;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -11,8 +10,8 @@ import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.Models.TimeOff;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -23,6 +22,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static android.content.ContentValues.TAG;
+
 
 public class TimeOffViewModel extends ViewModel {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -30,8 +31,20 @@ public class TimeOffViewModel extends ViewModel {
     String endDate;
     Staff currentUser;
 
+
+
+    public static Boolean offTime = false;
+
     MutableLiveData<String> liveStartDate;
     MutableLiveData<String> liveEndDate;
+    MutableLiveData<ArrayList<String>> liveTimeOff;
+
+    public LiveData<ArrayList<String>> getTimeOff(){
+        if(liveTimeOff == null){
+            liveTimeOff = new MutableLiveData<>();
+        }
+        return liveTimeOff;
+    }
 
    public LiveData<String> getStartTimeOff(){
         if(liveStartDate == null){
@@ -77,6 +90,28 @@ public class TimeOffViewModel extends ViewModel {
                 .collection("Users").document(currentUser.getId()).update("timeOff." +timeOff.getDates().get(0),daysOff);
 
     }
+    private void newTimeOff(String s){
+        Map<String,Object> timeOffDate = new HashMap<>();
+        timeOffDate.put(s , true);
+        Log.d("NEWTIMEOFF",timeOffDate.toString());
+        db.collection("Restaurants").document(currentUser.getRestaurantID())
+                .collection("Users").document(currentUser.getId()).collection("TimeOff")
+                .document(s).set(timeOffDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Success", "HIT");
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Fail", "HIT");
+
+            }
+        });
+        db.collection("Restaurants").document(currentUser.getRestaurantID())
+                .collection("Users").document(currentUser.getId()).update("timeOff." + s,timeOffDate);
+    }
     public  ArrayList<String> getTimeOffRequest(String dateString1, String dateString2, String reason) {
 
         ArrayList<Date> dates = new ArrayList<>();
@@ -108,22 +143,43 @@ public class TimeOffViewModel extends ViewModel {
             dates.add(cal1.getTime());
             dateStrings.add(df1.format(cal1.getTime()));
             cal1.add(Calendar.DATE, 1);
+//            newTimeOff(df1.format(cal1.getTime()));
         }
 
-        for(Date date:dates){
-            Log.d("DATE", df1.format(date));
-        }
         if(currentUser != null){
             TimeOff timeOff = new TimeOff();
             timeOff.setDates(dateStrings);
             timeOff.setReason(reason);
-            sendTimeOffRequest(timeOff);
+            for(Date date:dates){
+                Log.d("DATE", df1.format(date));
+                newTimeOff(df1.format(date));
+            }
         }else {
             Log.d("CURRENT USER", "NULL");
         }
         return dateStrings;
     }
 
+    public static boolean isOff(String date, Staff user){
+        final Boolean[] bool = {false};
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Restaurants").document(user.getRestaurantID())
+                .collection("Users").document(user.getId()).collection("TimeOff")
+                .addSnapshotListener((values, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                    }
+                    for(DocumentSnapshot doc : values){
+                        if(doc.get(date) != null){
+                            Log.d("isOff",doc.get(date).toString());
+                            bool[0] = true;
+                            offTime = true;
+                        }
+                    }
+                });
+        Log.d("BOOL", bool[0].toString());
+        return bool[0];
+    }
 
     public String getStartDate() {
         return startDate;
@@ -158,7 +214,9 @@ public class TimeOffViewModel extends ViewModel {
     public void setLiveEndDate(MutableLiveData<String> liveEndDate) {
         this.liveEndDate = liveEndDate;
     }
-
+    public static Boolean getOffTime() {
+        return offTime;
+    }
     public void setCurrentUser(Staff currentUser) {
         this.currentUser = currentUser;
     }
