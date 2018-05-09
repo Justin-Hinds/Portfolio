@@ -148,18 +148,18 @@ public class AvailabilityFrag extends Fragment implements AdapterView.OnItemSele
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i){
             case 0:
-                Toast.makeText(getContext(),"None",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"None",Toast.LENGTH_SHORT).show();
                 break;
             case 1:
-                Toast.makeText(getContext(),"Mornings",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Mornings",Toast.LENGTH_SHORT).show();
 
                 break;
             case 2:
-                Toast.makeText(getContext(),"Nights",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Nights",Toast.LENGTH_SHORT).show();
 
                 break;
             case 3:
-                Toast.makeText(getContext(),"Available",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Available",Toast.LENGTH_SHORT).show();
 
                 break;
 

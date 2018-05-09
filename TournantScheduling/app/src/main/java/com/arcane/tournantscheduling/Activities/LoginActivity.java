@@ -13,6 +13,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         LoginFrag loginFrag = LoginFrag.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.login_view,loginFrag).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.login_view,loginFrag).addToBackStack(LoginFrag.TAG).commit();
     }
 }

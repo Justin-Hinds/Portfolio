@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -68,48 +69,58 @@ public class ScheduleRosterFrag extends Fragment {
                 assert staff != null;
                 Iterator<Staff> iterator = staffArrayList.iterator();
 
-                while (iterator.hasNext()){
-
-                    Staff user = iterator.next();
-                    //Log.d("USER",user.getName());
-                    if(user.getAvailability() != null){
-                       // Log.d("AVAILABILITY", user.getAvailability().getSaturday() + weekDay);
-                    if(isAvailability(user,weekDay)){
-                        String day = scheduleViewModel.getPostSectionDay();
-                        DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
-                        Calendar cal1 = Calendar.getInstance();
-
-                        try {
-                        Date date1;
-                        date1 = df1 .parse(day);
-                        cal1.setTime(date1);
-                        String newDay = df1.format(cal1.getTime());
-                    TimeOffViewModel.isOff(newDay, user);
-                      //  Log.d("Date ",newDay);
-                            if(user.getTimeOff() != null){
-                        Log.d("MAP ",user.getTimeOff().values().toString());
-                        ArrayList timeOffArraylist = new ArrayList(user.getTimeOff().values());
-                        Log.d("LIST", timeOffArraylist.toString());
-                            }
-
-                        if(TimeOffViewModel.getOffTime()){
-                            Log.d("OFF TODAY", user.getName());
-                            iterator.remove();
-                        }
-
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        if(!newList.contains(user)){
-                        newList.add(user);
-                            }
-                        }else{
-                        iterator.remove();
-
-                     }
-                    }
-                }
-                rosterRecyclerAdapter.update(newList);
+//                while (iterator.hasNext()){
+//                    Boolean remove = false;
+//                    Staff user = iterator.next();
+//                    //Log.d("USER",user.getName());
+//                    if(user.getAvailability() != null){
+//                       // Log.d("AVAILABILITY", user.getAvailability().getSaturday() + weekDay);
+//                        String day = scheduleViewModel.getPostSectionDay();
+//                        DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+//                        Calendar cal1 = Calendar.getInstance();
+//
+//                        try {
+//                            Date date1;
+//                            date1 = df1 .parse(day);
+//                            cal1.setTime(date1);
+//                            String newDay = df1.format(cal1.getTime());
+//                            TimeOffViewModel.isOff(newDay, user);
+//                            //  Log.d("Date ",newDay);
+//                            if(user.getTimeOff() != null){
+//                                Log.d("MAP ",user.getTimeOff().values().toString());
+//                                ArrayList arrayList = new ArrayList();
+//                                for(Object thing : user.getTimeOff().values()){
+//                                    HashMap<String,Object> map = (HashMap) thing;
+//                                    Log.d("OBJECT", thing.getClass().toString());
+//                                    for(String key : map.keySet()){
+//                                        Log.d("Key", key);
+//                                        Log.d("NewDay", newDay);
+//                                        if(key.equals(newDay)){
+//                                            Log.d("OFF TODAY", user.getName());
+//                                            remove=true;
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        } catch (ParseException e) {
+//                            e.printStackTrace();
+//                        }
+//                    if(isAvailability(user,weekDay)){
+//
+//                        if(!newList.contains(user)){
+//                        newList.add(user);
+//                            }
+//                        }else{
+//                        iterator.remove();
+//
+//                     }
+//                    }
+//                    if(remove){
+//                        iterator.remove();
+//                        remove = false;
+//                    }
+//                }
+//                rosterRecyclerAdapter.update(staffArrayList);
             }
         });
         // use this setting to improve performance if you know that changes
@@ -144,9 +155,9 @@ public class ScheduleRosterFrag extends Fragment {
         ArrayList<Staff> newList = new ArrayList<>();
         //assert staff != null;
         Iterator<Staff> iterator = myDataset.iterator();
+            Boolean remove = false;
 
         while (iterator.hasNext()) {
-
             Staff user = iterator.next();
             if (user.getAvailability() != null) {
                 Log.d("AVAILABILITY", isAvailability(user,weekDay) + "");
@@ -158,30 +169,52 @@ public class ScheduleRosterFrag extends Fragment {
 
                     try {
                         Date date1;
-                        date1 = df1.parse(day);
+                        date1 = df1 .parse(day);
                         cal1.setTime(date1);
                         String newDay = df1.format(cal1.getTime());
-                        Log.d("Date ", newDay);
-                        //Log.d("MAP ",user.getTimeOff().toString());
-//
-//                        if (TimeOffViewModel.isOff(newDay,user)) {
-//                            Log.d("Off Today", user.getName());
-//                            iterator.remove();
-//                        }
-
+                        TimeOffViewModel.isOff(newDay, user);
+                        //  Log.d("Date ",newDay);
+                        if(user.getTimeOff() != null){
+                            ArrayList arrayList = new ArrayList();
+                            for(Object thing : user.getTimeOff().values()){
+                                HashMap<String,Object> map = (HashMap) thing;
+                                for(String key : map.keySet()){
+//                                    Log.d("Key", key);
+//                                    Log.d("NewDay", newDay);
+                                    if(key.equals(newDay)){
+                                        Log.d("OFF TODAY", user.getName());
+                                        remove=true;
+                                    }
+                                }
+                            }
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    if (!newList.contains(user)) {
-                        newList.add(user);
+                    if(isAvailability(user,weekDay)){
+
+//                        if(!newList.contains(user)){
+//                            newList.add(user);
+//                        }
                     }
-                } else {
+                }else{
+
                     iterator.remove();
 
                 }
+                Log.d("REMOVE", remove.toString());
+
+                if(remove){
+                    Log.d("ITERATOR", myDataset.size() +"");
+                    iterator.remove();
+                    remove = false;
+                }
             }
+            Log.d("PRE UPDATE", myDataset.size() +"");
+            Log.d("REMOVE POST LOOP", remove.toString());
+
+            rosterRecyclerAdapter.update(newList);
         }
-        rosterRecyclerAdapter.update(myDataset);
     }
     private boolean isAvailability(Staff user, String weekDay){
         switch (weekDay){

@@ -86,12 +86,19 @@ public class  CreateAccountFrag extends Fragment {
         restaurant.setState(stateText);
         restaurant.setCreated(new Date());
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("restaurant",restaurant);
+        if(DataManager.validateRestaurant(restaurant) != null){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("restaurant",restaurant);
 
 
-        CreateAccountSecondFrag frag = CreateAccountSecondFrag.newInstance();
-        frag.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.login_view,frag).commit();
+            CreateAccountSecondFrag frag = CreateAccountSecondFrag.newInstance();
+            frag.setArguments(bundle);
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction().replace(R.id.login_view,frag)
+                    .addToBackStack(CreateAccountSecondFrag.TAG).commit();
+        }else {
+
+        }
+
     }
 }

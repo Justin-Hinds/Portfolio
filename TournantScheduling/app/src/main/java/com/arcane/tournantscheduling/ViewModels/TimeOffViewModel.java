@@ -171,13 +171,13 @@ public class TimeOffViewModel extends ViewModel {
                     }
                     for(DocumentSnapshot doc : values){
                         if(doc.get(date) != null){
-                            Log.d("isOff",doc.get(date).toString());
+                            //Log.d("isOff",doc.get(date).toString());
                             bool[0] = true;
                             offTime = true;
                         }
                     }
                 });
-        Log.d("BOOL", bool[0].toString());
+        //Log.d("BOOL", bool[0].toString());
         return bool[0];
     }
 
