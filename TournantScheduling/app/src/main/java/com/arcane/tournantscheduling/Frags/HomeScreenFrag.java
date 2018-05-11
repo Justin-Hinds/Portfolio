@@ -40,7 +40,6 @@ public class HomeScreenFrag  extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("onStrart","CALLED");
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(getActivity()).get(ScheduleViewModel.class);
         scheduleViewModel.getUserSchedule(currentUser);
         scheduleViewModel.getSchedule(currentUser).observe(getActivity(), days -> {

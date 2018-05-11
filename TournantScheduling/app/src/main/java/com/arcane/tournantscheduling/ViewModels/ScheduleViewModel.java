@@ -46,6 +46,8 @@ public class ScheduleViewModel extends ViewModel {
             liveSchedule = new MutableLiveData<>();
             currentUser = user;
             if(user != null){
+                Log.d("SCHEDULED USER",user.getName());
+
                 getUserSchedule(user);
             }else {
                 Log.d("LIVEDATA Get User", "NULL");
@@ -58,7 +60,7 @@ public class ScheduleViewModel extends ViewModel {
 
     public ArrayList<Day> getUserSchedule(Staff staff){
         currentUser = staff;
-        ArrayList<Day> days = new ArrayList<>();
+        final ArrayList<Day>[] days = new ArrayList[]{new ArrayList<>()};
         db.collection("Restaurants").document(currentUser.getRestaurantID())
                 .collection("Users").document(currentUser.getId()).collection("Days")
                 .addSnapshotListener((values, e) -> {
@@ -67,20 +69,30 @@ public class ScheduleViewModel extends ViewModel {
                         return;
                     }
                     Log.d("SCHEDULED DAY", "HIT");
-
+                    Log.d("Day List", values.getDocuments().size() + "");
+                    if(values.getDocuments().size() == 0){
+                        ArrayList arrayList = new ArrayList();
+                        liveSchedule.setValue(arrayList);
+                    }
                     for (DocumentSnapshot doc : values ) {
                         if (doc.get("inTime") != null) {
                             Day newDay = doc.toObject(Day.class);
-                            days.add(doc.toObject(Day.class));
+                            days[0].add(doc.toObject(Day.class));
+                            Log.d(staff.getName(), "-> " + currentUser.getName());
                             Log.d("SCHEDULED DAY", doc.getData().toString());
-                            dayArrayList = days;
+                            dayArrayList = days[0];
                            // liveSchedule.setValue(days);
+                        }else {
+                            Log.d("SHOULD BE", "NULL");
+                            days[0] = new ArrayList<>();
                         }
-                        liveSchedule.setValue(days);
+                        Log.d("Day List Size","" + days[0].size());
+
+                        liveSchedule.setValue(days[0]);
                     }
                 });
 
-        return days;
+        return days[0];
     }
 
     public Day getselecteddDay(String dateString) {

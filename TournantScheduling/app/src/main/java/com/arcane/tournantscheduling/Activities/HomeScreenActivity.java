@@ -236,6 +236,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         switch (item.getItemId()){
             case R.id.schedule_done:
                 fragmentManager.popBackStack(SectionFrag.TAG,0);
+                toolbar.getMenu().clear();
                 break;
             case R.id.done:
                 Bundle scheduleBundle = new Bundle();
@@ -247,6 +248,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                         .beginTransaction()
                         .replace(R.id.home_view,frag)
                         .addToBackStack(RosterFrag.TAG).commit();
+                model.setFab(false);
                 toolbar.getMenu().clear();
                 toolbar.inflateMenu(R.menu.menu_schedule);
                 break;
@@ -286,27 +288,13 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                 break;
 
         }
-//        if(item.getItemId() == R.id.schedule_done){
-//            fragmentManager.popBackStack(SectionFrag.TAG,0);
-//        }
-//        if(item.getItemId() == R.id.done){
-//            Bundle scheduleBundle = new Bundle();
-//            scheduleBundle.putBoolean(SCHEDULE_MODE,true);
-//            scheduleBundle.putSerializable(ARRAYLIST_SCHEDULE,staffArrayList);
-//            RosterFrag frag = RosterFrag.newInstance();
-//            frag.setArguments(scheduleBundle);
-//            fragmentManager
-//                    .beginTransaction()
-//                    .replace(R.id.home_view,frag)
-//                    .addToBackStack(RosterFrag.TAG).commit();
-//            toolbar.getMenu().clear();
-//            toolbar.inflateMenu(R.menu.menu_schedule);
-//        }
+
         return true;
     }
 
     @Override
     public void onSectionSelected(String section, String date, long newDateNumber) {
+        model.setFab(false);
         toolbar.getMenu().clear();
         newDate = date;
         scheduleViewModel.setPostSectionDay(date);
@@ -486,6 +474,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                             break;
                         case R.id.create_schedule:
                             fragment = CreateScheduleFrag.newInstance();
+                            model.setFab(false);
                             fragmentManager
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
@@ -493,16 +482,14 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                             break;
                         case R.id.messages:
                             fragment = MessagesFrag.newInstance();
+                            model.setFab(false);
                             fragmentManager
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
                                     .addToBackStack(MessagesFrag.TAG).commit();
                             break;
                         case R.id.home:
-//                                Bundle scheduleBundle = new Bundle();
-//                                scheduleBundle.putSerializable(DAYS_SCHEDULE,dayArrayList);
                             fragment = fragmentManager.findFragmentByTag(HomeScreenFrag.TAG);
-//                                fragment.setArguments(scheduleBundle);
                             fragmentManager
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
@@ -511,6 +498,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                         case R.id.create_manage_staff:
                             fragment = RosterFrag.newInstance();
                             fragment.setArguments(bundle);
+                            model.setFab(true);
                             fragmentManager
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
@@ -539,7 +527,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     @Override
     public void onBackStackChanged() {
         for (int i = fragmentManager.getBackStackEntryCount() - 1; i>=0; i--){
-//        Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
+        Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
         }
 
     }
@@ -568,10 +556,11 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-       // fragmentManager.popBackStack(HomeScreenFrag.TAG,0);
-        RosterFrag.isInActionMode = false;
-        DataManager.hideKeyboard(this);
+        if(fragmentManager.getBackStackEntryCount() > 1) {
+            super.onBackPressed();
+            RosterFrag.isInActionMode = false;
+            DataManager.hideKeyboard(this);
+        }
     }
 
 

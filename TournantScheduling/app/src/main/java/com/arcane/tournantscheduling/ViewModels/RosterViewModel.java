@@ -31,6 +31,7 @@ public class RosterViewModel extends ViewModel {
     private Staff currentUser;
     private Staff chatBuddy;
     private Staff selectedUser;
+    private Boolean fab;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private MutableLiveData<ArrayList<Staff>> users;
 
@@ -54,7 +55,7 @@ public class RosterViewModel extends ViewModel {
                     public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
                         if(querySnapshot != null){
                             for(DocumentSnapshot document : querySnapshot){
-                                Log.d("NAME", document.get("name").toString());
+                                //Log.d("NAME", document.get("name").toString());
                                 Staff staff = document.toObject(Staff.class);
                                 if(staff.getDays() != null){
                                     //Log.d("DAYS",staff.getDays().toString());
@@ -180,5 +181,13 @@ public class RosterViewModel extends ViewModel {
 
     public void setSelectedUser(Staff selectedUser) {
         this.selectedUser = selectedUser;
+    }
+
+    public Boolean getFab() {
+        return fab;
+    }
+
+    public void setFab(Boolean fab) {
+        this.fab = fab;
     }
 }

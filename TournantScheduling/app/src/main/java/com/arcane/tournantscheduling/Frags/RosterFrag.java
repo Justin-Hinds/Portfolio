@@ -62,7 +62,7 @@ public class RosterFrag extends Fragment {
         viewModel.getUsers().observe(getActivity(), new Observer<ArrayList<Staff>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Staff> staff) {
-                Log.d("ROSTER RosterFrag", staff.size() + "");
+                //Log.d("ROSTER RosterFrag", staff.size() + "");
 
                 mAdapter.update(staff);
             }
@@ -105,22 +105,23 @@ public class RosterFrag extends Fragment {
         }
 
 
-
-
         FloatingActionButton fab = root.findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-//            if(isInActionMode){
-//            Log.d("FAB ", "HIT IN ACTION MODE");
-//            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-//            }else {
-            CreateStaffFrag frag = CreateStaffFrag.newInstance();
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.home_view,frag)
-                    .addToBackStack(TAG).commit();
-//            }
-        });
+
+        if(viewModel.getFab()){
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(view -> {
+                CreateStaffFrag frag = CreateStaffFrag.newInstance();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.home_view,frag)
+                        .addToBackStack(TAG).commit();
+
+
+            });
+        }else {
+            fab.setVisibility(View.GONE);
+        }
+
         return root;
     }
 

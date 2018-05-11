@@ -104,7 +104,7 @@ public class CreateStaffFrag extends Fragment {
         String passCode;
         if(DataManager.stringValidate(phone.getText().toString()) != null && nameText != null) {
             String[] separated = nameText.split(" ");
-            Log.d("LENGTH ", separated.length + "");
+           //Log.d("LENGTH ", separated.length + "");
             if (separated.length > 1) {
                 Character s = separated[0].toUpperCase().charAt(0);
                 String s2 = separated[1];
@@ -203,7 +203,7 @@ public class CreateStaffFrag extends Fragment {
                                for( DocumentSnapshot document2 : task2.getResult()){
                                     Log.d(TAG, document2.getId() + " => " + document2.getData());
                                     manager = document2.toObject(Staff.class);
-                                    Log.d("NAME", manager.getName());
+                                    //Log.d("NAME", manager.getName());
                                }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task2.getException());

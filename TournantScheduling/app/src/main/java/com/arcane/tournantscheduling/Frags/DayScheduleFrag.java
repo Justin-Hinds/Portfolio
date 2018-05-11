@@ -53,7 +53,7 @@ public class DayScheduleFrag extends Fragment {
         RosterViewModel rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         Day day = scheduleViewModel.getScheduledDay();
         ArrayList<Staff> usersList = new ArrayList<>(rosterViewModel.getUsers().getValue());
-        Log.d("ROSTER DaySchedule", usersList.size() + "");
+      //  Log.d("ROSTER DaySchedule", usersList.size() + "");
 
         ArrayList<String> workingList = new ArrayList<>();
         if(day != null){
@@ -65,11 +65,11 @@ public class DayScheduleFrag extends Fragment {
             while (iterator.hasNext()){
                 Staff currentStaff = iterator.next();
                 if(currentStaff.getDays() != null){
-                    Log.d("DATES ", currentStaff.getDays().toString());
+                    //Log.d("DATES ", currentStaff.getDays().toString());
 
                     if(currentStaff.getDays().get(DataManager.getDateString(day.getDate())) != null){
                         Map <String, Object> dates = currentStaff.getDays();
-                        Log.d("dates ",day.getDate());
+                       // Log.d("dates ",day.getDate());
                         workingList.add(currentStaff.getName());
                         iterator.remove();
                     }
@@ -79,9 +79,9 @@ public class DayScheduleFrag extends Fragment {
             ListView listView = root.findViewById(R.id.working_listview);
             ListAdapter listAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,workingList);
             listView.setAdapter(listAdapter);
-            Log.d("WORKING LIST", workingList.toString());
-            Log.d("OFF LIST", usersList.toString());
-            Log.d("Day Is ", DataManager.getDateString(day.getDate()));
+//            Log.d("WORKING LIST", workingList.toString());
+//            Log.d("OFF LIST", usersList.toString());
+//            Log.d("Day Is ", DataManager.getDateString(day.getDate()));
             timeTextview.setText(timeString);
         }else {
             Log.d("Day Is ", "NULL");

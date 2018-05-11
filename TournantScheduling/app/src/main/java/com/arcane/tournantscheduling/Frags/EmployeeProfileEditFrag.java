@@ -106,7 +106,6 @@ public class EmployeeProfileEditFrag extends Fragment {
     private void setupEmployeeUpdate(){
         if(DataManager.stringValidate(zip.getText().toString()) != null){
             int zipText = Integer.parseInt(DataManager.stringValidate(zip.getText().toString()));
-            Log.d("ZIP ", String.valueOf(zipText));
             employee.setZip(zipText);
 
         }

@@ -46,7 +46,7 @@ public class EmployeeProfileFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_employee_profile, container, false);
-
+        Log.d(" Employee Frag onCreate","CALLED");
         mDataset = new ArrayList();
         RosterViewModel rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         currentUser = rosterViewModel.getSelectedUser();
@@ -82,11 +82,12 @@ public class EmployeeProfileFrag extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("onStrart","CALLED");
+        Log.d(" Employee Frag onStrart","CALLED");
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(getActivity()).get(ScheduleViewModel.class);
         scheduleViewModel.getUserSchedule(currentUser);
         scheduleViewModel.getSchedule(currentUser).observe(getActivity(), days -> {
             mDataset = days;
+           // Log.d(days.get(0).getDayOfWeek(), currentUser.getName());
             mAdapter.update(days);
             if(mDataset.isEmpty()){
                 textView.setVisibility(View.VISIBLE);

@@ -1,6 +1,8 @@
 package com.arcane.tournantscheduling.Frags;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -97,7 +99,16 @@ public class  CreateAccountFrag extends Fragment {
                     .beginTransaction().replace(R.id.login_view,frag)
                     .addToBackStack(CreateAccountSecondFrag.TAG).commit();
         }else {
-
+            AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                    .setTitle("Invalid Field")
+                    .setMessage("Please make sure all fields are filled in and valid.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+            return;
         }
 
     }

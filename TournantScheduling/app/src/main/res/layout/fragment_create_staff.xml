@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textCapWords"
         android:hint="@string/employee_name"
         app:layout_constraintStart_toEndOf="@id/Textview_name"
         app:layout_constraintTop_toBottomOf="@+id/textView_your_info"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:ems="10"
-        android:inputType="textPostalAddress"
+        android:inputType="textCapWords"
         android:hint="@string/address"
         app:layout_constraintStart_toEndOf="@id/Textview_address"
         app:layout_constraintTop_toBottomOf="@+id/editText_employee_name"/>

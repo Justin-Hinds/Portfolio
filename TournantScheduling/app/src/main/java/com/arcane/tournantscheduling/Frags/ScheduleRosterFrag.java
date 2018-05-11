@@ -69,58 +69,6 @@ public class ScheduleRosterFrag extends Fragment {
                 assert staff != null;
                 Iterator<Staff> iterator = staffArrayList.iterator();
 
-//                while (iterator.hasNext()){
-//                    Boolean remove = false;
-//                    Staff user = iterator.next();
-//                    //Log.d("USER",user.getName());
-//                    if(user.getAvailability() != null){
-//                       // Log.d("AVAILABILITY", user.getAvailability().getSaturday() + weekDay);
-//                        String day = scheduleViewModel.getPostSectionDay();
-//                        DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
-//                        Calendar cal1 = Calendar.getInstance();
-//
-//                        try {
-//                            Date date1;
-//                            date1 = df1 .parse(day);
-//                            cal1.setTime(date1);
-//                            String newDay = df1.format(cal1.getTime());
-//                            TimeOffViewModel.isOff(newDay, user);
-//                            //  Log.d("Date ",newDay);
-//                            if(user.getTimeOff() != null){
-//                                Log.d("MAP ",user.getTimeOff().values().toString());
-//                                ArrayList arrayList = new ArrayList();
-//                                for(Object thing : user.getTimeOff().values()){
-//                                    HashMap<String,Object> map = (HashMap) thing;
-//                                    Log.d("OBJECT", thing.getClass().toString());
-//                                    for(String key : map.keySet()){
-//                                        Log.d("Key", key);
-//                                        Log.d("NewDay", newDay);
-//                                        if(key.equals(newDay)){
-//                                            Log.d("OFF TODAY", user.getName());
-//                                            remove=true;
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        } catch (ParseException e) {
-//                            e.printStackTrace();
-//                        }
-//                    if(isAvailability(user,weekDay)){
-//
-//                        if(!newList.contains(user)){
-//                        newList.add(user);
-//                            }
-//                        }else{
-//                        iterator.remove();
-//
-//                     }
-//                    }
-//                    if(remove){
-//                        iterator.remove();
-//                        remove = false;
-//                    }
-//                }
-//                rosterRecyclerAdapter.update(staffArrayList);
             }
         });
         // use this setting to improve performance if you know that changes
@@ -132,6 +80,7 @@ public class ScheduleRosterFrag extends Fragment {
         rosterRecyclerAdapter.setOnStaffSelectedListener(mListener);
         rosterRecyclerAdapter.update(myDataset);
         mRecyclerView.setAdapter(rosterRecyclerAdapter);
+        Log.d("SCHEDULE ROSTER", "FRAG");
         return root;
     }
 
@@ -160,9 +109,9 @@ public class ScheduleRosterFrag extends Fragment {
         while (iterator.hasNext()) {
             Staff user = iterator.next();
             if (user.getAvailability() != null) {
-                Log.d("AVAILABILITY", isAvailability(user,weekDay) + "");
+//                Log.d("AVAILABILITY", isAvailability(user,weekDay) + "");
                 if (isAvailability(user, weekDay)) {
-            Log.d("USER", user.getName());
+//                    Log.d("USER", user.getName());
                     String day = scheduleViewModel.getPostSectionDay();
                     DateFormat df1 = new java.text.SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
                     Calendar cal1 = Calendar.getInstance();
@@ -202,16 +151,16 @@ public class ScheduleRosterFrag extends Fragment {
                     iterator.remove();
 
                 }
-                Log.d("REMOVE", remove.toString());
+//                Log.d("REMOVE", remove.toString());
 
                 if(remove){
-                    Log.d("ITERATOR", myDataset.size() +"");
+//                    Log.d("ITERATOR", myDataset.size() +"");
                     iterator.remove();
                     remove = false;
                 }
             }
-            Log.d("PRE UPDATE", myDataset.size() +"");
-            Log.d("REMOVE POST LOOP", remove.toString());
+//            Log.d("PRE UPDATE", myDataset.size() +"");
+//            Log.d("REMOVE POST LOOP", remove.toString());
 
             rosterRecyclerAdapter.update(newList);
         }
