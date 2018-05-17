@@ -100,6 +100,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     private DrawerLayout mDrawerLayout;
     private HomeScreenFrag homeFrag;
     boolean navDrawerIsSet = false;
+    Intent messageIntent;
     FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment fragment;
     Bundle bundle;
@@ -182,6 +183,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
             return;
         }
 
+        messageIntent = getIntent();
+
         model = ViewModelProviders.of(this).get(RosterViewModel.class);
         timeOffViewModel = ViewModelProviders.of(this).get(TimeOffViewModel.class);
         scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
@@ -197,6 +200,9 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
         model.getUsers().observe(this, users -> {
             for(Staff user : users){
+
+            //TODO: THIS
+
                 if(Objects.equals(user.getId(), mFireUser.getUid())){
                     currentUser = user;
                     if(!navDrawerIsSet){
@@ -214,6 +220,20 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                     mlaunched = true;
                     progressBar.setVisibility(View.GONE);
                    // Log.d("VIEW MODEL current user", user.getName() );
+                }
+                if(messageIntent.hasExtra("sender")){
+//                    Log.d("INTENT", messageIntent.getStringExtra("receiver"));
+                    String sender = messageIntent.getStringExtra("sender");
+                    if (user.getId().equals(sender)) {
+                        model.setChatBuddy(user);
+                    }
+                    if(currentUser != null){
+                        MessageViewFrag frag = MessageViewFrag.newInstance();
+                        fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.home_view,frag, MessageViewFrag.TAG)
+                                .addToBackStack(MessageViewFrag.TAG).commit();
+                    }
                 }
             }
 
@@ -401,7 +421,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                 }
                 inTime = true;
             }else {
-                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this)
                         .setTitle("Scheduling Error")
                         .setMessage("This staff member is not available for this time. ")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -421,16 +441,10 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         java.text.SimpleDateFormat weekDay = new java.text.SimpleDateFormat("EE",Locale.getDefault());
 
         String month_name = month_date.format(calendar.getTime());
-//        Day newDay = new Day(newDate,String.valueOf(scheduledHour),
-//                String.valueOf(scheduledMinute),month_name,
-//                String.valueOf(outHour),
-//                String.valueOf(outMin),
-//                scheduleViewModel.getWeekDay());
-
         Day newDay = new Day(inScheduledTime,outScheduledTime,newDate,month_name,scheduleViewModel.getWeekDay());
         Map<String,Day> dayHashMap = new HashMap<>();
         dayHashMap.put(newDate, newDay);
-        dataManager.updateUserDay(scheduledUser, currentUser, newDay);
+        dataManager.updateUserDay(scheduledUser, currentUser, newDay,this);
     }
     private void setUpNavDrawer(Staff staff){
 
@@ -517,6 +531,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     }
 
     private void setDeviceToken(){
+        currentUser.setDeviceToken(FirebaseInstanceId.getInstance().getToken());
+        model.updateUserProfile(currentUser);
         Map<String, Object> token = new HashMap<>();
         token.put(currentUser.getId(), FirebaseInstanceId.getInstance().getToken());
         db.collection("fcmTokens").document("deviceTokens").set(token, SetOptions.merge())
@@ -526,7 +542,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
     @Override
     public void onBackStackChanged() {
-        for (int i = fragmentManager.getBackStackEntryCount() - 1; i>=0; i--){
+        for (int i = fragmentManager.getBackStackEntryCount() - 1; i >= 0; i--){
         Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
         }
 
@@ -556,6 +572,12 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
     @Override
     public void onBackPressed() {
+        int count = fragmentManager.getBackStackEntryCount() - 1;
+        Log.d("Back pressed", fragmentManager.getBackStackEntryAt(count).getName());
+        if(fragmentManager.getBackStackEntryAt(count).getName().equals(RosterFrag.TAG)){
+            fragmentManager.popBackStack(SectionFrag.TAG,0);
+            return;
+        }
         if(fragmentManager.getBackStackEntryCount() > 1) {
             super.onBackPressed();
             RosterFrag.isInActionMode = false;

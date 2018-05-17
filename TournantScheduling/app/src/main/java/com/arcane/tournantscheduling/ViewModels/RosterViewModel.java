@@ -31,10 +31,19 @@ public class RosterViewModel extends ViewModel {
     private Staff currentUser;
     private Staff chatBuddy;
     private Staff selectedUser;
+    private ArrayList<Staff> managerList = new ArrayList<>();
     private Boolean fab;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private MutableLiveData<ArrayList<Staff>> users;
+    private MutableLiveData<Staff> staffMember;
 
+    public LiveData<Staff> getStaffMemberLiveData(String id){
+        if(staffMember == null){
+            users = new MutableLiveData<>();
+            getStaffMember(id);
+        }
+        return staffMember;
+    }
 
     public RosterViewModel(){
         getUser();
@@ -46,7 +55,20 @@ public class RosterViewModel extends ViewModel {
         }
         return users;
     }
+    private void getStaffMember(String id){
+        final Staff[] employee = new Staff[1];
+        db.collection("Restaurants").document(currentUser.getRestaurantID())
+                .collection("Users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
 
+                Staff staff = documentSnapshot.toObject(Staff.class);
+                staffMember.postValue(staff);
+                employee[0] = staff;
+            }
+
+        });
+    }
     private void loadUsers() {
         final ArrayList<Staff> staffArrayList = new ArrayList<>();
         db.collection("Restaurants").document(currentUser.getRestaurantID()).collection("Users")
@@ -57,6 +79,9 @@ public class RosterViewModel extends ViewModel {
                             for(DocumentSnapshot document : querySnapshot){
                                 //Log.d("NAME", document.get("name").toString());
                                 Staff staff = document.toObject(Staff.class);
+                                if(staff.isManager()){
+                                    managerList.add(staff);
+                                }
                                 if(staff.getDays() != null){
                                     //Log.d("DAYS",staff.getDays().toString());
                                 }
@@ -70,20 +95,7 @@ public class RosterViewModel extends ViewModel {
                         }
                     }
                 });
-//                .get().addOnCompleteListener(task -> {
-//                    if(task.isSuccessful()){
-//                        for(DocumentSnapshot document : task.getResult()){
-//                            Log.d("NAME", document.get("name").toString());
-//                            Staff staff = document.toObject(Staff.class);
-//                            if(staff.getDays() != null){
-//                                //Log.d("DAYS",staff.getDays().toString());
-//                            }
-//                            staffArrayList.add(staff);
-//                            users.postValue(staffArrayList);
-//                        }
-//                    }
-                   // bundle.putSerializable(ARRAYLIST_SCHEDULE,staffArrayList);
-//                });
+//
     }
 
     public Staff getUser(){
@@ -186,6 +198,11 @@ public class RosterViewModel extends ViewModel {
     public Boolean getFab() {
         return fab;
     }
+
+    public ArrayList<Staff> getManagerList() {
+        return managerList;
+    }
+
 
     public void setFab(Boolean fab) {
         this.fab = fab;

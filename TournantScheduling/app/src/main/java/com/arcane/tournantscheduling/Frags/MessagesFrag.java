@@ -7,7 +7,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.TranslateAnimation;
 
 import com.arcane.tournantscheduling.Adapter.RosterRecyclerAdapter;
 import com.arcane.tournantscheduling.Models.Message;
@@ -39,6 +42,9 @@ public class MessagesFrag extends Fragment {
     ArrayList<Message> messages;
     RosterViewModel rosterViewModel;
     RosterRecyclerAdapter.OnStaffSelectedListener mListener;
+    FloatingActionButton fab,fabSingle, fabGlobal;
+    Animation open,close,rotateClockwise,rotateCounter;
+    Boolean isOpen = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,26 +62,46 @@ public class MessagesFrag extends Fragment {
         mAdapter.setOnStaffSelectedListener(mListener);
         mRecyclerView.setAdapter(mAdapter);
 
+        fab = root.findViewById(R.id.fab);
+        fabSingle = root.findViewById(R.id.fab_single);
+        fabGlobal = root.findViewById(R.id.fab_group);
+        open = AnimationUtils.loadAnimation(getContext(),R.anim.fab_open);
+        close = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+        rotateClockwise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_clockwise);
+        rotateCounter = AnimationUtils.loadAnimation(getContext(),R.anim.rotate_counter_clockwise);
+        fabGlobal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCompanyMessage();
+            }
+        });
+        fabSingle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRosterSelection();
+            }
+        });
 
-        FloatingActionButton fab = root.findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
-
-                Log.d("FAB ", "");
-//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                ArrayList<Staff> staffArrayList = new ArrayList<>(rosterViewModel.getUsers().getValue());
-                Staff currentUser = rosterViewModel.getCurrentUser();
-                assert staffArrayList != null;
-//                Log.d("BEFORE", staffArrayList.size() + "");
-                for (int i = 0; i < staffArrayList.size(); i++){
-                    if(staffArrayList.get(i).getId().equals(currentUser.getId())){
-                        staffArrayList.remove(i);
-                    }
+            if(rosterViewModel.getCurrentUser().isManager()){
+                if(isOpen){
+                    fab.startAnimation(rotateCounter);
+                    fabSingle.startAnimation(close);
+                    fabGlobal.startAnimation(close);
+                    fabGlobal.setClickable(false);
+                    fabSingle.setClickable(false);
+                    isOpen = false;
+                }else {
+                    fab.startAnimation(rotateClockwise);
+                    fabSingle.startAnimation(open);
+                    fabGlobal.startAnimation(open);
+                    fabGlobal.setClickable(true);
+                    fabSingle.setClickable(true);
+                    isOpen = true;
                 }
-//                Log.d("AFTER", staffArrayList.size() + "");
-
-            mAdapter.update(staffArrayList);
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_view,frag).commit();
-
+            }else {
+           openRosterSelection();
+            }
         });
         return root;
     }
@@ -115,5 +141,27 @@ public class MessagesFrag extends Fragment {
 
     }
 
+private void openCompanyMessage(){
+        CompanyMessageFrag frag = CompanyMessageFrag.newInstance();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.home_view,frag)
+                .addToBackStack(CompanyMessageFrag.TAG)
+                .commit();
+}
+
+    private void openRosterSelection(){
+    Log.d("FAB ", "");
+//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+    ArrayList<Staff> staffArrayList = new ArrayList<>(rosterViewModel.getUsers().getValue());
+    Staff currentUser = rosterViewModel.getCurrentUser();
+    assert staffArrayList != null;
+//                Log.d("BEFORE", staffArrayList.size() + "");
+    for (int i = 0; i < staffArrayList.size(); i++){
+        if(staffArrayList.get(i).getId().equals(currentUser.getId())){
+            staffArrayList.remove(i);
+        }
+    }
+    mAdapter.update(staffArrayList);
+}
 
 }

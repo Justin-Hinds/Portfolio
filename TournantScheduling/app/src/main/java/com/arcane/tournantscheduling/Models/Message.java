@@ -7,8 +7,11 @@ public class Message implements Comparable<Message>{
 
     private String message;
     private String sender;
+    private String senderName;
     private String receiver;
     private long time;
+    private String deviceToken;
+
 
     public Message(){
 
@@ -46,6 +49,13 @@ public class Message implements Comparable<Message>{
         this.time = time;
     }
 
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
 
     @Override
     public boolean equals(Object newMessage) {
@@ -56,6 +66,13 @@ public class Message implements Comparable<Message>{
         return false;
     }
 
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
 
     @Override
     public int compareTo(@NonNull Message nextMessage) {

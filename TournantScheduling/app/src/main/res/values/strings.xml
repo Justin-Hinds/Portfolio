@@ -64,6 +64,8 @@
     <string name="section">Section</string>
     <string name="manager">Manager</string>
     <string name="delete">Delete</string>
+    <string name="send">Send</string>
+    <string name="company_message">Company Message</string>
 
     <string-array name="availability_options">
         <item name="Available">Available</item>
@@ -74,8 +76,8 @@
 
     <string-array name="section_strings">
         <item name="Floor">Floor</item>
-        <item name= "Bar">Bar</item>
-        <item name= "Kitchen">Kitchen</item>
+        <item name="Bar">Bar</item>
+        <item name="Kitchen">Kitchen</item>
     </string-array>
     <string-array name="state_list">
         <item>AL</item>

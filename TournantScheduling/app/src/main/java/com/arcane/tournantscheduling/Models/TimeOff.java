@@ -8,7 +8,9 @@ public class TimeOff {
 
     ArrayList<String> dates;
     String reason;
-
+    String sender;
+    String senderName;
+    ArrayList<String> managers;
 
 
 
@@ -31,5 +33,29 @@ public class TimeOff {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public ArrayList<String> getManagers() {
+        return managers;
+    }
+
+    public void setManagers(ArrayList<String> managers) {
+        this.managers = managers;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 }

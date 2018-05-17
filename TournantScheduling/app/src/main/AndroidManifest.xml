@@ -16,10 +16,11 @@
         <activity android:name=".Activities.HomeScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
          <service
          android:name=".Utils.FBMessagingService">
          <intent-filter>
@@ -32,7 +33,7 @@
         <!-- <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/> -->
         <!-- </intent-filter> -->
         <!-- </service> -->
-        <activity android:name=".Activities.LoginActivity"></activity>
+        <activity android:name=".Activities.LoginActivity" />
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.Models.TimeOff;
@@ -86,17 +87,17 @@ public class TimeOffViewModel extends ViewModel {
                 Log.d("FAIL", e.getMessage());
             }
         });
-        db.collection("Restaurants").document(currentUser.getRestaurantID())
-                .collection("Users").document(currentUser.getId()).update("timeOff." +timeOff.getDates().get(0),daysOff);
+//        db.collection("Restaurants").document(currentUser.getRestaurantID())
+//                .collection("Users").document(currentUser.getId()).update("timeOff." +timeOff.getDates().get(0),daysOff);
 
     }
-    private void newTimeOff(String s){
+    private void newTimeOff(String s, TimeOff timeOff){
         Map<String,Object> timeOffDate = new HashMap<>();
         timeOffDate.put(s , true);
         Log.d("NEWTIMEOFF",timeOffDate.toString());
         db.collection("Restaurants").document(currentUser.getRestaurantID())
                 .collection("Users").document(currentUser.getId()).collection("TimeOff")
-                .document(s).set(timeOffDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                .document(s).set(timeOff).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Success", "HIT");
@@ -112,7 +113,7 @@ public class TimeOffViewModel extends ViewModel {
         db.collection("Restaurants").document(currentUser.getRestaurantID())
                 .collection("Users").document(currentUser.getId()).update("timeOff." + s,timeOffDate);
     }
-    public  ArrayList<String> getTimeOffRequest(String dateString1, String dateString2, String reason) {
+    public  ArrayList<String> getTimeOffRequest(String dateString1, String dateString2, String reason, ArrayList<String> managers) {
 
         ArrayList<Date> dates = new ArrayList<>();
         ArrayList<String> dateStrings = new ArrayList<>();
@@ -150,9 +151,12 @@ public class TimeOffViewModel extends ViewModel {
             TimeOff timeOff = new TimeOff();
             timeOff.setDates(dateStrings);
             timeOff.setReason(reason);
+            timeOff.setSender(currentUser.getId());
+            timeOff.setSenderName(currentUser.getName());
+            timeOff.setManagers(managers);
             for(Date date:dates){
                 Log.d("DATE", df1.format(date));
-                newTimeOff(df1.format(date));
+                newTimeOff(df1.format(date), timeOff);
             }
         }else {
             Log.d("CURRENT USER", "NULL");

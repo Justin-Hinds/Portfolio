@@ -16,25 +16,36 @@ import com.arcane.tournantscheduling.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.HashMap;
+
 
 public class FBMessagingService extends FirebaseMessagingService {
     public static final String TAG = "FBMS";
     String default_notification_channel_id = "SOME_CHANNEL";
+    String sender;
+    String name;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.d(TAG, "From: " + remoteMessage.getFrom());
-
+        if(remoteMessage.getData() != null){
+            Log.d(TAG, "Recieved Data " + remoteMessage.getData().get("sender"));
+            sender = remoteMessage.getData().get("sender");
+            name = remoteMessage.getData().get("senderName");
+        }
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             sendNotification(remoteMessage.getNotification().getBody());
         }
+
     }
 
 
     private void sendNotification(String messageBody) {
         Intent intent = new Intent(this, HomeScreenActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Log.d("SENDER", sender);
+        intent.putExtra("sender", sender);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 

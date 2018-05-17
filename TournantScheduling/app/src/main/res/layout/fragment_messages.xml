@@ -22,6 +22,36 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:src="@drawable/ic_add"
-        android:layout_margin="16dp" />
+        android:layout_marginEnd="@dimen/start_end_margin"
+        android:layout_marginBottom="@dimen/start_end_margin"
+        android:elevation="@dimen/vertical_space_content_areas"
+        app:pressedTranslationZ="12dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_single"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity= "bottom|end"
+        android:layout_marginBottom="140dp"
+        android:src="@drawable/ic_add_person"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_marginEnd="@dimen/start_end_margin"
+        android:elevation="6dp"
+        android:visibility="invisible"
+        app:pressedTranslationZ="12dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_marginEnd="@dimen/start_end_margin"
+        android:src="@drawable/ic_global"
+        android:visibility="invisible"
+        android:elevation="6dp"
+        app:pressedTranslationZ="12dp"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

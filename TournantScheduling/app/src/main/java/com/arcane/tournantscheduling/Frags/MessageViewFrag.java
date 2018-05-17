@@ -45,6 +45,13 @@ public class MessageViewFrag extends Fragment {
         return new MessageViewFrag();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mAdapter.getItemCount() > 0){
+        scrollToBottom();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +61,8 @@ public class MessageViewFrag extends Fragment {
         rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         currentUser = rosterViewModel.getCurrentUser();
         chatBuddy = rosterViewModel.getChatBuddy();
+
+//        rosterViewModel.getStaffMemberLiveData(chatBuddy.getId()).getValue();
         MessagesViewModel messagesViewModel = ViewModelProviders.of(getActivity()).get(MessagesViewModel.class);
         messagesViewModel.setCurrentUser(currentUser);
         messagesViewModel.setChatBuddy(chatBuddy);
@@ -71,6 +80,7 @@ public class MessageViewFrag extends Fragment {
                     }
                     Collections.sort(messages);
                     mAdapter.update(messages);
+                    scrollToBottom();
                 }
             }
         });
@@ -103,10 +113,12 @@ public class MessageViewFrag extends Fragment {
                 message.setReceiver(chatBuddy.getId());
                 message.setTime(System.currentTimeMillis());
                 message.setMessage(messageText.getText().toString());
+                message.setDeviceToken(chatBuddy.getDeviceToken());
+                message.setSenderName(currentUser.getName());
                 sendText(message);
             }
-            scrollToBottom();
         });
+                //scrollToBottom();
         return root;
     }
     private void scrollToBottom() {

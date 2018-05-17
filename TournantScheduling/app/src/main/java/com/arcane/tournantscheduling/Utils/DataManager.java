@@ -46,6 +46,7 @@ import static android.content.ContentValues.TAG;
 
 public class DataManager {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public DataManager() {
     }
@@ -257,7 +258,7 @@ public class DataManager {
             }
         });
     }
-    public void updateUserDay(Staff scheduledEmployee, Staff boss, Day day){
+    public void updateUserDay(Staff scheduledEmployee, Staff boss, Day day, Context context){
         final DocumentReference restaurantRef = db.collection("Restaurants").document(boss.getRestaurantID());
         final DocumentReference refManager =  restaurantRef.collection("Users").document(scheduledEmployee.getId());
 
@@ -277,6 +278,7 @@ public class DataManager {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "DocumentSnapshot successfully written!");
+                Toast.makeText(context,scheduledEmployee.getName() + " Schedule Successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

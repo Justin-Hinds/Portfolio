@@ -127,6 +127,7 @@ public class MessagesViewModel extends ViewModel {
         });
         return userArrayList;
     }
+
 public ArrayList<Message> getChatMessages(Staff buddy){
         ArrayList<Message> messageArrayList = new ArrayList<>();
     db.collection("Restaurants").document(currentUser.getRestaurantID()).collection("Messages")

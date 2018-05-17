@@ -17,6 +17,7 @@ public class Staff implements Parcelable {
     String city;
     String state;
     String email;
+    String deviceToken;
     public int zip;
     Date created;
     long phone;
@@ -25,6 +26,7 @@ public class Staff implements Parcelable {
     Map<String, Object> days;
     Availability availability;
     Map<String, Object> timeOff;
+
     public Staff(){}
     protected Staff(Parcel in) {
         name = in.readString();
@@ -186,6 +188,14 @@ public class Staff implements Parcelable {
         parcel.writeInt(zip);
         parcel.writeLong(phone);
         parcel.writeByte((byte) (manager ? 1 : 0));
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 
     @Override

@@ -1,5 +1,9 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+// const firebase = require("firebase");
+// require("firebase/firestore");
+
+
 admin.initializeApp();
 let firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG);
 
@@ -22,42 +26,89 @@ exports.restaurantCreated = functions.firestore
 
         // perform desired operations ...
     });
-exports.sendNotification = functions.firestore
-.document('Restaurants/{restaurantID}/Messages/{messageID}')
-.onCreate((snap, context) =>{
-        // Get an object representing the document
-        // e.g. {'name': 'Marie', 'age': 66}
-        const message = snap.data();
-        console.log(message.sender);
-        // Notification details.
-          const text = message.message;
-          const getDeviceTokensPromise = admin.firestore.document('fcmTokens/deviceTokens/'+message.receiver);
-        console.log(getDeviceTokensPromise.newValue);
-          // The snapshot to the user's tokens.
-        // let tokensSnapshot;
-
-        // The array containing all the user's tokens.
-      //  let tokens;
-  
-            // tokensSnapshot = results;   
-            // if (!tokensSnapshot.hasChildren()) {
-            //     return console.log('There are no notification tokens to send to.');
-            //   }         
-            // tokens = Object.keys(tokensSnapshot.val());
-           // console.log(tokensSnapshot);
-            
+exports.sendCompanyNotification = functions.firestore
+.document('Restaurants/{restaurantID}/CompanyMessages/{messageID}')
+.onCreate((snap,context) =>{
+    const message = snap.data();
+    const text = message.message;
+    const tokens = message.companyList;
 
             const payload = {
                 notification: {
-                  title: `${message.sender} posted ${text ? 'a message' : 'an image'}`,
+                  title: message.senderName,
                   body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : '',
-                  //icon: snapshot.val().photoUrl || '/images/profile_placeholder.png',
-                  click_action: `https://${functions.config().firebase.authDomain}`
+                  sound: "default",
+                //   click_action: ".Activities.HomeScreenActivity"
+                },
+                data: {
+                    'sender': message.sender,
+                    senderName : message.senderName,
                 }
               };
+            return admin.messaging().sendToDevice(tokens, payload).then( function (response){
+                console.log( 'success')
+                return response;
+            }).catch(error =>{
+                console.log('Your princess is in another castle!' + error)
+            });
 
-            return admin.messaging().sendToDevice(getDeviceTokensPromise, payload).catch(error =>{
-                console.log("Your princess is in another castle!")
+})
+exports.timeoffRequests = functions.firestore
+.document('Restaurants/{restaurantID}/Users/{userID}/TimeOff/{timeOffID}')
+.onCreate((snap,context) => {
+    const timeoff = snap.data();
+    console.log(timeoff.sender);
+    console.log(timeoff.managers);
+    const tokens = timeoff.managers;
+    const payload = {
+        notification: {
+          title: 'Time off request',
+          body:  timeoff.senderName + ' has requested time off',
+          sound: "default",
+        },
+        data: {
+            'sender': timeoff.sender,
+            senderName : timeoff.senderName,
+            // managers: timeoff.managers
+        
+        }
+
+      };
+      return admin.messaging().sendToDevice(tokens, payload).then( function (response){
+        console.log( 'success')
+        return response;
+    }).catch(error =>{
+        console.log('Your princess is in another castle!' + error)
+    });
+
+})
+exports.sendNotification = functions.firestore
+.document('Restaurants/{restaurantID}/Messages/{messageID}')
+.onCreate((snap, context) =>{
+        const message = snap.data();
+        console.log(message.sender);
+        console.log(message.deviceToken);
+          const text = message.message;
+
+            const payload = {
+                notification: {
+                  title: message.senderName,
+                  body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : '',
+                  tag: message.receiver,
+                  sound: "default",
+                //   click_action: ".Activities.HomeScreenActivity"
+                },
+                data: {
+                    'sender': message.sender,
+                    senderName : message.senderName,
+                    receiver: message.receiver
+                }
+              };
+            return admin.messaging().sendToDevice(message.deviceToken, payload).then( function (response){
+                console.log( 'success')
+                return response;
+            }).catch(error =>{
+                console.log('Your princess is in another castle!' + error)
             });
 
        

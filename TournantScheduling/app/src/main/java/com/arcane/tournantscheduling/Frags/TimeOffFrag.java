@@ -17,12 +17,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.Models.TimeOff;
 import com.arcane.tournantscheduling.R;
 import com.arcane.tournantscheduling.Utils.DataManager;
 import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 import com.arcane.tournantscheduling.ViewModels.TimeOffViewModel;
+
+import java.util.ArrayList;
 
 
 /**
@@ -35,6 +39,7 @@ public class TimeOffFrag extends Fragment {
     EditText editTextEndDate;
     EditText editTextReason;
     Button requestButton;
+    ArrayList<String> managerList = new ArrayList<>();
       public static TimeOffFrag newInstance() {
         return new TimeOffFrag();
     }
@@ -47,6 +52,12 @@ public class TimeOffFrag extends Fragment {
         RosterViewModel rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         TimeOffViewModel timeOffViewModel = ViewModelProviders.of(getActivity()).get(TimeOffViewModel.class);
         timeOffViewModel.setCurrentUser(rosterViewModel.getCurrentUser());
+        ArrayList<Staff> arrayList = new ArrayList<Staff>(rosterViewModel.getUsers().getValue());
+        for(Staff staff : arrayList){
+            if(staff.isManager() && staff.getDeviceToken() != null){
+                managerList.add(staff.getDeviceToken());
+            }
+        }
         editTextStartDate = root.findViewById(R.id.editText_start_date);
         editTextEndDate = root.findViewById(R.id.editText_end_date);
         editTextReason = root.findViewById(R.id.editText_reason);
@@ -87,12 +98,13 @@ public class TimeOffFrag extends Fragment {
                 String start = timeOffViewModel.getStartDate();
                 String end = timeOffViewModel.getEndDate();
                 String reason = DataManager.stringValidate(editTextReason.getText().toString());
-                if(DataManager.stringValidate(reason) != null) {
+                if(DataManager.stringValidate(reason) != null && managerList.size() > 0) {
                     TimeOff timeOff = new TimeOff();
-                    timeOffViewModel.getTimeOffRequest(start, end, reason);
+                    timeOffViewModel.getTimeOffRequest(start, end, reason, managerList);
                    // HomeScreenFrag frag = HomeScreenFrag.newInstance();
                     getActivity().getSupportFragmentManager().popBackStack(HomeScreenFrag.TAG,0);
                     DataManager.hideKeyboard(getActivity());
+                    Toast.makeText(getContext(),"Time off request sent", Toast.LENGTH_SHORT).show();
                 }
             }
         });
