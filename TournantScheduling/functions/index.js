@@ -43,6 +43,7 @@ exports.sendCompanyNotification = functions.firestore
                 data: {
                     'sender': message.sender,
                     senderName : message.senderName,
+                    companyMessage : text
                 }
               };
             return admin.messaging().sendToDevice(tokens, payload).then( function (response){
@@ -69,8 +70,8 @@ exports.timeoffRequests = functions.firestore
         data: {
             'sender': timeoff.sender,
             senderName : timeoff.senderName,
-            // managers: timeoff.managers
-        
+            timeOffStart: timeoff.start,
+            timeOffEnd : timeoff.end        
         }
 
       };
@@ -101,7 +102,8 @@ exports.sendNotification = functions.firestore
                 data: {
                     'sender': message.sender,
                     senderName : message.senderName,
-                    receiver: message.receiver
+                    receiver: message.receiver,
+                    message : text
                 }
               };
             return admin.messaging().sendToDevice(message.deviceToken, payload).then( function (response){

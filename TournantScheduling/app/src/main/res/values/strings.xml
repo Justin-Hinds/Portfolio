@@ -66,6 +66,10 @@
     <string name="delete">Delete</string>
     <string name="send">Send</string>
     <string name="company_message">Company Message</string>
+    <string name="approved">Approved</string>
+    <string name="staff_time_off">Staff Time Off</string>
+    <string name="your_time_off">Your Time Off</string>
+    <string name="pending">Pending</string>
 
     <string-array name="availability_options">
         <item name="Available">Available</item>

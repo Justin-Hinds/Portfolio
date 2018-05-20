@@ -23,6 +23,10 @@ public class FBMessagingService extends FirebaseMessagingService {
     public static final String TAG = "FBMS";
     String default_notification_channel_id = "SOME_CHANNEL";
     String sender;
+    String message;
+    String companyMessage;
+    String timeOffStart;
+    String timeOffEnd;
     String name;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -32,6 +36,10 @@ public class FBMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Recieved Data " + remoteMessage.getData().get("sender"));
             sender = remoteMessage.getData().get("sender");
             name = remoteMessage.getData().get("senderName");
+            message = remoteMessage.getData().get("message");
+            companyMessage = remoteMessage.getData().get("companyMessage");
+            timeOffStart = remoteMessage.getData().get("timeOffStart");
+            timeOffEnd = remoteMessage.getData().get("timeOffEnd");
         }
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
@@ -45,7 +53,17 @@ public class FBMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(this, HomeScreenActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Log.d("SENDER", sender);
-        intent.putExtra("sender", sender);
+        if(message != null){
+        intent.putExtra("message", sender);
+        }else if(companyMessage != null){
+            intent.putExtra("companyMessage",companyMessage);
+            intent.putExtra("senderName", name);
+            Log.d("Company", companyMessage);
+        }else if(timeOffStart != null){
+            intent.putExtra("timeOffStart", timeOffStart);
+            Log.d("TimeOff", timeOffStart);
+
+        }
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 

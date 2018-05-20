@@ -41,6 +41,7 @@ import com.arcane.tournantscheduling.Frags.EmployeeProfileFrag;
 import com.arcane.tournantscheduling.Frags.HomeScreenFrag;
 import com.arcane.tournantscheduling.Frags.MessageViewFrag;
 import com.arcane.tournantscheduling.Frags.MessagesFrag;
+import com.arcane.tournantscheduling.Frags.TimeOffListFrag;
 import com.arcane.tournantscheduling.Models.TimeOff;
 import com.arcane.tournantscheduling.Utils.DataManager;
 import com.arcane.tournantscheduling.Models.Day;
@@ -201,8 +202,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         model.getUsers().observe(this, users -> {
             for(Staff user : users){
 
-            //TODO: THIS
-
                 if(Objects.equals(user.getId(), mFireUser.getUid())){
                     currentUser = user;
                     if(!navDrawerIsSet){
@@ -221,7 +220,29 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                     progressBar.setVisibility(View.GONE);
                    // Log.d("VIEW MODEL current user", user.getName() );
                 }
-                if(messageIntent.hasExtra("sender")){
+
+                if(messageIntent.hasExtra("timeOffStart")){
+                    TimeOffFrag frag = TimeOffFrag.newInstance();
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.home_view,frag, TimeOffFrag.TAG)
+                            .addToBackStack(TimeOffFrag.TAG).commit();
+                }
+
+                if(messageIntent.hasExtra("companyMessage")){
+                    String name = messageIntent.getStringExtra("senderName");
+                    String message = messageIntent.getStringExtra("companyMessage");
+                    AlertDialog alertDialog = new AlertDialog.Builder(this)
+                            .setTitle("From: " + name)
+                            .setMessage(message)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                }
+                if(messageIntent.hasExtra("message")){
 //                    Log.d("INTENT", messageIntent.getStringExtra("receiver"));
                     String sender = messageIntent.getStringExtra("sender");
                     if (user.getId().equals(sender)) {
@@ -473,11 +494,12 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .addToBackStack(AvailabilityFrag.TAG).commit();
                             break;
                         case R.id.request_time_off:
-                            fragment = TimeOffFrag.newInstance();
+                            //TODO: CHANGE
+                            fragment = TimeOffListFrag.newInstance();
                             fragmentManager
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
-                                    .addToBackStack(TimeOffFrag.TAG).commit();
+                                    .addToBackStack(TimeOffListFrag.TAG).commit();
                             break;
                         case R.id.settings:
                             fragment = SettingsFragment.newInstance();

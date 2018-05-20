@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
+import android.support.v4.app.SupportActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -38,9 +40,18 @@ public class TimeOffViewModel extends ViewModel {
 
     MutableLiveData<String> liveStartDate;
     MutableLiveData<String> liveEndDate;
-    MutableLiveData<ArrayList<String>> liveTimeOff;
+    MutableLiveData<ArrayList<TimeOff>> liveTimeOff;
+    MutableLiveData<ArrayList<TimeOff>> liveComanyTimeoff;
 
-    public LiveData<ArrayList<String>> getTimeOff(){
+    public LiveData<ArrayList<TimeOff>> getLiveCompanyTimeOff(){
+        if(liveComanyTimeoff == null){
+            liveComanyTimeoff = new MutableLiveData<>();
+        }
+        return liveComanyTimeoff;
+
+    }
+
+    public LiveData<ArrayList<TimeOff>> getTimeOff(){
         if(liveTimeOff == null){
             liveTimeOff = new MutableLiveData<>();
         }
@@ -63,16 +74,20 @@ public class TimeOffViewModel extends ViewModel {
 
     void sendTimeOffRequest(TimeOff timeOff){
         Map<String,Object> daysOff = new HashMap<>();
-
-//        for(String date : timeOff.getDates()){
-//            daysOff.put(date,true);
-//        }
         daysOff.put("dates", timeOff.getDates());
         daysOff.put("reason", timeOff.getReason());
         Log.d("CURRENT USER", currentUser.getName());
 
         Map<String,Object> offDaysList = new HashMap<>();
         offDaysList.put(timeOff.getDates().get(0),daysOff);
+        db.collection("Restaurants").document(currentUser.getRestaurantID())
+                .collection("TimeOff").document(timeOff.getDates().get(0)).set(timeOff)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                });
         db.collection("Restaurants").document(currentUser.getRestaurantID())
                 .collection("Users").document(currentUser.getId()).collection("TimeOff")
                 .document(timeOff.getDates().get(0)).set(timeOff)
@@ -87,31 +102,19 @@ public class TimeOffViewModel extends ViewModel {
                 Log.d("FAIL", e.getMessage());
             }
         });
-//        db.collection("Restaurants").document(currentUser.getRestaurantID())
-//                .collection("Users").document(currentUser.getId()).update("timeOff." +timeOff.getDates().get(0),daysOff);
-
     }
-    private void newTimeOff(String s, TimeOff timeOff){
+    private void newTimeOff(String s){
         Map<String,Object> timeOffDate = new HashMap<>();
-        timeOffDate.put(s , true);
-        Log.d("NEWTIMEOFF",timeOffDate.toString());
+        timeOffDate.put(s , false);
         db.collection("Restaurants").document(currentUser.getRestaurantID())
-                .collection("Users").document(currentUser.getId()).collection("TimeOff")
-                .document(s).set(timeOff).addOnSuccessListener(new OnSuccessListener<Void>() {
+                .collection("Users").document(currentUser.getId()).update("timeOff." + s,timeOffDate)
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d("Success", "HIT");
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Fail", "HIT");
+                Log.d("NEW TIME OFF",timeOffDate.toString());
 
             }
         });
-        db.collection("Restaurants").document(currentUser.getRestaurantID())
-                .collection("Users").document(currentUser.getId()).update("timeOff." + s,timeOffDate);
     }
     public  ArrayList<String> getTimeOffRequest(String dateString1, String dateString2, String reason, ArrayList<String> managers) {
 
@@ -135,7 +138,6 @@ public class TimeOffViewModel extends ViewModel {
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime(date1);
 
-
         Calendar cal2 = Calendar.getInstance();
         cal2.setTime(date2);
 
@@ -144,7 +146,7 @@ public class TimeOffViewModel extends ViewModel {
             dates.add(cal1.getTime());
             dateStrings.add(df1.format(cal1.getTime()));
             cal1.add(Calendar.DATE, 1);
-//            newTimeOff(df1.format(cal1.getTime()));
+            newTimeOff(df1.format(cal1.getTime()));
         }
 
         if(currentUser != null){
@@ -154,9 +156,13 @@ public class TimeOffViewModel extends ViewModel {
             timeOff.setSender(currentUser.getId());
             timeOff.setSenderName(currentUser.getName());
             timeOff.setManagers(managers);
+            cal1.setTime(date1);
+            timeOff.setStart(df1.format(cal1.getTime()));
+            timeOff.setEnd(df1.format(cal2.getTime()));
+            sendTimeOffRequest(timeOff);
             for(Date date:dates){
                 Log.d("DATE", df1.format(date));
-                newTimeOff(df1.format(date), timeOff);
+                newTimeOff(df1.format(date));
             }
         }else {
             Log.d("CURRENT USER", "NULL");
@@ -185,6 +191,35 @@ public class TimeOffViewModel extends ViewModel {
         return bool[0];
     }
 
+    public void getCompanyTimeOff(String id){
+        ArrayList<TimeOff> timeOffArrayList = new ArrayList<>();
+        db.collection("Restaurants").document(id)
+                .collection("TimeOff").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot querySnapshot) {
+                for (DocumentSnapshot doc : querySnapshot){
+                    TimeOff timeOff = doc.toObject(TimeOff.class);
+                    timeOffArrayList.add(timeOff);
+                    liveComanyTimeoff.postValue(timeOffArrayList);
+                }
+            }
+        });
+    }
+
+    public void getUsersTimeOff(Staff user){
+        ArrayList<TimeOff> timeOffArrayList = new ArrayList<>();
+        db.collection("Restaurants").document(currentUser.getRestaurantID())
+                .collection("Users").document(currentUser.getId()).collection("TimeOff").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot querySnapshot) {
+                for (DocumentSnapshot doc : querySnapshot){
+                    TimeOff timeOff = doc.toObject(TimeOff.class);
+                    timeOffArrayList.add(timeOff);
+                    liveTimeOff.postValue(timeOffArrayList);
+                }
+            }
+        });
+    }
     public String getStartDate() {
         return startDate;
     }

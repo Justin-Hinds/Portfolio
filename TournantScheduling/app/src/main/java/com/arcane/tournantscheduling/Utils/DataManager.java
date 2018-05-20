@@ -19,6 +19,7 @@ import com.arcane.tournantscheduling.Models.Availability;
 import com.arcane.tournantscheduling.Models.Day;
 import com.arcane.tournantscheduling.Models.Restaurant;
 import com.arcane.tournantscheduling.Models.Staff;
+import com.arcane.tournantscheduling.Models.TimeOff;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -404,9 +405,54 @@ public class DataManager {
         }
         return true;
     }
+    public  void timeOffRequestApproval(Boolean bool, Staff manager, String userID, Context context, TimeOff timeOff){
+        for(String s : timeOff.getDates()){
+            newTimeOff(s,timeOff, manager, userID);
+        }
+        db.collection("Restaurants").document(manager.getRestaurantID())
+                .collection("TimeOff").document(timeOff.getStart()).update("approved",bool)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+//                        if(bool){
+//                            Toast.makeText(context, "Time off request APPROVED", Toast.LENGTH_SHORT).show();
+//                        }else {
+//                            Toast.makeText(context, "Time off request DENIED", Toast.LENGTH_SHORT).show();
+//                        }
+                    }
+                });
+        db.collection("Restaurants").document(manager.getRestaurantID())
+                .collection("Users").document(userID).collection("TimeOff").document(timeOff.getStart()).update("approved",bool)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        if(bool){
+                            Toast.makeText(context, "Time off request APPROVED", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(context, "Time off request DENIED", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
+    private void newTimeOff(String s, TimeOff timeOff, Staff manager, String id){
+        Map<String,Object> timeOffDate = new HashMap<>();
+        timeOffDate.put(s , true);
+        Log.d("NEWTIMEOFF",timeOffDate.toString());
+        db.collection("Restaurants").document(manager.getRestaurantID())
+                .collection("Users").document(id).update("timeOff." + s,timeOffDate)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
 
-
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("NEW TIME OFF", "FAILED");
+            }
+        });
+    }
     public static void hideKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity
                 .getSystemService(Context.INPUT_METHOD_SERVICE);

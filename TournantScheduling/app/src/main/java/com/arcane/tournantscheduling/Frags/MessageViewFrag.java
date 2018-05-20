@@ -66,8 +66,8 @@ public class MessageViewFrag extends Fragment {
         MessagesViewModel messagesViewModel = ViewModelProviders.of(getActivity()).get(MessagesViewModel.class);
         messagesViewModel.setCurrentUser(currentUser);
         messagesViewModel.setChatBuddy(chatBuddy);
-//        mDataset = new ArrayList<>(messagesViewModel.getLiveChat(chatBuddy).getValue());
-//        Collections.sort(mDataset);
+//        myTimeOffList = new ArrayList<>(messagesViewModel.getLiveChat(chatBuddy).getValue());
+//        Collections.sort(myTimeOffList);
         mDataset = new ArrayList<>();
         mAdapter = new MessageViewRecyclerAdapter(mDataset);
         messagesViewModel.getLiveChat(rosterViewModel.getChatBuddy()).observe(getActivity(), new Observer<ArrayList<Message>>() {

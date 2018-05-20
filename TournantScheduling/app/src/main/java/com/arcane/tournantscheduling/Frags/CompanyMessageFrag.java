@@ -92,7 +92,6 @@ public class CompanyMessageFrag extends Fragment {
         return root;
     }
     private void sendText(CompanyMessage message) {
-
         db.collection("Restaurants").document(currentUser.getRestaurantID()).collection("CompanyMessages").add(message)
         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override

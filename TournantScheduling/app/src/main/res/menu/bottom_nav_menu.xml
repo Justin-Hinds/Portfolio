@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/your_timeoff"
+        android:title="@string/your_time_off"
+        android:icon="@drawable/ic_time_off"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/staff_timeoff"
+        android:title="@string/staff_time_off"
+        android:icon="@drawable/ic_global"
+        app:showAsAction="always"/>
+
+
+</menu>

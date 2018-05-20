@@ -130,9 +130,12 @@ public class ScheduleRosterFrag extends Fragment {
                                 for(String key : map.keySet()){
 //                                    Log.d("Key", key);
 //                                    Log.d("NewDay", newDay);
-                                    if(key.equals(newDay)){
-                                        Log.d("OFF TODAY", user.getName());
+                                    if(key.equals(newDay) ){
+                                       Boolean off = (Boolean) ((HashMap) thing).get(key);
+                                        Log.d("OFF ", ((HashMap) thing).get(key).toString());
+                                        if(off){
                                         remove=true;
+                                        }
                                     }
                                 }
                             }
