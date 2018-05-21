@@ -201,7 +201,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
 
         model.getUsers().observe(this, users -> {
             for(Staff user : users){
-
                 if(Objects.equals(user.getId(), mFireUser.getUid())){
                     currentUser = user;
                     if(!navDrawerIsSet){
@@ -220,35 +219,14 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                     progressBar.setVisibility(View.GONE);
                    // Log.d("VIEW MODEL current user", user.getName() );
                 }
-
-                if(messageIntent.hasExtra("timeOffStart")){
-                    TimeOffFrag frag = TimeOffFrag.newInstance();
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.home_view,frag, TimeOffFrag.TAG)
-                            .addToBackStack(TimeOffFrag.TAG).commit();
-                }
-
-                if(messageIntent.hasExtra("companyMessage")){
-                    String name = messageIntent.getStringExtra("senderName");
-                    String message = messageIntent.getStringExtra("companyMessage");
-                    AlertDialog alertDialog = new AlertDialog.Builder(this)
-                            .setTitle("From: " + name)
-                            .setMessage(message)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                }
                 if(messageIntent.hasExtra("message")){
-//                    Log.d("INTENT", messageIntent.getStringExtra("receiver"));
-                    String sender = messageIntent.getStringExtra("sender");
+                   // Log.d("INTENT", messageIntent.getStringExtra("sender"));
+                    String sender = messageIntent.getStringExtra("message");
                     if (user.getId().equals(sender)) {
                         model.setChatBuddy(user);
                     }
                     if(currentUser != null){
+                        model.setCurrentUser(currentUser);
                         MessageViewFrag frag = MessageViewFrag.newInstance();
                         fragmentManager
                                 .beginTransaction()
@@ -257,7 +235,27 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                     }
                 }
             }
+            if(messageIntent.hasExtra("timeOffStart")){
+                TimeOffFrag frag = TimeOffFrag.newInstance();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.home_view,frag, TimeOffFrag.TAG)
+                        .addToBackStack(TimeOffFrag.TAG).commit();
+            }
 
+            if(messageIntent.hasExtra("companyMessage")){
+                String name = messageIntent.getStringExtra("senderName");
+                String message = messageIntent.getStringExtra("companyMessage");
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        .setTitle("From: " + name)
+                        .setMessage(message)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
         });
         mAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);

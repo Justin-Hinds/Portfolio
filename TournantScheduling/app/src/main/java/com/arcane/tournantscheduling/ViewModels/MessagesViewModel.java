@@ -130,6 +130,7 @@ public class MessagesViewModel extends ViewModel {
 
 public ArrayList<Message> getChatMessages(Staff buddy){
         ArrayList<Message> messageArrayList = new ArrayList<>();
+        Log.d(currentUser.getName(),"STUFF");
     db.collection("Restaurants").document(currentUser.getRestaurantID()).collection("Messages")
             .whereEqualTo("receiver",currentUser.getId()).whereEqualTo("sender",buddy.getId())
             .addSnapshotListener(new EventListener<QuerySnapshot>() {
