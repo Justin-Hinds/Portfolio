@@ -40,7 +40,7 @@ public class RosterScheduleRecAdapter extends RecyclerView.Adapter<RosterSchedul
         RosterViewModel rosterViewModel = ViewModelProviders.of(context).get(RosterViewModel.class);
         selecteduser = rosterViewModel.getSelectedUser();
         selectedDay = scheduleViewModel.getDateString();
-        scheduleViewModel.getSchedule(selecteduser).observe(context, new Observer<ArrayList<Day>>() {
+        scheduleViewModel.getCompanyLiveSchedule(rosterViewModel.getCurrentUser()).observe(context, new Observer<ArrayList<Day>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Day> days) {
                 arrayList = days;
@@ -70,7 +70,7 @@ public class RosterScheduleRecAdapter extends RecyclerView.Adapter<RosterSchedul
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         for(Day day : arrayList){
-            if(day.getDate().equals(selectedDay)){
+            if(day.getDate().equals(selectedDay) && day.getUserId().equals(mDataset.get(position).getId())){
                 holder.in.setText(day.getInTime());
                 holder.out.setText(day.getOutTime());
             }

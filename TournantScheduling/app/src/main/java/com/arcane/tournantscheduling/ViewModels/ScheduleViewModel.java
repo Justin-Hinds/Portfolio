@@ -31,6 +31,7 @@ public class ScheduleViewModel extends ViewModel {
     private  Staff currentUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private MutableLiveData<ArrayList<Day>> liveSchedule;
+    private MutableLiveData<ArrayList<Day>> liveCompanySchedule;
     private ArrayList<Day> dayArrayList;
     private Day scheduledDay;
     private String weekDay;
@@ -57,7 +58,20 @@ public class ScheduleViewModel extends ViewModel {
 
         return liveSchedule;
     }
+    public LiveData<ArrayList<Day>> getCompanyLiveSchedule(Staff user){
+        if (liveSchedule == null) {
+            liveSchedule = new MutableLiveData<>();
+            currentUser = user;
+            if(user != null){
+                getCompanySchedule(user);
+            }else {
+                Log.d("LIVEDATA Get User", "NULL");
+            }
+            return liveSchedule;
+        }
 
+        return liveSchedule;
+    }
     public ArrayList<Day> getUserSchedule(Staff staff){
         currentUser = staff;
         final ArrayList<Day>[] days = new ArrayList[]{new ArrayList<>()};
@@ -80,6 +94,38 @@ public class ScheduleViewModel extends ViewModel {
                             Log.d("SCHEDULED DAY", doc.getData().toString());
                             dayArrayList = days[0];
                            // liveSchedule.setValue(days);
+                        }else {
+                            days[0] = new ArrayList<>();
+                        }
+
+                        liveSchedule.setValue(days[0]);
+                    }
+                });
+
+        return days[0];
+    }
+    public ArrayList<Day> getCompanySchedule(Staff staff){
+        currentUser = staff;
+        final ArrayList<Day>[] days = new ArrayList[]{new ArrayList<>()};
+        db.collection("Restaurants").document(currentUser.getRestaurantID())
+                .collection("Days")
+                .addSnapshotListener((values, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
+                    if(values.getDocuments().size() == 0){
+                        ArrayList arrayList = new ArrayList();
+                        liveSchedule.setValue(arrayList);
+                    }
+                    for (DocumentSnapshot doc : values ) {
+                        if (doc.get("inTime") != null) {
+                            Day newDay = doc.toObject(Day.class);
+                            days[0].add(doc.toObject(Day.class));
+                            Log.d(staff.getName(), "-> " + currentUser.getName());
+                            Log.d("SCHEDULED DAY", doc.getData().toString());
+                            dayArrayList = days[0];
+                            // liveSchedule.setValue(days);
                         }else {
                             days[0] = new ArrayList<>();
                         }

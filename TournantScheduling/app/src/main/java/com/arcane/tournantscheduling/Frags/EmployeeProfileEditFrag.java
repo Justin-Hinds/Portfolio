@@ -63,6 +63,7 @@ public class EmployeeProfileEditFrag extends Fragment {
                                 setupEmployeeUpdate();
                                 rosterViewModel.updateUserProfile(employee);
                                 Toast.makeText(getContext(),employee.getName() + " has been updated.",Toast.LENGTH_SHORT).show();
+                                getActivity().getSupportFragmentManager().popBackStack();
                                 dialog.dismiss();
                             }
                         }).setNegativeButton("No", new DialogInterface.OnClickListener() {

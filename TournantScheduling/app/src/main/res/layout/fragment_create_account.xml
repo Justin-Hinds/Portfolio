@@ -33,6 +33,7 @@
             android:ems="10"
             android:inputType="textCapWords"
             android:hint="@string/restaurant_name"
+            android:textSize="@dimen/body_text_size"
             app:layout_constraintStart_toEndOf="@id/Textview_name"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -43,6 +44,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="@dimen/start_end_margin"
             android:text="@string/name"
+            android:textSize="@dimen/subtitle_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/editText_restaurant_name"
             app:layout_constraintStart_toStartOf="parent" />
         <EditText
@@ -50,9 +52,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_space_content_areas"
-            android:ems="10"
             android:inputType="textCapWords"
             android:hint="@string/address"
+            android:ems="10"
+            android:textSize="@dimen/body_text_size"
             app:layout_constraintStart_toEndOf="@id/Textview_address"
             app:layout_constraintTop_toBottomOf="@+id/editText_restaurant_name"/>
         <TextView
@@ -62,6 +65,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="@dimen/start_end_margin"
             android:text="@string/address"
+            android:textSize="@dimen/subtitle_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/editText_address"
             app:layout_constraintStart_toStartOf="parent" />
         <EditText
@@ -69,8 +73,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_space_content_areas"
-            android:ems="10"
             android:hint="@string/city"
+            android:ems="10"
+            android:textSize="@dimen/body_text_size"
             android:inputType="textCapWords"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toEndOf="@id/textview_city"
@@ -82,6 +87,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="@dimen/start_end_margin"
             android:text="@string/city"
+            android:textSize="@dimen/subtitle_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/editText_city"
             app:layout_constraintStart_toStartOf="parent" />
         <EditText
@@ -89,9 +95,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_space_content_areas"
-            android:ems="10"
             android:inputType="number"
             android:hint="@string/zip_code"
+            android:ems="10"
+            android:textSize="@dimen/body_text_size"
             app:layout_constraintStart_toEndOf="@id/textview_zip"
             app:layout_constraintTop_toBottomOf="@+id/editText_city" />
         <TextView
@@ -101,6 +108,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="@dimen/start_end_margin"
             android:text="@string/zip"
+            android:textSize="@dimen/subtitle_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/editText_zip"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -109,9 +117,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_space_content_areas"
-            android:ems="10"
             android:inputType="phone"
             android:hint="@string/phone_number"
+            android:ems="10"
+            android:textSize="@dimen/body_text_size"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toEndOf="@id/textview_phone"
             app:layout_constraintTop_toBottomOf="@+id/editText_zip" />
@@ -121,6 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="@dimen/start_end_margin"
+            android:textSize="@dimen/subtitle_text_size"
             android:text="@string/phone"
             app:layout_constraintBottom_toBottomOf="@+id/editText_phone"
             app:layout_constraintStart_toStartOf="parent" />

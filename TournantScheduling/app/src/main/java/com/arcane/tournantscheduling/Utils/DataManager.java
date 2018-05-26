@@ -279,6 +279,7 @@ public class DataManager {
 //        values.put("minOut",day.getMinOut());
         values.put("month",day.getMonth());
         refManager.collection("Days").document(day.date).set(day);
+        restaurantRef.collection("Days").document(day.date).set(day);
         refManager.update( "days."+getDateString(day.getDate()),values).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

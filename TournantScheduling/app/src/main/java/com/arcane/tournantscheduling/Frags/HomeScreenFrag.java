@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class HomeScreenFrag  extends Fragment {
@@ -58,12 +59,12 @@ public class HomeScreenFrag  extends Fragment {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(currentTime);
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
                 try {
                     Date date = dateFormat.parse(str);
-
-
                     if( currentTime > date.getTime()){
+                        Log.d("NOW VS THEN", currentTime + " -> " + date.getTime());
+                        Log.d(day.getDate(), date.toString());
                         dataManager.deleteOldDays(currentUser,day.getDate());
                     }
                 } catch (ParseException e) {
