@@ -29,7 +29,7 @@ public class RosterScheduleRecAdapter extends RecyclerView.Adapter<RosterSchedul
     private ArrayList<Staff> mSecondDataset = new ArrayList<>();
     private FragmentActivity mContext;
     private OnScheduleSelectedListener mListener;
-    private Staff selecteduser;
+   // private Staff selecteduser;
     ArrayList<Day> arrayList = new ArrayList();
     String selectedDay;
 
@@ -38,7 +38,7 @@ public class RosterScheduleRecAdapter extends RecyclerView.Adapter<RosterSchedul
         Log.d("Adapter","Constructor");
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(context).get(ScheduleViewModel.class);
         RosterViewModel rosterViewModel = ViewModelProviders.of(context).get(RosterViewModel.class);
-        selecteduser = rosterViewModel.getSelectedUser();
+      //  selecteduser = rosterViewModel.getSelectedUser();
         selectedDay = scheduleViewModel.getDateString();
         scheduleViewModel.getCompanyLiveSchedule(rosterViewModel.getCurrentUser()).observe(context, new Observer<ArrayList<Day>>() {
             @Override
