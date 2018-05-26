@@ -97,7 +97,7 @@ public class TimeOffFrag extends Fragment {
             public void onClick(View v) {
                 String start = timeOffViewModel.getStartDate();
                 String end = timeOffViewModel.getEndDate();
-                if(editTextReason.getText().toString() != null) {
+                if(!editTextReason.getText().toString().equals("")) {
                     String reason = DataManager.stringValidate(editTextReason.getText().toString());
                     if (DataManager.stringValidate(reason) != null && managerList.size() > 0) {
                         TimeOff timeOff = new TimeOff();
@@ -107,6 +107,8 @@ public class TimeOffFrag extends Fragment {
                         DataManager.hideKeyboard(getActivity());
                         Toast.makeText(getContext(), "Time off request sent", Toast.LENGTH_SHORT).show();
                     }
+                }else {
+                    Toast.makeText(getContext(),"Please enter a reason",Toast.LENGTH_SHORT).show();
                 }
             }
         });

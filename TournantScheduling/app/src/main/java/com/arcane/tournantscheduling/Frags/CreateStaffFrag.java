@@ -234,10 +234,12 @@ public class CreateStaffFrag extends Fragment {
             employee.setZip(zipText);
 
         }
-            if(DataManager.stringValidate(phone.getText().toString()) != null){
-            long phoneText = Long.parseLong(DataManager.stringValidate(phone.getText().toString()));
+        if (DataManager.stringValidate(phone.getText().toString()) != null){
+            String phoneNumber = phone.getText().toString();
+            phoneNumber = phoneNumber.replaceAll("[^\\d.]", "");
+            long phoneText = Long.parseLong(DataManager.stringValidate(phoneNumber));
             employee.setPhone(phoneText);
-            }
+        }
         String stateText = DataManager.stringValidate(state.getSelectedItem().toString());
 
         employee.setName(nameText);

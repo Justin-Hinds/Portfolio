@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,14 +77,10 @@ public class  CreateAccountFrag extends Fragment {
         restaurant.setZip(zipText);
 
         }
+        Log.d("Phone Number",PhoneNumberUtils.isGlobalPhoneNumber(phone.getText().toString()) +"");
         if (DataManager.stringValidate(phone.getText().toString()) != null){
             String phoneNumber = phone.getText().toString();
-            if(phoneNumber.contains("-") || phoneNumber.contains("(") || phoneNumber.contains(")")){
-                phoneNumber.replace("-","");
-                phoneNumber.replace("(","");
-                phoneNumber.replace(")","");
-
-            }
+            phoneNumber = phoneNumber.replaceAll("[^\\d.]", "");
         long phoneText = Long.parseLong(DataManager.stringValidate(phoneNumber));
         restaurant.setPhone(phoneText);
 
