@@ -9,7 +9,9 @@
         android:id="@+id/rec_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/schedule_card" />
@@ -32,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/start_end_margin"
+                android:layout_marginTop="@dimen/vertical_space_content_areas"
                 android:text="@string/scheduled_time"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/body_text_size"
@@ -42,10 +45,12 @@
                 android:id="@+id/textView_scheduled_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/start_end_margin"
+                android:layout_marginTop="@dimen/vertical_space_content_areas"
                 android:text="@string/time"
                 android:textSize="@dimen/body_text_size"
-                app:layout_constraintStart_toEndOf="@+id/textView2" />
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textview_others_working"
@@ -55,14 +60,16 @@
                 android:layout_marginTop="@dimen/vertical_space_content_areas"
                 android:text="@string/others_working"
                 android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/subtitle_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView2" />
 
             <ListView
                 android:id="@+id/working_listview"
-                android:layout_width="368dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:paddingBottom="@dimen/vertical_space_content_areas"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

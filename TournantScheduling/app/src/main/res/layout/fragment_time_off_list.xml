@@ -10,10 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:paddingBottom="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,26 +26,26 @@
         android:layout_marginBottom="@dimen/start_end_margin"/>
 
     <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="4dp"-->
-        <!--android:layout_gravity= "bottom"-->
-        <!--android:layout_marginBottom="52dp"-->
-        <!--android:background="#000000" />-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="4dp"-->
+    <!--android:layout_gravity= "bottom"-->
+    <!--android:layout_marginBottom="52dp"-->
+    <!--android:background="#000000" />-->
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:backgroundTint="@color/colorPrimary"
-    android:background="@color/colorPrimary">
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_nav_bar"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/nav_bar_background"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_gravity="bottom"
-        app:menu="@menu/bottom_nav_menu"/>
-</FrameLayout>
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@color/colorPrimary">
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/nav_bar_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="bottom"
+            app:menu="@menu/bottom_nav_menu"/>
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

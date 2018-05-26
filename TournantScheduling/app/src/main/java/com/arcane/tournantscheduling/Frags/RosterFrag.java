@@ -68,7 +68,7 @@ public class RosterFrag extends Fragment {
             }
         });
         mAdapter.setOnStaffSelectedListener(mListener);
-        scheduleRecAdapter = new RosterScheduleRecAdapter(myDataset,getContext());
+        scheduleRecAdapter = new RosterScheduleRecAdapter(myDataset,getActivity());
         Bundle bundle = getArguments();
         if(bundle != null){
             //Log.d("BUNDLE CONTENTS", bundle.toString());

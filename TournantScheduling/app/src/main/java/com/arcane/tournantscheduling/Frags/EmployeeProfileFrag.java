@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,6 +35,7 @@ public class EmployeeProfileFrag extends Fragment {
     TextView tPhone;
     TextView tName;
     TextView tEmail;
+    ActionBar actionBar;
     ScheduleRecyclerAdapter.OnDaySelectedListener mListener;
     public static EmployeeProfileFrag newInstance(){return new EmployeeProfileFrag();}
 
@@ -50,12 +53,14 @@ public class EmployeeProfileFrag extends Fragment {
         mDataset = new ArrayList();
         RosterViewModel rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         currentUser = rosterViewModel.getSelectedUser();
+        actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle(currentUser.getName());
         textView = root.findViewById(R.id.no_schedule);
         tEmail = root.findViewById(R.id.textview_email);
         tPhone = root.findViewById(R.id.textview_phone);
         tAddress = root.findViewById(R.id.textview_address);
         tName = root.findViewById(R.id.Textview_name);
-        tName.setText(currentUser.getName());
+        //tName.setText(currentUser.getName());
         tPhone.setText(String.valueOf(currentUser.getPhone()));
         String addressString = currentUser.getAddress() + "\n"  + currentUser.getCity()
                 + ", " + currentUser.getState() + " " + currentUser.getZip();
@@ -71,7 +76,7 @@ public class EmployeeProfileFrag extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter
-        mAdapter = new ScheduleRecyclerAdapter(mDataset,getContext());
+        mAdapter = new ScheduleRecyclerAdapter(mDataset,getActivity());
         mAdapter.setOnDaySelectedListener(mListener);
 
         mRecyclerView.setAdapter(mAdapter);
@@ -106,4 +111,9 @@ public class EmployeeProfileFrag extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        actionBar.setTitle(getActivity().getApplicationInfo().loadLabel(getActivity().getPackageManager()));
+    }
 }

@@ -14,16 +14,18 @@ public class Day implements Parcelable{
 //    String minOut;
     String month;
     String dayOfWeek;
+    String userId;
 
     public Day(){
 
     }
-    public Day(String in, String out, String sDate, String sMonth, String weekday){
+    public Day(String in, String out, String sDate, String sMonth, String weekday, String id){
         date = sDate;
         inTime = in;
         outTime = out;
         month = sMonth;
         dayOfWeek = weekday;
+        userId = id;
     }
 //    public Day(String sDate, String sHour, String sMin, String sMonth, String sHourOut, String sMinOut,String weekday){
 //        date = sDate;
@@ -131,6 +133,14 @@ public class Day implements Parcelable{
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Override

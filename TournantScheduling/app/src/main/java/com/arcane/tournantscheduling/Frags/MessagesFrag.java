@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
-import android.view.animation.TranslateAnimation;
 
 import com.arcane.tournantscheduling.Adapter.RosterRecyclerAdapter;
 import com.arcane.tournantscheduling.Models.Message;
@@ -42,7 +40,7 @@ public class MessagesFrag extends Fragment {
     ArrayList<Message> messages;
     RosterViewModel rosterViewModel;
     RosterRecyclerAdapter.OnStaffSelectedListener mListener;
-    FloatingActionButton fab,fabSingle, fabGlobal;
+    FloatingActionButton fab,fabSingle, fabGlobal;// fabGroup;
     Animation open,close,rotateClockwise,rotateCounter;
     Boolean isOpen = false;
     @Override
@@ -64,7 +62,8 @@ public class MessagesFrag extends Fragment {
 
         fab = root.findViewById(R.id.fab);
         fabSingle = root.findViewById(R.id.fab_single);
-        fabGlobal = root.findViewById(R.id.fab_group);
+        fabGlobal = root.findViewById(R.id.fab_global);
+       // fabGroup = root.findViewById(R.id.fab_group);
         open = AnimationUtils.loadAnimation(getContext(),R.anim.fab_open);
         close = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
         rotateClockwise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_clockwise);
@@ -81,22 +80,35 @@ public class MessagesFrag extends Fragment {
                 openRosterSelection();
             }
         });
-
+//        fabGroup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MessageGroupFrag frag = MessageGroupFrag.newInstance();
+//                getActivity().getSupportFragmentManager()
+//                        .beginTransaction().replace(R.id.home_view,frag,MessageGroupFrag.TAG)
+//                        .addToBackStack(MessageGroupFrag.TAG)
+//                        .commit();
+//            }
+//        });
         fab.setOnClickListener(view -> {
             if(rosterViewModel.getCurrentUser().isManager()){
                 if(isOpen){
                     fab.startAnimation(rotateCounter);
                     fabSingle.startAnimation(close);
                     fabGlobal.startAnimation(close);
+                   // fabGroup.startAnimation(close);
                     fabGlobal.setClickable(false);
                     fabSingle.setClickable(false);
+                   // fabGroup.setClickable(false);
                     isOpen = false;
                 }else {
                     fab.startAnimation(rotateClockwise);
                     fabSingle.startAnimation(open);
                     fabGlobal.startAnimation(open);
+                    //fabGroup.startAnimation(open);
                     fabGlobal.setClickable(true);
                     fabSingle.setClickable(true);
+                    //fabGroup.setClickable(true);
                     isOpen = true;
                 }
             }else {
@@ -124,9 +136,8 @@ public class MessagesFrag extends Fragment {
            public void onChanged(@Nullable ArrayList<Staff> staff1) {
                assert staff1 != null;
                ArrayList arrayList = new ArrayList(staff1);
-               Iterator iterator = arrayList.iterator();
-
-            mAdapter.update(staff1);
+               //Iterator iterator = arrayList.iterator();
+               mAdapter.update(staff1);
            }
        });
     }
@@ -154,7 +165,6 @@ private void openCompanyMessage(){
 //                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", null).show();
     ArrayList<Staff> staffArrayList = new ArrayList<>(rosterViewModel.getUsers().getValue());
     Staff currentUser = rosterViewModel.getCurrentUser();
-    assert staffArrayList != null;
 //                Log.d("BEFORE", staffArrayList.size() + "");
     for (int i = 0; i < staffArrayList.size(); i++){
         if(staffArrayList.get(i).getId().equals(currentUser.getId())){

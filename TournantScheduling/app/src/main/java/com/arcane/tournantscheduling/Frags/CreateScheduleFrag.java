@@ -4,10 +4,12 @@ package com.arcane.tournantscheduling.Frags;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import com.arcane.tournantscheduling.R;
 import com.arcane.tournantscheduling.ViewModels.ScheduleViewModel;
@@ -33,11 +35,22 @@ public class CreateScheduleFrag extends Fragment {
         calendarView = root.findViewById(R.id.calendar);
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(getActivity()).get(ScheduleViewModel.class);
         calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
+
+            long currentTime = System.currentTimeMillis();
+            Calendar calendarNow = Calendar.getInstance();
+            calendarNow.setTimeInMillis(currentTime);
+
             String date = (i1 + 1) + "-" + i2 + "-" + i;
             String weekday = "Sunday";
             //Log.d(TAG, date);
             Calendar calendar = Calendar.getInstance();
             calendar.set(i, i1, i2);
+
+            if(currentTime > calendar.getTimeInMillis()){
+                Log.d("THIS IS"," THE PAST");
+                Toast.makeText(getContext(),"Can not schedule past dates", Toast.LENGTH_SHORT).show();
+                return;
+            }
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             switch (dayOfWeek){
                 case Calendar.SUNDAY:
@@ -65,6 +78,7 @@ public class CreateScheduleFrag extends Fragment {
 
             //Log.d("CALENDAR WEEKDAY", weekday + "");
             scheduleViewModel.setWeekDay(weekday);
+            scheduleViewModel.setDateString(date);
             Bundle bundle = new Bundle();
             bundle.putString("DATE",weekday);
             bundle.putString(SCHEDULE_DATE, date);

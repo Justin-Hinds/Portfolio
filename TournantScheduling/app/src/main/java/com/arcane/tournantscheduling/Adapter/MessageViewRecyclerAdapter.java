@@ -1,5 +1,12 @@
 package com.arcane.tournantscheduling.Adapter;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,7 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.arcane.tournantscheduling.Models.Message;
+import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
+import com.arcane.tournantscheduling.Utils.DataManager;
+import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,9 +28,16 @@ import static android.provider.Settings.System.DATE_FORMAT;
 
 public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Message> mDataset;
+    FragmentActivity mContext;
+    RosterViewModel rosterViewModel;
+    Staff currentuser;
+    DataManager dataManager = new DataManager();
 
-    public MessageViewRecyclerAdapter(ArrayList myData){//noinspection unchecked
+    public MessageViewRecyclerAdapter(ArrayList myData, FragmentActivity context){//noinspection unchecked
         mDataset = myData;
+        mContext = context;
+     rosterViewModel = ViewModelProviders.of(mContext).get(RosterViewModel.class);
+     currentuser = rosterViewModel.getCurrentUser();
     }
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
@@ -109,6 +126,14 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
             messageText = itemView.findViewById(R.id.message_text);
             timeText = itemView.findViewById(R.id.time_text);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    deleteMessagePrompt(mDataset.get(getAdapterPosition()),getAdapterPosition());
+                    Log.d("Delete at", getAdapterPosition() + "");
+                    return true;
+                }
+            });
         }
 
         void bind(Message message) {
@@ -118,7 +143,7 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
+    private class ReceivedMessageHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
         final TextView messageText;
         final TextView timeText;
 
@@ -127,6 +152,7 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
             messageText = itemView.findViewById(R.id.message_text);
             timeText = itemView.findViewById(R.id.time_text);
+            itemView.setOnLongClickListener(this);
         }
         void bind(Message message) {
             messageText.setText(message.getMessage());
@@ -134,5 +160,32 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
             // Format the stored timestamp into a readable String using method.
         }
 
+        @Override
+        public boolean onLongClick(View v) {
+            deleteMessagePrompt(mDataset.get(getAdapterPosition()),getAdapterPosition());
+            Log.d("Delete at", getAdapterPosition() + "");
+            return true;
+        }
+    }
+
+    private void deleteMessagePrompt(Message message, int position){
+        new AlertDialog.Builder(mContext)
+                .setTitle("Delete Message")
+                .setMessage("Are you sure you want to delete this message?" )
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dataManager.deleteMessage(mDataset.get(position),currentuser);
+                        mDataset.remove(position);
+                        notifyItemRemoved(position);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 }

@@ -70,6 +70,7 @@
     <string name="staff_time_off">Staff Time Off</string>
     <string name="your_time_off">Your Time Off</string>
     <string name="pending">Pending</string>
+    <string name="tuesday">Tuesday</string>
 
     <string-array name="availability_options">
         <item name="Available">Available</item>
@@ -82,6 +83,7 @@
         <item name="Floor">Floor</item>
         <item name="Bar">Bar</item>
         <item name="Kitchen">Kitchen</item>
+        <item name="Managers">Managers</item>
     </string-array>
     <string-array name="state_list">
         <item>AL</item>

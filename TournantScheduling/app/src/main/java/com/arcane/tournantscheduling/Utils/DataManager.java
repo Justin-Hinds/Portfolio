@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.arcane.tournantscheduling.Models.Availability;
 import com.arcane.tournantscheduling.Models.Day;
+import com.arcane.tournantscheduling.Models.GroupChat;
+import com.arcane.tournantscheduling.Models.Message;
 import com.arcane.tournantscheduling.Models.Restaurant;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.Models.TimeOff;
@@ -29,7 +31,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.text.DateFormat;
@@ -434,7 +438,19 @@ public class DataManager {
                     }
                 });
     }
+    private void createGroupChat(Staff staff, GroupChat groupChat){
+        GroupChat chat = groupChat;
+       DocumentReference reference =  db.collection("Restaurants").document(staff.getRestaurantID())
+                .collection("Group Chat").document();
+       String groupId = reference.getId();
+       chat.setId(groupId);
+        reference.set(chat).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
 
+            }
+        });
+    }
     private void newTimeOff(String s, TimeOff timeOff, Staff manager, String id){
         Map<String,Object> timeOffDate = new HashMap<>();
         timeOffDate.put(s , true);
@@ -462,5 +478,55 @@ public class DataManager {
         if (currentFocusedView != null) {
             inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    public void deleteOldDays(Staff user, String date){
+        DocumentReference userRef = db.collection("Restaurants")
+                .document(user.getRestaurantID()).collection("Users")
+                .document(user.getId());
+        userRef.collection("Days").document(date).delete().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("DELETE", "FAILED");
+            }
+        });
+        //userRef.update("timeOff."+date, FieldValue.delete());
+
+    }
+    public void deleteScheduledDay(Day day, Staff staff,Context context){
+        Log.d("STAFF", staff.getId());
+
+        db.collection("Restaurants").document(staff.getRestaurantID())
+                .collection("Users").document(staff.getId())
+                .collection("Days").document(day.getDate()).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(context,"Successfully deleted scheduled day.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+    public void deleteMessage(Message message, Staff staff){
+
+         db.collection("Restaurants")
+                .document(staff.getRestaurantID()).collection("Messages")
+                .whereEqualTo("time",message.getTime()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+             @Override
+             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                 if(task.isSuccessful()){
+                     for(DocumentSnapshot snapshot : task.getResult().getDocuments()){
+                         Log.d("Message id", snapshot.getId());
+                         String messageId = "";
+                         messageId = snapshot.getId();
+                         DocumentReference messageRef = db.collection("Restaurants")
+                                 .document(staff.getRestaurantID()).collection("Messages")
+                                 .document(messageId);
+                         messageRef.delete();
+                     }
+                 }
+             }
+         });
     }
 }

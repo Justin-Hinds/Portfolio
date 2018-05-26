@@ -60,6 +60,18 @@ public class ScheduleRosterFrag extends Fragment {
         RecyclerView mRecyclerView = root.findViewById(R.id.roster_rec_view);
         rosterRecyclerAdapter = new RosterRecyclerAdapter(myDataset,getContext(),TAG);
         myDataset = new ArrayList<>(viewModel.getUsers().getValue());
+        Iterator<Staff> iterator = myDataset.iterator();
+
+        while (iterator.hasNext()) {
+            Staff staff = iterator.next();
+            if (staff.getSection() != null) {
+                if (scheduleViewModel.getSection().equals("Managers") && !staff.isManager()) {
+                    iterator.remove();
+                } else if (!staff.getSection().equals(scheduleViewModel.getSection())) {
+                    iterator.remove();
+                }
+            }
+        }
         availabilityCheck();
         viewModel.getUsers().observe(getActivity(), new Observer<ArrayList<Staff>>() {
             @Override
@@ -67,7 +79,6 @@ public class ScheduleRosterFrag extends Fragment {
                 ArrayList<Staff> staffArrayList = new ArrayList<>(staff);
                 ArrayList<Staff> newList = new ArrayList<>();
                 assert staff != null;
-                Iterator<Staff> iterator = staffArrayList.iterator();
 
             }
         });

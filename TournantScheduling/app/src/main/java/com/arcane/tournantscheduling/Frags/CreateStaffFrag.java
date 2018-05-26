@@ -44,6 +44,7 @@ public class CreateStaffFrag extends Fragment {
     private DataManager dataMan;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Spinner state;
+    Spinner sectionSpinner;
     EditText employeeName;
     EditText address;
     EditText city;
@@ -190,6 +191,8 @@ public class CreateStaffFrag extends Fragment {
                 android.R.layout.simple_list_item_1,
                 getActivity().getResources().getStringArray(R.array.state_list));
         state.setAdapter(spinnerAdapter);
+        sectionSpinner = view.findViewById(R.id.spinner_section);
+
     }
     private void getUser(){
         db.collection("Restaurants").get().addOnCompleteListener(task -> {
@@ -223,7 +226,7 @@ public class CreateStaffFrag extends Fragment {
         String addressText = DataManager.stringValidate(address.getText().toString());
         String cityText = DataManager.stringValidate(city.getText().toString());
         String emailText = DataManager.stringValidate(email.getText().toString());
-
+        String sectionString = DataManager.stringValidate(sectionSpinner.getSelectedItem().toString());
         employee = new Staff();
         if(DataManager.stringValidate(zip.getText().toString()) != null){
             int zipText = Integer.parseInt(DataManager.stringValidate(zip.getText().toString()));
@@ -243,6 +246,7 @@ public class CreateStaffFrag extends Fragment {
         employee.setState(stateText);
         employee.setEmail(emailText);
         employee.setManager(false);
+        employee.setSection(sectionString);
         employee.setCreated(new Date());
     }
 }

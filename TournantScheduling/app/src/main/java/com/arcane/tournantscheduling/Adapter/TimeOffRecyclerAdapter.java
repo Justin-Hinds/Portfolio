@@ -61,13 +61,16 @@ public class TimeOffRecyclerAdapter extends RecyclerView.Adapter<TimeOffRecycler
                                 public void onClick(DialogInterface dialog, int which) {
                                     TimeOff timeOff = mDataset.get(position);
                                     dataManager.timeOffRequestApproval(true,manager, timeOff.getSender(),mContext,timeOff);
+                                    holder.approved.setText("APPROVED");
+                                    holder.approved.setTextColor(Color.GREEN);
                                 }
                             }).setNegativeButton("DENY", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             TimeOff timeOff = mDataset.get(position);
                             dataManager.timeOffRequestApproval(false,manager, timeOff.getSender(),mContext, timeOff);
-
+                            holder.approved.setText("DENIED");
+                            holder.approved.setTextColor(Color.RED);
                         }
                     }).show();
                 }

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
@@ -61,6 +62,7 @@ public class EmployeeProfileEditFrag extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 setupEmployeeUpdate();
                                 rosterViewModel.updateUserProfile(employee);
+                                Toast.makeText(getContext(),employee.getName() + " has been updated.",Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }
                         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -90,6 +92,11 @@ public class EmployeeProfileEditFrag extends Fragment {
                 getActivity().getResources().getStringArray(R.array.state_list));
         state.setAdapter(spinnerAdapter);
 
+        ArrayAdapter<String> sectionSpinnerAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1,
+                getActivity().getResources().getStringArray(R.array.section_strings));
+        sectionSpinner.setAdapter(sectionSpinnerAdapter);
+
         if(employee != null){
             int spinPosition = spinnerAdapter.getPosition(employee.getState());
             email.setText(employee.getEmail());
@@ -100,6 +107,10 @@ public class EmployeeProfileEditFrag extends Fragment {
             zip.setText(String.valueOf(employee.getZip()));
             phone.setText(String.valueOf(employee.getPhone()));
             managerSwitch.setChecked(employee.isManager());
+            if(employee.getSection()!=null){
+                int sectionPostition = sectionSpinnerAdapter.getPosition(employee.getSection());
+                sectionSpinner.setSelection(sectionPostition);
+            }
         }
     }
 
@@ -118,12 +129,13 @@ public class EmployeeProfileEditFrag extends Fragment {
         String addressString = DataManager.stringValidate(address.getText().toString());
         String stateString = DataManager.stringValidate(state.getSelectedItem().toString());
         String cityString = DataManager.stringValidate(city.getText().toString());
-
+        String sectionString = DataManager.stringValidate(sectionSpinner.getSelectedItem().toString());
         employee.setName(nameString);
         employee.setEmail(emailString);
         employee.setAddress(addressString);
         employee.setState(stateString);
         employee.setCity(cityString);
+        employee.setSection(sectionString);
         employee.setManager(managerSwitch.isChecked());
     }
 }

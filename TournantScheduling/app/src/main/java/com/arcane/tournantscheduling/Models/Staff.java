@@ -22,6 +22,7 @@ public class Staff implements Parcelable {
     Date created;
     long phone;
     boolean manager;
+    String section;
     Map<String,Object> week;
     Map<String, Object> days;
     Availability availability;
@@ -188,6 +189,14 @@ public class Staff implements Parcelable {
         parcel.writeInt(zip);
         parcel.writeLong(phone);
         parcel.writeByte((byte) (manager ? 1 : 0));
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 
     public String getDeviceToken() {

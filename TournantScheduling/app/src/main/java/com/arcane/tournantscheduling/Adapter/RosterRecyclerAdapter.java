@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.arcane.tournantscheduling.Frags.DayScheduleFrag;
+import com.arcane.tournantscheduling.Frags.MessageGroupFrag;
 import com.arcane.tournantscheduling.Frags.MessagesFrag;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
@@ -39,6 +40,7 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
         void OnStaffSelected(Staff staff);
         void OnNewChatSelected(Staff staff);
         void OnStaffChecked(int position, ArrayList<Staff> staffMembers);
+        void OnGroupSelected(int position, ArrayList<Staff> groupMembers);
     }
     public void setOnStaffSelectedListener(RosterRecyclerAdapter.OnStaffSelectedListener listener){
         mListener = listener;
@@ -56,7 +58,7 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.staffName.setText(mDataset.get(position).getName());
 
-        if(fragTag.equals(ScheduleRosterFrag.TAG)){
+        if(fragTag.equals(ScheduleRosterFrag.TAG) || fragTag.equals(MessageGroupFrag.TAG)){
             holder.checkBox.setVisibility(View.VISIBLE);
         }else {
             holder.checkBox.setVisibility(View.GONE);
@@ -90,8 +92,10 @@ public class RosterRecyclerAdapter extends RecyclerView.Adapter<RosterRecyclerAd
                         if (!mSecondDataset.contains(mDataset.get(getAdapterPosition()))) {
                         mSecondDataset.add(mDataset.get(getAdapterPosition()));
                     }
-                    if (mSecondDataset != null) {
+                    if (mSecondDataset != null && fragTag.equals(ScheduleRosterFrag.TAG)) {
                         mListener.OnStaffChecked(getAdapterPosition(), mSecondDataset);
+                    }else if(mSecondDataset != null && fragTag.equals(MessageGroupFrag.TAG)){
+                            mListener.OnGroupSelected(getAdapterPosition(),mSecondDataset);
                     }
                 }else {
                     mSecondDataset.remove(mSecondDataset.get(getAdapterPosition()));

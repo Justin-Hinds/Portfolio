@@ -14,12 +14,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.arcane.tournantscheduling.Adapter.ScheduleRecyclerAdapter;
+import com.arcane.tournantscheduling.Models.Day;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
+import com.arcane.tournantscheduling.Utils.DataManager;
 import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 import com.arcane.tournantscheduling.ViewModels.ScheduleViewModel;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class HomeScreenFrag  extends Fragment {
@@ -28,6 +35,7 @@ public class HomeScreenFrag  extends Fragment {
     ScheduleRecyclerAdapter mAdapter;
     Staff currentUser;
     TextView textView;
+    DataManager dataManager;
     ScheduleRecyclerAdapter.OnDaySelectedListener mListener;
     public static HomeScreenFrag newInstance(){return new HomeScreenFrag();}
 
@@ -40,9 +48,28 @@ public class HomeScreenFrag  extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        dataManager = new DataManager();
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(getActivity()).get(ScheduleViewModel.class);
         scheduleViewModel.getUserSchedule(currentUser);
         scheduleViewModel.getSchedule(currentUser).observe(getActivity(), days -> {
+            long currentTime = System.currentTimeMillis();
+            for (Day day : days){
+                String str = day.getDate().replace("-","/");
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(currentTime);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                try {
+                    Date date = dateFormat.parse(str);
+
+
+                    if( currentTime > date.getTime()){
+                        dataManager.deleteOldDays(currentUser,day.getDate());
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
             mDataset = days;
             mAdapter.update(days);
             if(mDataset.isEmpty()){
@@ -56,7 +83,6 @@ public class HomeScreenFrag  extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("onCreate","CALLED");
 //TODO: FILTER OLD DAY OUT
         View root = inflater.inflate(R.layout.fragment_home_screen,container,false);
         mDataset = new ArrayList();
@@ -72,7 +98,7 @@ public class HomeScreenFrag  extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter
-        mAdapter = new ScheduleRecyclerAdapter(mDataset,getContext());
+        mAdapter = new ScheduleRecyclerAdapter(mDataset,getActivity());
         mAdapter.setOnDaySelectedListener(mListener);
 
         mRecyclerView.setAdapter(mAdapter);

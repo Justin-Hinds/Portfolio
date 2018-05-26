@@ -35,6 +35,8 @@ public class ScheduleViewModel extends ViewModel {
     private Day scheduledDay;
     private String weekDay;
     String postSectionDay;
+    String dateString;
+    String section;
 
     public ScheduleViewModel(){
         Log.d(" SCHEDULE VIEW MODEL", "CONSTRUCTOR");
@@ -46,8 +48,6 @@ public class ScheduleViewModel extends ViewModel {
             liveSchedule = new MutableLiveData<>();
             currentUser = user;
             if(user != null){
-                Log.d("SCHEDULED USER",user.getName());
-
                 getUserSchedule(user);
             }else {
                 Log.d("LIVEDATA Get User", "NULL");
@@ -68,8 +68,6 @@ public class ScheduleViewModel extends ViewModel {
                         Log.w(TAG, "Listen failed.", e);
                         return;
                     }
-                    Log.d("SCHEDULED DAY", "HIT");
-                    Log.d("Day List", values.getDocuments().size() + "");
                     if(values.getDocuments().size() == 0){
                         ArrayList arrayList = new ArrayList();
                         liveSchedule.setValue(arrayList);
@@ -83,10 +81,8 @@ public class ScheduleViewModel extends ViewModel {
                             dayArrayList = days[0];
                            // liveSchedule.setValue(days);
                         }else {
-                            Log.d("SHOULD BE", "NULL");
                             days[0] = new ArrayList<>();
                         }
-                        Log.d("Day List Size","" + days[0].size());
 
                         liveSchedule.setValue(days[0]);
                     }
@@ -118,18 +114,7 @@ public class ScheduleViewModel extends ViewModel {
 
             Log.d("TimeOff", user.getTimeOff().toString());
 
-//        db.collection("Restaurants")
-//                .document(currentUser.getRestaurantID()).collection("Users")
-//                .document(currentUser.getId()).collection("TimeOff").get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        for(DocumentSnapshot doc : task.getResult()){
-//
-//                        Log.d("TIME OFF", doc.toObject(TimeOff.class).getDates().get(0));
-//                        }
-//                    }
-//                });
+
         return availableStaff;
     }
 
@@ -165,5 +150,21 @@ public class ScheduleViewModel extends ViewModel {
 
     public void setPostSectionDay(String postSectionDay) {
         this.postSectionDay = postSectionDay;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 }

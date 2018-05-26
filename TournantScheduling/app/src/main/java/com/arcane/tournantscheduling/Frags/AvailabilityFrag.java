@@ -172,4 +172,5 @@ public class AvailabilityFrag extends Fragment implements AdapterView.OnItemSele
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
 }

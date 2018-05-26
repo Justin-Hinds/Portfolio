@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.arcane.tournantscheduling.Frags.MessagesFrag">
 
-    <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/roster_rec_view"
         android:layout_width="match_parent"
@@ -21,11 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_add"
+        app:srcCompat="@drawable/ic_add"
         android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_marginBottom="@dimen/start_end_margin"
-        android:elevation="@dimen/vertical_space_content_areas"
-        app:pressedTranslationZ="12dp"/>
+        android:elevation="@dimen/vertical_space_content_areas" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_single"
@@ -34,24 +32,35 @@
         android:layout_gravity= "bottom|end"
         android:layout_marginBottom="140dp"
         android:src="@drawable/ic_add_person"
-        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
         android:layout_marginEnd="@dimen/start_end_margin"
         android:elevation="6dp"
         android:visibility="invisible"
         app:pressedTranslationZ="12dp"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_group"
+        android:id="@+id/fab_global"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="80dp"
-        android:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimaryDark"
         android:layout_marginEnd="@dimen/start_end_margin"
         android:src="@drawable/ic_global"
         android:visibility="invisible"
         android:elevation="6dp"
         app:pressedTranslationZ="12dp"/>
 
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity= "bottom|end"
+        android:layout_marginBottom="200dp"
+        android:src="@drawable/ic_add_group"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_marginEnd="@dimen/start_end_margin"
+        android:elevation="6dp"
+        android:visibility="invisible"
+        app:pressedTranslationZ="12dp"/>
 </android.support.design.widget.CoordinatorLayout>

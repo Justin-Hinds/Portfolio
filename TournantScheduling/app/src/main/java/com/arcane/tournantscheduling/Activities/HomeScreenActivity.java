@@ -8,6 +8,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
@@ -42,6 +43,7 @@ import com.arcane.tournantscheduling.Frags.HomeScreenFrag;
 import com.arcane.tournantscheduling.Frags.MessageViewFrag;
 import com.arcane.tournantscheduling.Frags.MessagesFrag;
 import com.arcane.tournantscheduling.Frags.TimeOffListFrag;
+import com.arcane.tournantscheduling.Models.GroupChat;
 import com.arcane.tournantscheduling.Models.TimeOff;
 import com.arcane.tournantscheduling.Utils.DataManager;
 import com.arcane.tournantscheduling.Models.Day;
@@ -161,8 +163,6 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        //actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
         progressBar = findViewById(R.id.progressBar);
         dataManager = new DataManager();
         fragmentManager.addOnBackStackChangedListener(this);
@@ -195,7 +195,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         tabletViewGroup = findViewById(R.id.detail_view);
         mTablet = (tabletViewGroup != null);
         if(mTablet){
-//            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             mDrawerLayout.setScrimColor(Color.TRANSPARENT);
         }
 
@@ -291,6 +291,15 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                 toolbar.getMenu().clear();
                 toolbar.inflateMenu(R.menu.menu_schedule);
                 break;
+            case R.id.message_group_done:
+                ArrayList<String> arrayList = new ArrayList();
+                for(Staff staff : staffArrayList){
+                    arrayList.add(staff.getId());
+                }
+                GroupChat groupChat = new GroupChat();
+                groupChat.setUserIds(arrayList);
+                toolbar.getMenu().clear();
+                break;
             case android.R.id.home:
                 if(!mTablet){
                 mDrawerLayout.openDrawer(GravityCompat.START);
@@ -337,6 +346,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         toolbar.getMenu().clear();
         newDate = date;
         scheduleViewModel.setPostSectionDay(date);
+        scheduleViewModel.setSection(section);
         RosterFrag.isInActionMode=true;
         ScheduleRosterFrag frag = ScheduleRosterFrag.newInstance();
         fragmentManager
@@ -392,21 +402,34 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         staffArrayList = staffMembers;
     }
 
+    @Override
+    public void OnGroupSelected(int position, ArrayList<Staff> groupMembers) {
+        staffArrayList = groupMembers;
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
         String newTimeString;
+
+
         Calendar calendar = Calendar.getInstance();
         java.text.SimpleDateFormat frmTime = new java.text.SimpleDateFormat("hh:mm",Locale.getDefault());
         if(inTime) {
             scheduledHour = timePicker.getCurrentHour();
             scheduledMinute = timePicker.getCurrentMinute();
+            String postSTR = " AM";
+            if(scheduledHour > 11){
+                postSTR = " PM";
+            }
             calendar.set(Calendar.HOUR_OF_DAY,timePicker.getCurrentHour());
             calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
-            newTimeString = frmTime.format(calendar.getTime());
+            newTimeString = frmTime.format(calendar.getTime()) + postSTR;
+            Log.d("SCHEDULED HOUR", newTimeString);
+
             if(DataManager.hourlyAvailable(scheduledHour,scheduledUser,scheduleViewModel.getWeekDay())){
-            String timeString = String.valueOf(scheduledHour) + " : " + String.valueOf(scheduledMinute);
+            //String timeString = String.valueOf(scheduledHour) + " : " + String.valueOf(scheduledMinute);
             inScheduledTime = newTimeString;
             if(inTextview != null){
             inTextview.setText(newTimeString);
@@ -430,9 +453,12 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
             String timeString = String.valueOf(outHour) + " : " + String.valueOf(outMin);
             calendar.set(Calendar.HOUR_OF_DAY,timePicker.getCurrentHour());
             calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
-
+            String postSTR = " AM";
+            if(outHour > 11){
+                postSTR = " PM";
+            }
             if(DataManager.hourlyAvailable(outHour,scheduledUser,scheduleViewModel.getWeekDay())){
-                newTimeString = frmTime.format(calendar.getTime());
+                newTimeString = frmTime.format(calendar.getTime()) + postSTR;
                 outScheduledTime = newTimeString;
                 if(outTextview != null){
                     outTextview.setText(newTimeString);
@@ -455,12 +481,14 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     }
 
     private void setScheduledDay(){
+
         Calendar calendar = Calendar.getInstance();
+
         java.text.SimpleDateFormat month_date = new java.text.SimpleDateFormat("MMMM", Locale.getDefault());
         java.text.SimpleDateFormat weekDay = new java.text.SimpleDateFormat("EE",Locale.getDefault());
 
         String month_name = month_date.format(calendar.getTime());
-        Day newDay = new Day(inScheduledTime,outScheduledTime,newDate,month_name,scheduleViewModel.getWeekDay());
+        Day newDay = new Day(inScheduledTime,outScheduledTime,newDate,month_name,scheduleViewModel.getWeekDay(),scheduledUser.getId());
         Map<String,Day> dayHashMap = new HashMap<>();
         dayHashMap.put(newDate, newDay);
         dataManager.updateUserDay(scheduledUser, currentUser, newDay,this);
@@ -490,14 +518,15 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
                                     .addToBackStack(AvailabilityFrag.TAG).commit();
+                            DataManager.hideKeyboard(this);
                             break;
                         case R.id.request_time_off:
-                            //TODO: CHANGE
                             fragment = TimeOffListFrag.newInstance();
                             fragmentManager
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
                                     .addToBackStack(TimeOffListFrag.TAG).commit();
+                            DataManager.hideKeyboard(this);
                             break;
                         case R.id.settings:
                             fragment = SettingsFragment.newInstance();
@@ -505,6 +534,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
                                     .addToBackStack(SettingsFragment.TAG).commit();
+                            DataManager.hideKeyboard(this);
                             break;
                         case R.id.create_schedule:
                             fragment = CreateScheduleFrag.newInstance();
@@ -513,6 +543,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
                                     .addToBackStack(CreateScheduleFrag.TAG).commit();
+                            DataManager.hideKeyboard(this);
+
                             break;
                         case R.id.messages:
                             fragment = MessagesFrag.newInstance();
@@ -521,6 +553,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
                                     .addToBackStack(MessagesFrag.TAG).commit();
+                            DataManager.hideKeyboard(this);
+
                             break;
                         case R.id.home:
                             fragment = fragmentManager.findFragmentByTag(HomeScreenFrag.TAG);
@@ -528,6 +562,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
                                     .addToBackStack(HomeScreenFrag.TAG).commit();
+                            DataManager.hideKeyboard(this);
+
                             break;
                         case R.id.create_manage_staff:
                             fragment = RosterFrag.newInstance();
@@ -537,10 +573,10 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                                     .beginTransaction()
                                     .replace(R.id.home_view,fragment)
                                     .addToBackStack(RosterFrag.TAG).commit();
-                            Log.d("BUNDLE:","SENT");
-
+                            DataManager.hideKeyboard(this);
                             break;
                         case R.id.logout:
+                            DataManager.hideKeyboard(this);
                             mAuth.getInstance().signOut();
                             updateUI(mAuth.getCurrentUser());
                             break;

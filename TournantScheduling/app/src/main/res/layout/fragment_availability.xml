@@ -28,6 +28,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/monday"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toTopOf="@+id/spinner_tuesday"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/spinner_monday" />
@@ -38,7 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="@dimen/start_end_margin"
-        android:text="Tuesday"
+        android:text="@string/tuesday"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_tuesday"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +53,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/wednesday"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_wednesday"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/spinner_wednesday" />
@@ -62,6 +65,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/thursday"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toTopOf="@+id/spinner_friday"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/spinner_thursday" />
@@ -73,6 +77,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/friday"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_friday"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/spinner_friday" />
@@ -84,6 +89,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/saturday"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_saturday"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/spinner_saturday" />
@@ -95,6 +101,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/sunday"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_sunday"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +111,6 @@
         android:id="@+id/spinner_monday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_availability" />
@@ -113,7 +119,6 @@
         android:id="@+id/spinner_tuesday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_monday" />
@@ -122,7 +127,6 @@
         android:id="@+id/spinner_wednesday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_tuesday" />
@@ -131,7 +135,6 @@
         android:id="@+id/spinner_thursday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_wednesday" />
@@ -140,7 +143,6 @@
         android:id="@+id/spinner_friday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_thursday" />
@@ -149,7 +151,6 @@
         android:id="@+id/spinner_saturday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -159,7 +160,6 @@
         android:id="@+id/spinner_sunday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/start_end_margin"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_saturday" />

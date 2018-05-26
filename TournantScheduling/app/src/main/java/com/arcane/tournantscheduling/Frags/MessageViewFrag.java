@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,6 +43,7 @@ public class MessageViewFrag extends Fragment {
     RecyclerView.LayoutManager mLayoutManager;
     ArrayList<Message> mDataset;
     MessageViewRecyclerAdapter mAdapter;
+    ActionBar actionBar;
     public static MessageViewFrag newInstance() {
         return new MessageViewFrag();
     }
@@ -61,7 +64,8 @@ public class MessageViewFrag extends Fragment {
         rosterViewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         currentUser = rosterViewModel.getCurrentUser();
         chatBuddy = rosterViewModel.getChatBuddy();
-
+        actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle(chatBuddy.getName());
 //        rosterViewModel.getStaffMemberLiveData(chatBuddy.getId()).getValue();
         MessagesViewModel messagesViewModel = ViewModelProviders.of(getActivity()).get(MessagesViewModel.class);
         messagesViewModel.setCurrentUser(currentUser);
@@ -69,7 +73,7 @@ public class MessageViewFrag extends Fragment {
 //        myTimeOffList = new ArrayList<>(messagesViewModel.getLiveChat(chatBuddy).getValue());
 //        Collections.sort(myTimeOffList);
         mDataset = new ArrayList<>();
-        mAdapter = new MessageViewRecyclerAdapter(mDataset);
+        mAdapter = new MessageViewRecyclerAdapter(mDataset,getActivity());
         messagesViewModel.getLiveChat(rosterViewModel.getChatBuddy()).observe(getActivity(), new Observer<ArrayList<Message>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Message> messages) {
@@ -131,4 +135,9 @@ public class MessageViewFrag extends Fragment {
         messageText.setText("");
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        actionBar.setTitle(getActivity().getApplicationInfo().loadLabel(getActivity().getPackageManager()));
+    }
 }
