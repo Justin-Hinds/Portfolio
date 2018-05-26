@@ -76,7 +76,14 @@ public class  CreateAccountFrag extends Fragment {
 
         }
         if (DataManager.stringValidate(phone.getText().toString()) != null){
-        long phoneText = Long.parseLong(DataManager.stringValidate(phone.getText().toString()));
+            String phoneNumber = phone.getText().toString();
+            if(phoneNumber.contains("-") || phoneNumber.contains("(") || phoneNumber.contains(")")){
+                phoneNumber.replace("-","");
+                phoneNumber.replace("(","");
+                phoneNumber.replace(")","");
+
+            }
+        long phoneText = Long.parseLong(DataManager.stringValidate(phoneNumber));
         restaurant.setPhone(phoneText);
 
         }

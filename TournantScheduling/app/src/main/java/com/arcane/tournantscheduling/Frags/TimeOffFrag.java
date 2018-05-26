@@ -97,14 +97,16 @@ public class TimeOffFrag extends Fragment {
             public void onClick(View v) {
                 String start = timeOffViewModel.getStartDate();
                 String end = timeOffViewModel.getEndDate();
-                String reason = DataManager.stringValidate(editTextReason.getText().toString());
-                if(DataManager.stringValidate(reason) != null && managerList.size() > 0) {
-                    TimeOff timeOff = new TimeOff();
-                    timeOffViewModel.getTimeOffRequest(start, end, reason, managerList);
-                   // HomeScreenFrag frag = HomeScreenFrag.newInstance();
-                    getActivity().getSupportFragmentManager().popBackStack(HomeScreenFrag.TAG,0);
-                    DataManager.hideKeyboard(getActivity());
-                    Toast.makeText(getContext(),"Time off request sent", Toast.LENGTH_SHORT).show();
+                if(editTextReason.getText().toString() != null) {
+                    String reason = DataManager.stringValidate(editTextReason.getText().toString());
+                    if (DataManager.stringValidate(reason) != null && managerList.size() > 0) {
+                        TimeOff timeOff = new TimeOff();
+                        timeOffViewModel.getTimeOffRequest(start, end, reason, managerList);
+                        // HomeScreenFrag frag = HomeScreenFrag.newInstance();
+                        getActivity().getSupportFragmentManager().popBackStack(HomeScreenFrag.TAG, 0);
+                        DataManager.hideKeyboard(getActivity());
+                        Toast.makeText(getContext(), "Time off request sent", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
