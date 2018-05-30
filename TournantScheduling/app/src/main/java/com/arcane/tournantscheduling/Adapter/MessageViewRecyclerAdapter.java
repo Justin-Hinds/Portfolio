@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,7 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
     RosterViewModel rosterViewModel;
     Staff currentuser;
     DataManager dataManager = new DataManager();
+    int backgroundColor;
 
     public MessageViewRecyclerAdapter(ArrayList myData, FragmentActivity context){//noinspection unchecked
         mDataset = myData;
@@ -129,7 +131,9 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    deleteMessagePrompt(mDataset.get(getAdapterPosition()),getAdapterPosition());
+                    deleteMessagePrompt(mDataset.get(getAdapterPosition()),getAdapterPosition(), v);
+                    backgroundColor = v.getDrawingCacheBackgroundColor();
+                    v.setBackgroundColor(Color.BLUE);
                     Log.d("Delete at", getAdapterPosition() + "");
                     return true;
                 }
@@ -162,13 +166,15 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
         @Override
         public boolean onLongClick(View v) {
-            deleteMessagePrompt(mDataset.get(getAdapterPosition()),getAdapterPosition());
+            deleteMessagePrompt(mDataset.get(getAdapterPosition()),getAdapterPosition(),v);
+            backgroundColor = v.getDrawingCacheBackgroundColor();
+            v.setBackgroundColor(Color.BLUE);
             Log.d("Delete at", getAdapterPosition() + "");
             return true;
         }
     }
 
-    private void deleteMessagePrompt(Message message, int position){
+    private void deleteMessagePrompt(Message message, int position,View view){
         new AlertDialog.Builder(mContext)
                 .setTitle("Delete Message")
                 .setMessage("Are you sure you want to delete this message?" )
@@ -184,6 +190,7 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        view.setBackgroundColor(backgroundColor);
                         dialog.dismiss();
                     }
                 }).show();

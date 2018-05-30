@@ -132,13 +132,13 @@
             android:id="@+id/button_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/next"
+            android:layout_marginBottom="8dp"
             android:backgroundTint="@color/colorPrimary"
+            android:text="@string/next"
             android:textColor="@color/colorIcons"
-            android:layout_marginTop="@dimen/vertical_space_content_areas"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_phone" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Spinner
             android:id="@+id/spinner_state"

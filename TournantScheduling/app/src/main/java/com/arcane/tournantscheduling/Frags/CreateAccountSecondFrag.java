@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arcane.tournantscheduling.Activities.HomeScreenActivity;
@@ -46,10 +49,20 @@ public class CreateAccountSecondFrag extends Fragment {
     EditText address;
     EditText city;
     EditText zip;
-    EditText phone;
+//    EditText phone;
     EditText email;
     EditText password;
     EditText confirmPassword;
+
+    TextView textName;
+    TextView textAddress;
+    TextView textCity;
+    TextView textZip;
+//    TextView textPhone;
+    TextView textEmail;
+    TextView textPassword;
+    TextView textConfirmPassword;
+
     Button createAccount;
     Restaurant restaurant;
     Staff manager;
@@ -69,6 +82,7 @@ public class CreateAccountSecondFrag extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_create_account_second, container, false);
         progressBar = root.findViewById(R.id.progress_bar);
         setupUi(root);
+        setUpLabels();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
 
         Bundle bundle = getArguments();
@@ -119,12 +133,31 @@ public class CreateAccountSecondFrag extends Fragment {
         password = view.findViewById(R.id.editText_password);
         confirmPassword = view.findViewById(R.id.editText_confirm_password);
         state = view.findViewById(R.id.spinner_state);
-        managerName = view.findViewById(R.id.editText_manager_name);
+        managerName = view.findViewById(R.id.editText_employee_name);
         address = view.findViewById(R.id.editText_address);
         city = view.findViewById(R.id.editText_city);
         zip = view.findViewById(R.id.editText_zip);
-        phone = view.findViewById(R.id.editText_phone);
+//        phone = view.findViewById(R.id.editText_phone);
         createAccount = view.findViewById(R.id.button_create_account);
+
+        textName = view.findViewById(R.id.Textview_name);
+        textAddress = view.findViewById(R.id.Textview_address);
+        textCity = view.findViewById(R.id.textview_city);
+        textZip = view.findViewById(R.id.textview_zip);
+        textEmail = view.findViewById(R.id.textview_email);
+//        textPhone = view.findViewById(R.id.textview_phone);
+        textPassword = view.findViewById(R.id.textview_password);
+        textConfirmPassword = view.findViewById(R.id.textview_confirm);
+
+        textName.setVisibility(View.GONE);
+        textAddress.setVisibility(View.GONE);
+        textCity.setVisibility(View.GONE);
+        textZip.setVisibility(View.GONE);
+        textEmail.setVisibility(View.GONE);
+//        textPhone.setVisibility(View.GONE);
+        textPassword.setVisibility(View.GONE);
+        textConfirmPassword.setVisibility(View.GONE);
+
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1,
                 getActivity().getResources().getStringArray(R.array.state_list));
@@ -192,4 +225,126 @@ public class CreateAccountSecondFrag extends Fragment {
         }
     }
 
+    private void setUpLabels(){
+        managerName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textName.setVisibility(View.VISIBLE);
+                }else {
+                    textName.setVisibility(View.GONE);
+                }
+            }
+        });
+        address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textAddress.setVisibility(View.VISIBLE);
+                }else {
+                    textAddress.setVisibility(View.GONE);
+                }
+            }
+        });
+        city.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textCity.setVisibility(View.VISIBLE);
+                }else {
+                    textCity.setVisibility(View.GONE);
+                }
+            }
+        });
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textEmail.setVisibility(View.VISIBLE);
+                }else {
+                    textEmail.setVisibility(View.GONE);
+                }
+            }
+        });
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textPassword.setVisibility(View.VISIBLE);
+                }else {
+                    textPassword.setVisibility(View.GONE);
+                }
+            }
+        });
+        confirmPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textConfirmPassword.setVisibility(View.VISIBLE);
+                }else {
+                    textConfirmPassword.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
 }

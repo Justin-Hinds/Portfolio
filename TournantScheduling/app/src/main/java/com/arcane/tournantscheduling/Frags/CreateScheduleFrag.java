@@ -45,7 +45,7 @@ public class CreateScheduleFrag extends Fragment {
             //Log.d(TAG, date);
             Calendar calendar = Calendar.getInstance();
             calendar.set(i, i1, i2);
-
+            Log.d("CALENDAR VIEW DATE", date);
             if(currentTime > calendar.getTimeInMillis()){
                 Log.d("THIS IS"," THE PAST");
                 Toast.makeText(getContext(),"Can not schedule past dates", Toast.LENGTH_SHORT).show();

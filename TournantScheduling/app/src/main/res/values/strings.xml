@@ -71,6 +71,7 @@
     <string name="your_time_off">Your Time Off</string>
     <string name="pending">Pending</string>
     <string name="tuesday">Tuesday</string>
+    <string name="not_working">Not Working</string>
 
     <string-array name="availability_options">
         <item name="Available">Available</item>

@@ -1,16 +1,18 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.arcane.tournantscheduling.Frags.CreateAccountSecondFrag">
-
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.arcane.tournantscheduling.Frags.EmployeeProfileEditFrag">
+    tools:context="com.arcane.tournantscheduling.Frags.CreateAccountSecondFrag">
 
     <TextView
         android:id="@+id/textView_your_info"
@@ -21,8 +23,7 @@
         android:layout_marginTop="8dp"
         android:textSize="@dimen/title_text_size"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimaryText"
-        android:text="@string/update_employee_info"
+        android:text="@string/your_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -112,45 +113,70 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:ems="10"
         android:inputType="textEmailAddress"
         android:hint="@string/email"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/textview_email"
         app:layout_constraintTop_toBottomOf="@+id/textview_email" />
     <TextView
         android:id="@+id/textview_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/email"
-        app:layout_constraintTop_toBottomOf="@+id/editText_zip"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/Textview_name"
+        app:layout_constraintStart_toEndOf="@id/editText_employee_name" />
     <EditText
-        android:id="@+id/editText_phone"
+        android:id="@+id/editText_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:ems="10"
-        android:inputType="phone"
-        android:hint="@string/phone_number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_phone" />
+        android:inputType="textPassword"
+        android:hint="@string/password"
+        app:layout_constraintStart_toStartOf="@id/textview_password"
+        app:layout_constraintTop_toBottomOf="@+id/textview_password" />
     <TextView
-        android:id="@+id/textview_phone"
+        android:id="@+id/textview_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginTop="@dimen/vertical_space_content_areas"
+        android:text="@string/password"
+        app:layout_constraintTop_toBottomOf="@+id/editText_email"
+        app:layout_constraintStart_toEndOf="@id/editText_address" />
+    <TextView
+        android:id="@+id/password_format"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/vertical_space_content_areas"
+        android:text="@string/password_format"
+        android:textSize="@dimen/subtitle_text_size"
+        android:textColor="@color/colorSecondaryText"
+        app:layout_constraintStart_toStartOf="@id/editText_password"
+        app:layout_constraintTop_toBottomOf="@+id/editText_password" />
+    <EditText
+        android:id="@+id/editText_confirm_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vertical_space_content_areas"
+        android:ems="10"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@id/textview_confirm"
+        app:layout_constraintTop_toBottomOf="@+id/textview_confirm" />
+    <TextView
+        android:id="@+id/textview_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:layout_marginStart="@dimen/start_end_margin"
-        android:text="@string/phone"
-        app:layout_constraintTop_toBottomOf="@+id/editText_email"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        android:text="@string/confirm"
+        app:layout_constraintTop_toBottomOf="@+id/password_format"
+        app:layout_constraintStart_toEndOf="@id/editText_city" />
     <Spinner
         android:id="@+id/spinner_state"
-        android:layout_width="wrap_content"
+        android:layout_width="111dp"
         android:layout_height="25dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="@dimen/start_end_margin"
@@ -160,68 +186,29 @@
         app:layout_constraintTop_toTopOf="@+id/editText_city" />
 
     <Button
-        android:id="@+id/button_update"
+        android:id="@+id/button_create_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
+        android:text="@string/create"
         android:backgroundTint="@color/colorPrimary"
-        android:text="@string/update"
         android:textColor="@color/colorIcons"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_section" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_confirm_password" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Switch
-        android:id="@+id/switch_manager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="@dimen/start_end_margin"
-        android:text="@string/manager"
-        app:layout_constraintBottom_toBottomOf="@+id/spinner_section"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/spinner_section"
-        app:layout_constraintTop_toTopOf="@+id/spinner_section" />
-
-    <Spinner
-        android:id="@+id/spinner_section"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/start_end_margin"
-        android:layout_marginTop="8dp"
-        android:entries="@array/section_strings"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/subtitle_text_size"
-        android:textStyle="bold"
-        android:textColor="@color/colorSecondaryText"
-        android:layout_marginStart="@dimen/start_end_margin"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:text="@string/section"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_phone" />
-
 </android.support.constraint.ConstraintLayout>
 </ScrollView>

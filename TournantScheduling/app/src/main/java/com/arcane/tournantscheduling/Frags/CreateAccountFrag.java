@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.telephony.PhoneNumberUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.arcane.tournantscheduling.R;
 import com.arcane.tournantscheduling.Utils.DataManager;
@@ -31,6 +34,13 @@ public class  CreateAccountFrag extends Fragment {
     EditText city;
     EditText zip;
     EditText phone;
+
+    TextView textName;
+    TextView textAddress;
+    TextView textCity;
+    TextView textZip;
+    TextView textPhone;
+
     Button buttonNext;
     public static CreateAccountFrag newInstance() {
         return new CreateAccountFrag();
@@ -52,13 +62,26 @@ public class  CreateAccountFrag extends Fragment {
         return root;
     }
     private void setupUi(View view){
-        restaurantName = view.findViewById(R.id.editText_restaurant_name);
+        restaurantName = view.findViewById(R.id.editText_employee_name);
         address = view.findViewById(R.id.editText_address);
         city = view.findViewById(R.id.editText_city);
         zip = view.findViewById(R.id.editText_zip);
         phone = view.findViewById(R.id.editText_phone);
         buttonNext = view.findViewById(R.id.button_next);
         state = view.findViewById(R.id.spinner_state);
+
+        textName = view.findViewById(R.id.Textview_name);
+        textAddress = view.findViewById(R.id.Textview_address);
+        textCity = view.findViewById(R.id.textview_city);
+        textZip = view.findViewById(R.id.textview_zip);
+        textPhone = view.findViewById(R.id.textview_phone);
+
+
+        textName = view.findViewById(R.id.Textview_name);
+        textAddress = view.findViewById(R.id.Textview_address);
+        textCity = view.findViewById(R.id.textview_city);
+        textZip = view.findViewById(R.id.textview_zip);
+        textPhone = view.findViewById(R.id.textview_phone);
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1,
@@ -116,5 +139,108 @@ public class  CreateAccountFrag extends Fragment {
             return;
         }
 
+    }
+
+    private void setUpLabels(){
+        restaurantName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textName.setVisibility(View.VISIBLE);
+                }else {
+                    textName.setVisibility(View.GONE);
+                }
+            }
+        });
+        address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textAddress.setVisibility(View.VISIBLE);
+                }else {
+                    textAddress.setVisibility(View.GONE);
+                }
+            }
+        });
+        city.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textCity.setVisibility(View.VISIBLE);
+                }else {
+                    textCity.setVisibility(View.GONE);
+                }
+            }
+        });
+        phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textPhone.setVisibility(View.VISIBLE);
+                }else {
+                    textPhone.setVisibility(View.GONE);
+                }
+            }
+        });
+        zip.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0){
+                    textZip.setVisibility(View.VISIBLE);
+                }else {
+                    textZip.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }

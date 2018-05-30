@@ -26,7 +26,12 @@ import com.arcane.tournantscheduling.Utils.DataManager;
 import com.arcane.tournantscheduling.ViewModels.RosterViewModel;
 import com.arcane.tournantscheduling.ViewModels.TimeOffViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -97,10 +102,27 @@ public class TimeOffFrag extends Fragment {
             public void onClick(View v) {
                 String start = timeOffViewModel.getStartDate();
                 String end = timeOffViewModel.getEndDate();
+                long currentTime = System.currentTimeMillis();
+//                Calendar calendarNow = Calendar.getInstance();
+//                calendarNow.setTimeInMillis(currentTime);
+                SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+                Calendar calendar = Calendar.getInstance();
+                try {
+                    Date date1 = format.parse(start);
+                    Date date2 = format.parse(end);
+                    calendar.setTime(format.parse(start));
+                    if(date1.getTime() < currentTime || date2.getTime() < currentTime){
+                        Toast.makeText(getContext(),"Can not request these dates.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Log.d("DATE", currentTime + " -> " + calendar.getTimeInMillis());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 if(!editTextReason.getText().toString().equals("")) {
                     String reason = DataManager.stringValidate(editTextReason.getText().toString());
                     if (DataManager.stringValidate(reason) != null && managerList.size() > 0) {
-                        TimeOff timeOff = new TimeOff();
+//                        TimeOff timeOff = new TimeOff();
                         timeOffViewModel.getTimeOffRequest(start, end, reason, managerList);
                         // HomeScreenFrag frag = HomeScreenFrag.newInstance();
                         getActivity().getSupportFragmentManager().popBackStack(HomeScreenFrag.TAG, 0);

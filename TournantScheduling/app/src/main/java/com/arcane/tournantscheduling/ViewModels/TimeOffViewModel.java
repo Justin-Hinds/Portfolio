@@ -129,9 +129,9 @@ public class TimeOffViewModel extends ViewModel {
 
         try {
             date1 = df1 .parse(dateString1);
-            Log.d("Date 1",date1.toString());
+//            Log.d("Date 1",date1.toString());
             date2 = df1 .parse(dateString2);
-            Log.d("Date 2",date2.toString());
+//            Log.d("Date 2",date2.toString());
 
         } catch (ParseException e) {
             e.printStackTrace();

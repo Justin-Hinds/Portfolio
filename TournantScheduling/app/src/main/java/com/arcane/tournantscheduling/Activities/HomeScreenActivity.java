@@ -33,6 +33,7 @@ import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.arcane.tournantscheduling.Frags.AvailabilityFrag;
 import com.arcane.tournantscheduling.Frags.CreateScheduleFrag;
@@ -70,6 +71,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -124,13 +126,14 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     long dateNumber;
     Boolean inTime = true;
     ArrayList<Staff> staffArrayList = new ArrayList<>();
-    Boolean mTablet;
+    private static Boolean mTablet;
     Boolean mlaunched = false;
     ViewGroup tabletViewGroup;
     TextView inTextview;
     TextView outTextview;
-
-
+    long inMillis;
+    long outMillis;
+    long minimumTime = 3600000;
 
     @Override
     public void onStart() {
@@ -236,11 +239,11 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                 }
             }
             if(messageIntent.hasExtra("timeOffStart")){
-                TimeOffFrag frag = TimeOffFrag.newInstance();
+                TimeOffListFrag frag = TimeOffListFrag.newInstance();
                 fragmentManager
                         .beginTransaction()
-                        .replace(R.id.home_view,frag, TimeOffFrag.TAG)
-                        .addToBackStack(TimeOffFrag.TAG).commit();
+                        .replace(R.id.home_view,frag, TimeOffListFrag.TAG)
+                        .addToBackStack(TimeOffListFrag.TAG).commit();
             }
 
             if(messageIntent.hasExtra("companyMessage")){
@@ -425,6 +428,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
             }
             calendar.set(Calendar.HOUR_OF_DAY,timePicker.getCurrentHour());
             calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+             inMillis = calendar.getTimeInMillis();
             newTimeString = frmTime.format(calendar.getTime()) + postSTR;
             Log.d("SCHEDULED HOUR", newTimeString);
 
@@ -450,9 +454,17 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         }else{
             outHour = timePicker.getCurrentHour();
             outMin = timePicker.getCurrentMinute();
-            String timeString = String.valueOf(outHour) + " : " + String.valueOf(outMin);
+//            String timeString = String.valueOf(outHour) + " : " + String.valueOf(outMin);
             calendar.set(Calendar.HOUR_OF_DAY,timePicker.getCurrentHour());
             calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+            outMillis = calendar.getTimeInMillis();
+            long timeDiff = outMillis - inMillis;
+//            Log.d("TIMES", timeDiff + ""  );
+//                Toast.makeText(this,"Shift is only " + Math.floor(timeDiff / minimumTime) + " hours",Toast.LENGTH_SHORT).show();
+            if( (outMillis - inMillis) < minimumTime){
+                Toast.makeText(this,"Shift is less than an hour long.",Toast.LENGTH_SHORT).show();
+                return;
+            }
             String postSTR = " AM";
             if(outHour > 11){
                 postSTR = " PM";
@@ -481,13 +493,19 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     }
 
     private void setScheduledDay(){
-
+        String dateString = scheduleViewModel.getDateString().replace("-","/");
         Calendar calendar = Calendar.getInstance();
-
+        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("MM/dd/yyyy",Locale.getDefault());
         java.text.SimpleDateFormat month_date = new java.text.SimpleDateFormat("MMMM", Locale.getDefault());
         java.text.SimpleDateFormat weekDay = new java.text.SimpleDateFormat("EE",Locale.getDefault());
-
+        try {
+            calendar.setTime(simpleDateFormat.parse(dateString));
+            Log.d("Calendar time", calendar.getTime().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         String month_name = month_date.format(calendar.getTime());
+        Log.d("CALENDAR POST", calendar.getTime().toString());
         Day newDay = new Day(inScheduledTime,outScheduledTime,newDate,month_name,scheduleViewModel.getWeekDay(),scheduledUser.getId());
         Map<String,Day> dayHashMap = new HashMap<>();
         dayHashMap.put(newDate, newDay);
@@ -599,7 +617,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     @Override
     public void onBackStackChanged() {
         for (int i = fragmentManager.getBackStackEntryCount() - 1; i >= 0; i--){
-        Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
+//        Log.d("Backstack", fragmentManager.getBackStackEntryAt(i).getName());
         }
 
     }
@@ -629,7 +647,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
     @Override
     public void onBackPressed() {
         int count = fragmentManager.getBackStackEntryCount() - 1;
-        Log.d("Back pressed", fragmentManager.getBackStackEntryAt(count).getName());
+//        Log.d("Back pressed", fragmentManager.getBackStackEntryAt(count).getName());
         if(fragmentManager.getBackStackEntryAt(count).getName().equals(RosterFrag.TAG)){
             fragmentManager.popBackStack(SectionFrag.TAG,0);
             return;
@@ -641,5 +659,8 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
         }
     }
 
+    public static Boolean getTablet(){
+        return mTablet;
+    }
 
 }
