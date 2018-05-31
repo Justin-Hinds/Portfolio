@@ -97,32 +97,40 @@ public class DataManager {
         return restaurant;
     }
 
-    public static Staff validateManager(Staff manager){
+    public static Staff validateManager(Staff manager, Context context){
 
         String zipRegex = "^[0-9]{5}(?:-[0-9]{4})?$";
         Pattern pattern = Pattern.compile(zipRegex);
         Matcher matcher = pattern.matcher(String.valueOf(manager.zip));
 
         if(manager.getName() == null){
+            Toast.makeText(context,"Invalid name", Toast.LENGTH_SHORT).show();
             Log.d("BAD", "NAME");
             return null;
         }
         if(manager.getCreated() == null){
+            Toast.makeText(context,"Invalid ", Toast.LENGTH_SHORT).show();
+
             Log.d("BAD", "DATE");
 
             return null;
         }
         if(manager.getAddress() == null){
+            Toast.makeText(context,"Invalid address", Toast.LENGTH_SHORT).show();
+
             Log.d("BAD", "ADDRESS");
 
             return null;
         }
         if(manager.getCity() == null){
+            Toast.makeText(context,"Invalid city", Toast.LENGTH_SHORT).show();
+
             Log.d("BAD", "CITY");
 
             return null;
         }
         if(!matcher.matches()){
+            Toast.makeText(context,"Invalid zip code", Toast.LENGTH_SHORT).show();
             Log.d("BAD", "ZIP");
 
             return null;

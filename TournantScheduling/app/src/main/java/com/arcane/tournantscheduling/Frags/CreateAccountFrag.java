@@ -78,11 +78,11 @@ public class  CreateAccountFrag extends Fragment {
         textPhone = view.findViewById(R.id.textview_phone);
 
 
-        textName = view.findViewById(R.id.Textview_name);
-        textAddress = view.findViewById(R.id.Textview_address);
-        textCity = view.findViewById(R.id.textview_city);
-        textZip = view.findViewById(R.id.textview_zip);
-        textPhone = view.findViewById(R.id.textview_phone);
+        textName.setVisibility(View.GONE);
+        textAddress.setVisibility(View.GONE);
+        textCity.setVisibility(View.GONE);
+        textZip.setVisibility(View.GONE);
+        textPhone.setVisibility(View.GONE);
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1,

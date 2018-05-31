@@ -6,13 +6,24 @@
     tools:context="com.arcane.tournantscheduling.Frags.AvailabilityFrag">
 
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/linearLayout"
+        android:layout_width="7dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/start_end_margin"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_wednesday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="2dp"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/start_end_margin"
-        app:layout_constraintStart_toEndOf="@id/textView_wednesday" />
-
+        android:layout_marginEnd="@dimen/list_item_height"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/textview_availability" />
     <TextView
         android:id="@+id/textview_availability"
         android:layout_width="wrap_content"
@@ -31,86 +42,84 @@
         android:id="@+id/textView_monday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/vertical_space_content_areas"
         android:text="@string/monday"
         android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toTopOf="@+id/spinner_tuesday"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="@+id/spinner_monday" />
 
     <TextView
         android:id="@+id/textView_tuesday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/vertical_space_content_areas"
         android:text="@string/tuesday"
         android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_tuesday"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="@+id/spinner_tuesday" />
 
     <TextView
         android:id="@+id/textView_wednesday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/vertical_space_content_areas"
         android:text="@string/wednesday"
         android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_wednesday"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="@+id/spinner_wednesday" />
 
     <TextView
         android:id="@+id/textView_thursday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/vertical_space_content_areas"
         android:text="@string/thursday"
         android:textSize="@dimen/body_text_size"
-        app:layout_constraintBottom_toTopOf="@+id/spinner_friday"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_thursday"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="@+id/spinner_thursday" />
 
     <TextView
         android:id="@+id/textView_friday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/vertical_space_content_areas"
         android:text="@string/friday"
         android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_friday"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="@+id/spinner_friday" />
 
     <TextView
         android:id="@+id/textView_saturday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/vertical_space_content_areas"
         android:text="@string/saturday"
         android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_saturday"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="@+id/spinner_saturday" />
 
     <TextView
         android:id="@+id/textView_sunday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/vertical_space_content_areas"
         android:text="@string/sunday"
         android:textSize="@dimen/body_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_sunday"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="@+id/spinner_sunday" />
 
     <Spinner
@@ -189,14 +198,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/start_end_margin"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/change"
         android:textColor="@color/colorIcons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/spinner_saturday"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_monday" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_sunday" />
 
 
 

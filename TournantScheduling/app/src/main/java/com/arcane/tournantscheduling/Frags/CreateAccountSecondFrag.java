@@ -190,9 +190,9 @@ public class CreateAccountSecondFrag extends Fragment {
     }
     private void handleEmailCreateAccount(String email, String password, final View view) {
 
-        if(DataManager.validateManager(manager) == null){
-            Toast.makeText(getContext(),"MANAGER NULL!!",Toast.LENGTH_SHORT).show();
-            return;
+        if(DataManager.validateManager(manager,getContext()) == null){
+            //Toast.makeText(getContext(),"MANAGER NULL!!",Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
         }else {
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(getActivity(), task -> {
@@ -214,8 +214,8 @@ public class CreateAccountSecondFrag extends Fragment {
                             if (task.getException().getMessage().equals("The email address is already in use by another account.")) {
                                 Toast.makeText(getContext(), "Email already in use",
                                         Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
                             }
+                                progressBar.setVisibility(View.GONE);
                             //TODO: proper error message handling
                             Toast.makeText(getContext(), task.getException().getMessage().toString(),
                                     Toast.LENGTH_SHORT).show();
