@@ -151,9 +151,10 @@
     <Spinner
         android:id="@+id/spinner_state"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="28dp"
         android:layout_marginBottom="4dp"
         android:layout_marginStart="@dimen/start_end_margin"
+        android:entries="@array/state_list"
         app:layout_constraintBottom_toBottomOf="@+id/editText_city"
         app:layout_constraintStart_toEndOf="@+id/editText_city" />
 
@@ -182,15 +183,15 @@
         android:id="@+id/button_create_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:text="@string/create"
         android:backgroundTint="@color/colorPrimary"
+        android:text="@string/create"
         android:textColor="@color/colorIcons"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_section" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"

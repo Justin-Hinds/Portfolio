@@ -67,6 +67,7 @@ public class CreateStaffFrag extends Fragment {
     ProgressBar progressBar;
     Staff employee;
     Staff manager;
+
     public static CreateStaffFrag newInstance() {
         return new CreateStaffFrag();
     }
@@ -88,10 +89,15 @@ public class CreateStaffFrag extends Fragment {
                 .setApiKey(getString(R.string.web_api_key))
                 .setApplicationId(getString(R.string.tournant_id)).build();
 
-        FirebaseApp myApp = FirebaseApp.initializeApp(getActivity().getApplicationContext(),firebaseOptions,
-                "AnyAppName");
+        try { FirebaseApp app = FirebaseApp.initializeApp(getActivity(), firebaseOptions, "AnyAppName");
+            mAuth2 = FirebaseAuth.getInstance(app);
+        } catch (IllegalStateException e){
+            mAuth2 = FirebaseAuth.getInstance(FirebaseApp.getInstance("AnyAppName"));
+        }
+//        FirebaseApp myApp = FirebaseApp.initializeApp(getActivity().getApplicationContext(), firebaseOptions,
+//                    "AnyAppName");
+//        mAuth2 = FirebaseAuth.getInstance(myApp);
 
-        mAuth2 = FirebaseAuth.getInstance(myApp);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -274,7 +280,12 @@ public class CreateStaffFrag extends Fragment {
         employee.setCity(cityText);
         employee.setState(stateText);
         employee.setEmail(emailText);
+        assert sectionString != null;
+        if(sectionString.equals("Managers")){
+            employee.setManager(true);
+        }else {
         employee.setManager(false);
+        }
         employee.setSection(sectionString);
         employee.setCreated(new Date());
     }
@@ -402,4 +413,8 @@ public class CreateStaffFrag extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

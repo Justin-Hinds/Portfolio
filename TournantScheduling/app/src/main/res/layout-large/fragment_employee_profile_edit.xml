@@ -151,12 +151,13 @@
     <Spinner
         android:id="@+id/spinner_state"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="28dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="@dimen/start_end_margin"
+        android:layout_marginStart="@dimen/start_end_margin"
         android:layout_marginTop="8dp"
+        android:entries="@array/state_list"
         app:layout_constraintBottom_toBottomOf="@+id/editText_city"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editText_city"
         app:layout_constraintTop_toTopOf="@+id/editText_city" />
 
     <Button

@@ -52,6 +52,7 @@ public class  CreateAccountFrag extends Fragment {
                              Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_create_account, container, false);
         setupUi(root);
+        setUpLabels();
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

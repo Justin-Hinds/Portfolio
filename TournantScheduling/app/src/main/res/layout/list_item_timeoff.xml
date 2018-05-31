@@ -17,7 +17,6 @@
         android:layout_marginStart="@dimen/start_end_margin"
         android:layout_marginBottom="@dimen/vertical_space_content_areas"
         android:textSize="@dimen/body_text_size"
-
         android:text="@string/date"
         android:textColor="@color/colorSecondaryText"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/start_end_margin"
         android:textSize="@dimen/body_text_size"
-
         android:text="@string/approved"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

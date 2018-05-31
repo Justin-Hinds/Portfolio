@@ -36,6 +36,7 @@
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:ems="10"
         android:hint="@string/employee_name"
+        android:textSize="@dimen/body_text_size"
         android:inputType="textCapWords"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Textview_name" />
@@ -46,6 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/name"
+        android:visibility="gone"
+        android:textSize="@dimen/subtitle_text_size"
         app:layout_constraintTop_toBottomOf="@+id/textView_your_info"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -58,6 +61,7 @@
         android:ems="10"
         android:inputType="textCapWords"
         android:hint="@string/address"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Textview_address"/>
     <TextView
@@ -67,6 +71,8 @@
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/address"
+        android:visibility="gone"
+        android:textSize="@dimen/subtitle_text_size"
         app:layout_constraintTop_toBottomOf="@+id/editText_employee_name"
         app:layout_constraintStart_toStartOf="parent" />
     <EditText
@@ -77,6 +83,7 @@
         android:layout_marginStart="@dimen/start_end_margin"
         android:ems="10"
         android:hint="@string/city"
+        android:textSize="@dimen/body_text_size"
         android:inputType="textCapWords"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_city" />
@@ -86,6 +93,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/city"
+        android:textSize="@dimen/subtitle_text_size"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/editText_address"
         app:layout_constraintStart_toStartOf="parent" />
     <EditText
@@ -97,6 +106,7 @@
         android:ems="10"
         android:inputType="number"
         android:hint="@string/zip_code"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_zip" />
     <TextView
@@ -106,6 +116,8 @@
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/zip"
+        android:textSize="@dimen/subtitle_text_size"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/editText_city"
         app:layout_constraintStart_toStartOf="parent" />
     <EditText
@@ -117,6 +129,7 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         android:hint="@string/email"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_email" />
     <TextView
@@ -126,6 +139,8 @@
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/email"
+        android:textSize="@dimen/subtitle_text_size"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/editText_zip"
         app:layout_constraintStart_toStartOf="parent" />
     <EditText
@@ -137,6 +152,7 @@
         android:ems="10"
         android:inputType="textPassword"
         android:hint="@string/password"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_password" />
     <TextView
@@ -146,6 +162,8 @@
         android:layout_marginStart="@dimen/start_end_margin"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:text="@string/password"
+        android:textSize="@dimen/subtitle_text_size"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/editText_email"
         app:layout_constraintStart_toStartOf="parent" />
     <TextView
@@ -169,6 +187,7 @@
         android:ems="10"
         android:hint="@string/confirm_password"
         android:inputType="textPassword"
+        android:textSize="@dimen/body_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_confirm" />
     <TextView
@@ -178,17 +197,21 @@
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/confirm"
+        android:textSize="@dimen/subtitle_text_size"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/password_format"
         app:layout_constraintStart_toStartOf="parent" />
+
     <Spinner
         android:id="@+id/spinner_state"
-        android:layout_width="111dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="@dimen/start_end_margin"
+        android:layout_marginStart="@dimen/start_end_margin"
         android:layout_marginTop="8dp"
+        android:entries="@array/state_list"
         app:layout_constraintBottom_toBottomOf="@+id/editText_city"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editText_city"
         app:layout_constraintTop_toTopOf="@+id/editText_city" />
 
     <Button

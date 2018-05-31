@@ -47,7 +47,7 @@
     <string name="out">Out</string>
     <string name="in">In</string>
     <string name="password_format">Password must contain Uppercase, lowercase, and numeric values.</string>
-    <string name="name">Name: </string>
+    <string name="name">Name</string>
     <string name="zip">Zip</string>
     <string name="confirm">Confirm</string>
     <string name="employee_name">Employee Name</string>

@@ -13,6 +13,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/reset_password"
+        android:textSize="@dimen/body_text_size"
         android:clickable="true"
         android:focusable="true"
         android:textColor="@color/colorPrimary"

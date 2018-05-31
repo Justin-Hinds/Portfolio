@@ -43,6 +43,7 @@
             android:layout_marginTop="@dimen/vertical_space_content_areas"
             android:layout_marginStart="@dimen/start_end_margin"
             android:text="@string/name"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -64,6 +65,7 @@
             android:layout_marginTop="@dimen/vertical_space_content_areas"
             android:layout_marginStart="@dimen/start_end_margin"
             android:text="@string/address"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/editText_employee_name"
             app:layout_constraintStart_toStartOf="parent" />
         <EditText
@@ -83,6 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/start_end_margin"
             android:text="@string/city"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/editText_address"
             app:layout_constraintStart_toStartOf="parent" />
         <EditText
@@ -103,6 +106,7 @@
             android:layout_marginTop="@dimen/vertical_space_content_areas"
             android:layout_marginStart="@dimen/start_end_margin"
             android:text="@string/zip"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/editText_city"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -125,6 +129,7 @@
             android:layout_marginTop="@dimen/vertical_space_content_areas"
             android:layout_marginStart="@dimen/start_end_margin"
             android:text="@string/phone"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/editText_zip"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -142,13 +147,14 @@
 
         <Spinner
             android:id="@+id/spinner_state"
-            android:layout_width="103dp"
+            android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/start_end_margin"
             android:layout_marginTop="8dp"
+            android:entries="@array/state_list"
             app:layout_constraintBottom_toBottomOf="@+id/editText_city"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/editText_city"
             app:layout_constraintTop_toTopOf="@+id/editText_city" />
 
     </android.support.constraint.ConstraintLayout>

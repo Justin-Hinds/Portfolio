@@ -315,7 +315,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                         .replace(R.id.home_view,editFrag)
                         .addToBackStack(EmployeeProfileEditFrag.TAG).commit();
                 toolbar.getMenu().clear();
-                toolbar.inflateMenu(R.menu.menu_employee_edit);
+                //toolbar.inflateMenu(R.menu.menu_employee_edit);
                 break;
             case R.id.delete:
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
@@ -357,7 +357,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                 .replace(R.id.home_view,frag)
                 .addToBackStack(ScheduleRosterFrag.TAG).commit();
 
-        toolbar.inflateMenu(R.menu.menu_roster_schedule_action_mode);
+        //toolbar.inflateMenu(R.menu.menu_roster_schedule_action_mode);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -385,7 +385,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
                 .replace(R.id.home_view,frag)
                 .addToBackStack(EmployeeProfileFrag.TAG).commit();
         toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.menu_employee_info);
+        //toolbar.inflateMenu(R.menu.menu_employee_info);
     }
 
     @Override
@@ -657,10 +657,18 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
             RosterFrag.isInActionMode = false;
             DataManager.hideKeyboard(this);
         }
+        //TODO: handle toolbar menus
+       //toolbar.getMenu().clear();
     }
 
     public static Boolean getTablet(){
         return mTablet;
     }
 
+    public void clearToolbar(){
+        toolbar.getMenu().clear();
+    }
+    public void inflateToolbar(int menu){
+        toolbar.inflateMenu(menu);
+    }
 }

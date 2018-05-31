@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arcane.tournantscheduling.Activities.HomeScreenActivity;
 import com.arcane.tournantscheduling.Adapter.RosterRecyclerAdapter;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
@@ -99,6 +100,13 @@ public class ScheduleRosterFrag extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         getListenerFromContext(context);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((HomeScreenActivity) getActivity()).inflateToolbar(R.menu.menu_roster_schedule_action_mode);
+
     }
 
     private void getListenerFromContext(Context context) {
@@ -218,5 +226,17 @@ public class ScheduleRosterFrag extends Fragment {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((HomeScreenActivity) getActivity()).clearToolbar();
+    }
+
+    @Override
+    public void onPause() {
+       // ((HomeScreenActivity) getActivity()).clearToolbar();
+        super.onPause();
     }
 }

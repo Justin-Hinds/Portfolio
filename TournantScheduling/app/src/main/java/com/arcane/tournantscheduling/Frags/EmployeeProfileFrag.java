@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.arcane.tournantscheduling.Activities.HomeScreenActivity;
 import com.arcane.tournantscheduling.Adapter.ScheduleRecyclerAdapter;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
@@ -100,6 +101,8 @@ public class EmployeeProfileFrag extends Fragment {
                 textView.setVisibility(View.GONE);
             }
         });
+        ((HomeScreenActivity) getActivity()).inflateToolbar(R.menu.menu_employee_info);
+
     }
 
     private void getListenerFromContext(Context context){
@@ -115,5 +118,7 @@ public class EmployeeProfileFrag extends Fragment {
     public void onPause() {
         super.onPause();
         actionBar.setTitle(getActivity().getApplicationInfo().loadLabel(getActivity().getPackageManager()));
+        ((HomeScreenActivity) getActivity()).clearToolbar();
+
     }
 }

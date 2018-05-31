@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.arcane.tournantscheduling.Activities.HomeScreenActivity;
 import com.arcane.tournantscheduling.Models.Staff;
 import com.arcane.tournantscheduling.R;
 import com.arcane.tournantscheduling.Utils.DataManager;
@@ -138,5 +140,18 @@ public class EmployeeProfileEditFrag extends Fragment {
         employee.setCity(cityString);
         employee.setSection(sectionString);
         employee.setManager(managerSwitch.isChecked());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((HomeScreenActivity) getActivity()).inflateToolbar(R.menu.menu_employee_edit);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((HomeScreenActivity) getActivity()).clearToolbar();
     }
 }
