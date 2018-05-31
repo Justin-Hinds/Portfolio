@@ -168,7 +168,8 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         public boolean onLongClick(View v) {
             deleteMessagePrompt(mDataset.get(getAdapterPosition()),getAdapterPosition(),v);
             backgroundColor = v.getDrawingCacheBackgroundColor();
-            v.setBackgroundColor(Color.BLUE);
+            int plColor = mContext.getResources().getColor(R.color.colorPrimaryLight);
+            v.setBackgroundColor(plColor);
             Log.d("Delete at", getAdapterPosition() + "");
             return true;
         }
@@ -184,6 +185,7 @@ public class MessageViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
                         dataManager.deleteMessage(mDataset.get(position),currentuser);
                         mDataset.remove(position);
                         notifyItemRemoved(position);
+                        view.setBackgroundColor(backgroundColor);
                         dialog.dismiss();
                     }
                 })

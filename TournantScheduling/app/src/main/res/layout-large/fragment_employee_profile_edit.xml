@@ -11,7 +11,13 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.arcane.tournantscheduling.Frags.EmployeeProfileEditFrag">
-
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/line"
+        android:layout_width="4dp"
+        android:layout_height="700dp"
+        android:layout_marginEnd="@dimen/list_item_height"
+        app:layout_constraintEnd_toStartOf="@id/textView_your_info" />
     <TextView
         android:id="@+id/textView_your_info"
         android:layout_width="wrap_content"
@@ -31,122 +37,131 @@
         android:id="@+id/editText_employee_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:ems="10"
         android:hint="@string/employee_name"
         android:inputType="textCapWords"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/line"
         app:layout_constraintTop_toBottomOf="@+id/Textview_name" />
 
     <TextView
         android:id="@+id/Textview_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
         android:text="@string/name"
-        app:layout_constraintTop_toBottomOf="@+id/textView_your_info"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintTop_toBottomOf="@+id/textView_your_info" />
 
     <EditText
         android:id="@+id/editText_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:ems="10"
-        android:inputType="textCapWords"
         android:hint="@string/address"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Textview_address"/>
+        android:inputType="textCapWords"
+        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintTop_toBottomOf="@+id/Textview_address" />
+
     <TextView
         android:id="@+id/Textview_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/address"
-        app:layout_constraintTop_toBottomOf="@+id/editText_employee_name"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintTop_toBottomOf="@+id/editText_employee_name" />
+
     <EditText
         android:id="@+id/editText_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:ems="10"
         android:hint="@string/city"
         android:inputType="textCapWords"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/line"
         app:layout_constraintTop_toBottomOf="@+id/textview_city" />
+
     <TextView
         android:id="@+id/textview_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
         android:text="@string/city"
-        app:layout_constraintTop_toBottomOf="@+id/editText_address"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintTop_toBottomOf="@+id/editText_address" />
+
     <EditText
         android:id="@+id/editText_zip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:ems="10"
-        android:inputType="number"
         android:hint="@string/zip_code"
-        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/line"
         app:layout_constraintTop_toBottomOf="@+id/textview_zip" />
+
     <TextView
         android:id="@+id/textview_zip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/zip"
-        app:layout_constraintTop_toBottomOf="@+id/editText_city"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintTop_toBottomOf="@+id/editText_city" />
+
     <EditText
         android:id="@+id/editText_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:ems="10"
-        android:inputType="textEmailAddress"
         android:hint="@string/email"
-        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toEndOf="@+id/line"
         app:layout_constraintTop_toBottomOf="@+id/textview_email" />
+
     <TextView
         android:id="@+id/textview_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/email"
-        app:layout_constraintTop_toBottomOf="@+id/editText_zip"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintTop_toBottomOf="@+id/editText_zip" />
+
     <EditText
         android:id="@+id/editText_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:ems="10"
-        android:inputType="phone"
         android:hint="@string/phone_number"
-        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="phone"
+        app:layout_constraintStart_toEndOf="@+id/line"
         app:layout_constraintTop_toBottomOf="@+id/textview_phone" />
+
     <TextView
         android:id="@+id/textview_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
-        android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/phone"
-        app:layout_constraintTop_toBottomOf="@+id/editText_email"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintTop_toBottomOf="@+id/editText_email" />
 
     <Spinner
         android:id="@+id/spinner_state"
@@ -193,11 +208,9 @@
         android:id="@+id/switch_manager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="@dimen/start_end_margin"
         android:text="@string/manager"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_section"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/spinner_section"
         app:layout_constraintTop_toTopOf="@+id/spinner_section" />
 
@@ -206,22 +219,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/start_end_margin"
-        android:layout_marginTop="8dp"
         android:entries="@array/section_strings"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/subtitle_text_size"
-        android:textStyle="bold"
-        android:textColor="@color/colorSecondaryText"
-        android:layout_marginStart="@dimen/start_end_margin"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/vertical_space_content_areas"
         android:text="@string/section"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="@dimen/subtitle_text_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/line"
         app:layout_constraintTop_toBottomOf="@+id/editText_phone" />
 
 </android.support.constraint.ConstraintLayout>
