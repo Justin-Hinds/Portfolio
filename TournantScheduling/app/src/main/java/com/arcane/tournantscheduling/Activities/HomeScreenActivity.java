@@ -460,7 +460,7 @@ public class HomeScreenActivity extends AppCompatActivity implements SectionRecy
             outMillis = calendar.getTimeInMillis();
             long timeDiff = outMillis - inMillis;
 //            Log.d("TIMES", timeDiff + ""  );
-//                Toast.makeText(this,"Shift is only " + Math.floor(timeDiff / minimumTime) + " hours",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Shift is " + timeDiff / minimumTime + " hours",Toast.LENGTH_SHORT).show();
             if( (outMillis - inMillis) < minimumTime){
                 Toast.makeText(this,"Shift is less than an hour long.",Toast.LENGTH_SHORT).show();
                 return;
